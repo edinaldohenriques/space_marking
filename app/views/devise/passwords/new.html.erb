@@ -1,0 +1,21 @@
+<%= stylesheet_link_tag('devise') %>
+<body class="body-password-forgot">
+  <h1>Recuperar minha senha</h1>
+
+  <div class="container-password">
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <%= f.label :email, "E-mail" %>
+      <%= f.email_field :email, id: "email", placeholder: "E-mail" %>
+      
+      <div class="buttons">
+        <button type="submit" class="recover">Recuperar minha senha</button>
+        <%= link_to 'Voltar', new_user_session_path, class: "styled-button" %>
+      </div>
+    <% end %>
+  </div>
+</body>
+
+
+

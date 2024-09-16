@@ -1,0 +1,34 @@
+<%= form_with(model: @reservation, id: "reservation_form", data: { turbo_frame: "_top" }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: @reservation %>
+  <label for="reservation_date">Data da Reserva</label>
+  <%= f.date_field :reservation_date, id: "reservation_date", placeholder: "Data da Reserva" %>
+  <div class="checkbox-group">
+    <label for="turno">Selecione o turno</label>
+    <div>
+      <%= f.check_box :shifts, { multiple: true }, "morning", nil %>
+      <label for="shift_morning">Manhã</label>
+    </div>
+    <div>
+      <%= f.check_box :shifts, { multiple: true }, "afternoon", nil %>
+      <label for="shift_afternoon">Tarde</label>
+    </div>
+    <div>
+      <%= f.check_box :shifts, { multiple: true }, "evening", nil %>
+      <label for="shift_evening">Noite</label>
+    </div>
+  </div>
+  <% if @action != 'edit' %> 
+    <label for="space">Selecione o espaço</label>
+    <%= f.collection_select :space_id, Space.all, :id, :name, prompt: "Selecione o espaço", id: "space" %>
+  <% end %>
+
+  <% if @action != 'edit' %> 
+    <label for="space">Selecione o espaço</label>
+    <%= f.collection_select :user_id, User.all, :id, :name, prompt: "Selecione o usuário", id: "user" %>
+  <% end %>
+
+  <div class="buttons-new">
+    <button class="back-new"><%= link_to 'Voltar', reservations_path, class: "link-back" %></button>
+    <%= f.submit 'Confirmar', class: "button-submit-new" %>
+  </div>
+<% end %>

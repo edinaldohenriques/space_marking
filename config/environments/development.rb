@@ -73,4 +73,13 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # Devise
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  # MailCatcher
+  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = { address: '0.0.0.0', port: 1025, domain: '0.0.0.0' }
+
 end

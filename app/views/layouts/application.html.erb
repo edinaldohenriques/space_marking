@@ -7,10 +7,17 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+    <%= stylesheet_link_tag "devise", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module", defer: true %>
   </head>
 
   <body>
+  
+    <%= render 'layouts/flash_message' %>
+
+
     <%= yield %>
+
+    <%= turbo_frame_tag "modal", target: "_top" %>
   </body>
 </html>

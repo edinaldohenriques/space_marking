@@ -1,0 +1,28 @@
+<%= stylesheet_link_tag('devise') %>
+<body class="body-session">
+  <div class="right-login">
+    <div class="card-login">
+      <h1 class="h1-session">Login</h1>
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="textfild">
+          <%= f.label :email, "E-mail" %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", id: "email" %>
+        </div>
+        
+        <div class="textfild">
+          <%= f.label :password, "Senha" %>
+          <%= f.password_field :password, autocomplete: "current-password", id: "senha" %>
+        </div>
+
+        <div class="forgot-password">
+          <a ><%= link_to "Esqueceu sua senha?", new_password_path(resource_name), class: 'link-forgot' %></a>
+        </div>
+
+        <div class="btn-container">
+          <%= link_to "Cadastre-se", new_user_registration_path, class: "btn btn-cadastre-se" %>
+          <%= f.submit "Entrar", class: "btn btn-entrar" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</body>

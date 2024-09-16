@@ -1,0 +1,17 @@
+<%= turbo_frame_tag "modal" do %>
+  <%= stylesheet_link_tag('turbo_modal')%>
+  <%= stylesheet_link_tag('reservation')%>
+
+  <body class="body-reservation">
+    <div id="modal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="h1-reservation">Realize sua Reserva</h1>
+        </div>
+        <div class="container">
+          <%= body %>
+        </div>
+      </div>
+    </div>
+  </body>
+<% end %>

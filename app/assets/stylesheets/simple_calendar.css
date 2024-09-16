@@ -1,0 +1,72 @@
+@import "simple_calendar";
+
+.calendar-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 12px;
+  margin-bottom: 20px;
+}
+
+.calendar-heading nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%; /* Para ocupar toda a largura disponível */
+}
+
+.calendar-navigation {
+  display: flex;
+  align-items: center;
+}
+
+.calendar-title {
+  color: black;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  margin: 0 15px;
+  font-size: 20px;
+}
+
+.calendar-header {
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  margin: 10px 0;
+  font-size: 24px;
+  /* Ajustar o alinhamento vertical do título */
+  align-self: center;
+}
+
+.calendar-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.button-reserve,
+.button-today {
+  background-color: #7e7e7e;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  height: 40px; /* Altura fixa */
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: large;
+}
+
+.icon-plus {
+  margin-left: 8px;
+  height: 32px;
+}
+
+.link-to {
+  text-decoration: none;
+  color: #000000;
+}
+

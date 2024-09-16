@@ -1,0 +1,51 @@
+<div class="simple-calendar">
+  <div class="calendar-heading">
+    <nav>
+      <div class="calendar-navigation">
+        <%= link_to (image_tag('ícone-de-seta-left.png')), calendar.url_for_previous_view %>
+
+        <time datetime="<%= start_date.strftime('%Y-%m') %>" class="calendar-title">
+          <%= t('date.month_names')[start_date.month] %> <%= start_date.year %>
+        </time>
+
+        <%= link_to (image_tag('ícone-de-seta-right.png')), calendar.url_for_next_view %>
+      </div>
+
+      <h2 class="calendar-header">Calendário de Reservas</h2>
+
+      <div class="calendar-buttons">
+        <%= link_to new_reservation_path, data: { turbo_frame: "modal" }, class: 'button-reserve' do %>
+          Realizar reserva <%= image_tag('ícone-button-plus.png', class: 'icon-plus') %>
+        <% end %>
+        <%= link_to t('simple_calendar.today', default: 'Today'), calendar.url_for_today_view, class: 'button-today' %>
+      </div>
+    </nav>
+  </div>
+
+
+
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <% date_range.slice(0, 7).each do |day| %>
+          <th><%= t('date.abbr_day_names')[day.wday] %></th>
+        <% end %>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% date_range.each_slice(7) do |week| %>
+        <tr>
+          <% week.each do |day| %>
+            <%= content_tag :td, class: calendar.td_classes_for(day) do %>
+              <% instance_exec(day, calendar.sorted_events_for(day), &passed_block) %>
+            <% end %>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+

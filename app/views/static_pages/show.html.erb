@@ -1,0 +1,49 @@
+<%= stylesheet_link_tag('turbo_modal')%>
+<%= stylesheet_link_tag('reservation')%>
+<button class="primary" onclick="window.dialog.showModal();">Open Dialog</button>
+
+<dialog id="dialog">
+	<body class="body-reservation">
+		<h1 class="h1-reservation">Realize sua Reserva</h1>
+		<div class="container">
+			<%= form_with(model: @reservation, method: :post, local: true) do |f| %>
+			
+				<label for="reservation_date">Data da Reserva</label>
+				<%= f.date_field :reservation_date, id: "reservation_date", placeholder: "Data da Reserva" %>
+
+				<div class="checkbox-group">
+					<label for="turno">Selecione o turno</label>
+					<div>
+						<%= f.check_box :shifts, { multiple: true }, "morning", nil %>
+						<label for="shift_morning">Manhã</label>
+					</div>
+					<div>
+						<%= f.check_box :shifts, { multiple: true }, "afternoon", nil %>
+						<label for="shift_afternoon">Tarde</label>
+					</div>
+					<div>
+						<%= f.check_box :shifts, { multiple: true }, "evening", nil %>
+						<label for="shift_evening">Noite</label>
+					</div>
+				</div>
+				<% if action_name != 'edit' %> 
+					<label for="space">Selecione o espaço</label>
+					<%= f.collection_select :space_id, Space.all, :id, :name, prompt: "Selecione o espaço", id: "space" %>
+				<% end %>
+
+				<% if action_name != 'edit' %> 
+					<label for="space">Selecione o espaço</label>
+					<%= f.collection_select :user_id, User.all, :id, :name, prompt: "Selecione o usuário", id: "user" %>
+				<% end %>
+
+				<div class="buttons-new">
+					<button class="back-new"><%= link_to 'Voltar', root_path, class: "link-back" %></button>
+					<%= f.submit 'Confirmar', class: "button-submit-new" %>
+				</div>
+			<% end %>
+		</div>
+	</body>  
+	
+	
+	<button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+</dialog>

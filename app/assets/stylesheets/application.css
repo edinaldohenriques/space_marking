@@ -13,3 +13,43 @@
  *= require_tree .
  *= require_self
  */
+
+.flash-message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000; /* Garante que a mensagem esteja sobre outros elementos */
+  width: auto;
+  min-width: 250px; /* Define um tamanho mínimo para o alerta */
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para destacar a mensagem */
+}
+
+.flash-message .alert {
+  padding-right: 35px; /* Espaço para o botão de fechar */
+}
+
+.flash-message .close {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  color: #000;
+  font-size: 20px;
+}
+
+.alert-notice {
+  background-color: #dff0d8;
+  color: #3c763d;
+}
+
+.alert-alert {
+  background-color: #f2dede;
+  color: #a94442;
+}
+
+.alert-error {
+  background-color: #f8d7da;
+  color: #721c24;
+}

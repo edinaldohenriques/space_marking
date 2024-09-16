@@ -1,0 +1,367 @@
+/* CSS Session */
+.body-session {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4; 
+  color: #333; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.body-password-forgot {
+  font-family: Arial, sans-serif;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  justify-content: flex-start; 
+  padding-top: 50px; 
+}
+  
+.right-login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+}
+
+.card-login {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 25px;
+  max-width: 450px;
+  width: 100%;
+}
+
+.h1-session {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 25px;
+  color: #333; 
+  font-size: 24px; 
+}
+
+.textfild {
+  margin-bottom: 20px;
+}
+
+label {
+  font-size: 16px;
+  display: block;
+  margin-bottom: 8px;
+  color: #555; 
+}
+
+input[type="email"], input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc; 
+  border-radius: 8px;
+  background-color: #fafafa; 
+  box-sizing: border-box;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center; 
+  margin-top: 20px;
+  gap: 10px; 
+}
+
+.forgot-password {
+  text-align: right;
+  margin-bottom: 20px; /* Espaçamento para separar do botão "Entrar" */
+}
+
+.forgot-password a {
+  color: #555; /* Cor do link igual à cor das labels */
+  font-size: 14px; /* Tamanho de fonte menor para o link */
+  text-decoration: none;
+}
+
+.link-forgot:hover {
+  text-decoration: underline; /* Sublinhado no hover */
+}
+
+.btn {
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  flex: 1;
+}
+
+.btn-cadastre-se {
+  background-color: #007bff; /* Azul para "Cadastre-se" */
+  text-decoration: none;
+  text-align: center;
+}
+
+.btn-entrar {
+  background-color: #28a745; /* Verde para "Entrar" */
+}
+
+.btn:hover {
+  opacity: 0.9; /* Efeito de hover mais sutil */
+}
+
+
+/* CSS Session Registration */
+.body-registration {
+  background-color: white;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.h1-registration {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Inclui padding e border na largura total */
+}
+
+.button-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.button-container button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  color: #f4f4f4;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.button-back {
+  background-color: #007bff; /* Azul */
+}
+
+#button-submit {
+  background-color: #28a745; /* Verde */
+  padding: 10px 20px;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  color: #f4f4f4;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.button-back:hover {
+  background-color: #0056b3;
+}
+
+.button-submit:hover {
+  background-color: #218838;
+}
+
+.link-back {
+  text-decoration: none;
+  color: #f4f4f4;
+}
+.form-container {
+  margin-top: 30px;
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Inclui padding e border na largura total */
+}
+
+.button-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.button-container button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  color: #f4f4f4;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.button-back {
+  background-color: #007bff; /* Azul */
+}
+
+#button-submit {
+  background-color: #28a745; /* Verde */
+  padding: 10px 20px;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  color: #f4f4f4;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.button-back:hover {
+  background-color: #0056b3;
+}
+
+.button-submit:hover {
+  background-color: #218838;
+}
+
+.link-back {
+  text-decoration: none;
+  color: #f4f4f4;
+}
+
+/*Errors messages */
+.error-messages-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000; /* Garante que a mensagem esteja sobre outros elementos */
+  width: auto;
+  max-width: 400px; /* Define um tamanho máximo para o contêiner */
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para destacar a mensagem */
+  background-color: #f8d7da; /* Fundo vermelho claro para erros */
+  color: #721c24; /* Cor do texto para erros */
+}
+
+.error-messages-container h2 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+}
+
+.error-messages-container ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.error-messages-container li {
+  margin-bottom: 5px;
+}
+
+.error-messages-container .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  color: #721c24;
+  cursor: pointer;
+}
+
+.error-messages-container .close:hover {
+  color: #491217;
+}
+
+
+.container-password {
+  background-color: #f4f4f4;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  text-align: center;
+  margin-top: 20px; 
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  text-align: left;
+  color: black
+}
+
+input[type="email"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 25px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 13.3px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttons button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.buttons .recover {
+  background-color: #28a745;
+  color: white;
+  width: 60%;
+}
+
+.buttons .back {
+  background-color: #003366;
+  color: white;
+  width: 40%;
+}
+
+
+/* Button back with link_to */
+.styled-button {
+  display: inline-block;
+  padding: 12px 25px;
+  background-color: #003366; 
+  color: white; 
+  text-align: center; 
+  text-decoration: none; 
+  border-radius: 4px; 
+  cursor: pointer; 
+  border: none; 
+  width: 27.5%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra do botão */
+}

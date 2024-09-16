@@ -1,0 +1,225 @@
+/* CSS New */
+.body-reservation {
+  font-family: Arial, sans-serif;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.h1-registration {
+  text-align: center;
+  margin-bottom: 30px; 
+}
+
+.h1-reservation {
+  text-align: center;
+}
+
+.container {
+  background-color:#f4f4f4;
+  padding: 30px; 
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 600px;
+  height: auto; 
+}
+
+label {
+  display: block;
+  margin-bottom: 10px; 
+}
+
+input[type="text"], input[type="date"], select {
+  width: 96%;
+  padding: 12px; 
+  margin-bottom: 30px; 
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.checkbox-group {
+  display: block;
+  margin-bottom: 20px; 
+}
+
+.checkbox-group div {
+  display: flex;
+  align-items: baseline;
+  /* align-items: center; */ 
+  /* margin-bottom: 15px; */ 
+}
+
+.checkbox-group input[type="checkbox"] {
+  margin-right: 15px;  
+}
+
+label {
+  margin-bottom: 10px;
+  display: block;
+}
+
+select {
+  width: 100%; 
+  padding: 12px; 
+  margin-bottom: 30px;
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+      }
+
+.buttons-new {
+  display: flex;
+  justify-content: space-between;
+  
+}
+
+.buttons-new button {
+  padding: 12px 25px; 
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.buttons-new .back-new {
+  background-color: #003366;
+  color: white;
+  
+}
+
+.buttons-new .confirm-new {
+  background-color: #28a745;
+  color: white;
+}
+
+.button-submit-new {
+  background-color: #28a745; /* Verde */
+  padding: 10px 20px;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  color: #f4f4f4;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
+/* Centralizar o calendário */
+/* Container para o calendário */
+.calendar-container {
+  max-width: 1500px; /* Aumentar a largura máxima do calendário */
+  margin: 0 auto; /* Centraliza o container horizontalmente */
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo básico para o título */
+h2 {
+  text-align: center;
+  font-size: 24px; /* Aumenta o tamanho da fonte do título */
+  margin-bottom: 20px; /* Aumenta o espaço abaixo do título */
+}
+
+/* Estilo do calendário */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+th {
+  background-color: #f1f3f4;
+  color: #202124;
+  text-align: center;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px; /* Tamanho da fonte dos cabeçalhos */
+}
+
+td {
+  vertical-align: top;
+  padding: 12px; /* Padding das células */
+  border: 1px solid #ddd;
+  height: 110px; /* Ajuste a altura das células aqui */
+  position: relative;
+}
+
+.day {
+  /* background-color: #ffffff; */
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.day:hover {
+  background-color: #f1f3f4;
+}
+
+.day strong {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  font-size: 16px; /* Tamanho da fonte dos dias */
+}
+
+/* Cores para cada turno */
+.reservation-shift-morning,
+.reservation-shift-afternoon,
+.reservation-shift-evening {
+  background-color: inherit; /* Mantém a cor específica de cada turno */
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  color: #000000; /* Cor do texto */
+  margin-top: 5px; /* Espaçamento entre turnos */
+  padding: 6px; /* Espaçamento interno */
+  border-radius: 3px; /* Bordas arredondadas */
+  font-size: 14px; /* Tamanho da fonte */
+  cursor: pointer;
+  display: flex; /* Centraliza o texto verticalmente */
+  align-items: center; /* Alinha verticalmente o texto */
+  height: 10px
+}
+
+.reservation-shift-morning {
+  background-color: #81D87F; /* Amarelo para Manhã */
+}
+
+.reservation-shift-afternoon {
+  background-color: #6F83AD; /* Laranja para Tarde */
+}
+
+.reservation-shift-evening {
+  background-color: #D78C70; /* Azul para Noite */
+}
+
+td.day.prev-month {
+  background-color: #f1f1f1;
+  color: #9e9e9e;
+}
+
+td.day.future.next-month {
+  background-color: #f1f1f1;
+  color: #9e9e9e;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+  .calendar-container {
+    max-width: 95%; /* Ajuste para dispositivos menores */
+    padding: 10px;
+    margin-left: 10px; /* Margem ajustada para telas menores */
+    margin-right: 10px; /* Margem ajustada para telas menores */
+  }
+
+  td {
+    height: 100px; /* Ajuste a altura para dispositivos menores */
+  }
+
+  .reservation {
+    font-size: 12px; /* Ajuste o tamanho da fonte para dispositivos menores */
+  }
+}
+
