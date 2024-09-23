@@ -6,12 +6,14 @@
     <div id="modal" class="modal-overlay">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="h1-reservation"><%= title %></h1>
+          <h1 class="h1-reservation">Realize sua Reserva</h1>
         </div>
         <div class="container">
-          <%= body %>
+          <%= render "form", resource: @reservation %>
         </div>
       </div>
     </div>
   </body>
 <% end %>
+
+

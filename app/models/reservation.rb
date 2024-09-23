@@ -2,6 +2,8 @@ class Reservation < ApplicationRecord
   belongs_to :user
   belongs_to :space
 
+  VALID_SHIFTS_ORDER = ["morning", "afternoon", "evening"].freeze
+
   validates :reservation_date, presence: true, reservation_date: { message: 'não pode ser anterior ao dia de hoje' }
 
   validate :validate_unique_shifts

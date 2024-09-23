@@ -19,6 +19,6 @@ class ReservationDateValidator < ActiveModel::EachValidator
 
     return false unless date_obj
 
-    date_obj > Date.today
+    date_obj >= Date.today
   end
 end

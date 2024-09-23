@@ -12,16 +12,47 @@ class ReservationsController < ApplicationController
   end
 
   def create
-    @reservation = Reservation.new(reservation_params)
+    # Verifique se já existe uma reserva para a mesma data e espaço
+    existing_reservation = Reservation.find_by(
+      space_id: reservation_params[:space_id],
+      reservation_date: reservation_params[:reservation_date]
+    )
   
-    if @reservation.save
-      flash[:notice] = "Reserva realizada com sucesso!"
-      redirect_to reservations_path
+    if existing_reservation
+      # Adicione os novos shifts à reserva existente
+      new_shifts = reservation_params[:shifts] || []
+  
+      # Certifique-se de que não haverá duplicatas ao adicionar novos shifts
+      updated_shifts = (existing_reservation.shifts + new_shifts).uniq
+  
+      # Ordenar os shifts de acordo com a ordem correta (manhã, tarde, noite)
+      sorted_shifts = sort_shifts(updated_shifts)
+  
+      # Atualize os shifts na reserva existente
+      if existing_reservation.update(shifts: sorted_shifts)
+        flash[:notice] = "Reserva atualizada com sucesso!"
+        redirect_to reservations_path
+      else
+        # Renderizar turbo_stream no caso de erro
+        respond_to do |format|
+          format.turbo_stream
+          redirect_to reservations_path
+        end
+      end
     else
-      # render :new, status: :unprocessable_entity
-      respond_to do |format|
-        format.turbo_stream
-        format.html { redirect_to reservations_url, notice: 'User was successfully destroyed.' }
+      # Crie uma nova reserva se não houver uma existente
+      @reservation = Reservation.new(reservation_params)
+  
+      # Ordenar os shifts antes de salvar
+      @reservation.shifts = sort_shifts(@reservation.shifts)
+  
+      if @reservation.save
+        flash[:notice] = "Reserva realizada com sucesso!"
+        redirect_to reservations_path
+      else
+        respond_to do |format|
+          format.turbo_stream
+        end
       end
     end
   end
@@ -30,10 +61,9 @@ class ReservationsController < ApplicationController
 
   def update 
     if @reservation.update(reservation_params)
-      flash[:notice] = "Reserva realizada com sucesso!"
+      flash[:notice] = "Reserva atualizada com sucesso!"
       redirect_to reservations_path
     else
-      
       respond_to do |format|
         format.turbo_stream
       end
@@ -41,6 +71,9 @@ class ReservationsController < ApplicationController
   end
 
   def destroy 
+    @reservation.destroy!
+    redirect_to reservations_path
+    flash[:notice] = "Reserva excuída com sucesso!"
   end
 
   private
@@ -58,5 +91,11 @@ class ReservationsController < ApplicationController
 
     def set_action
       @action = 'edit'
+    end
+
+    def sort_shifts(shifts)
+      # Definir a ordem dos shifts (manhã, tarde, noite)
+      valid_shifts_order = ["morning", "afternoon", "evening"]
+      shifts.sort_by { |shift| valid_shifts_order.index(shift) }
     end
 end

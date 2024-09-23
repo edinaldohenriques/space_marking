@@ -1,7 +1,7 @@
 <%= form_with(model: @reservation, id: "reservation_form", data: { turbo_frame: "_top" }) do |f| %>
   <%= render "devise/shared/error_messages", resource: @reservation %>
   <label for="reservation_date">Data da Reserva</label>
-  <%= f.date_field :reservation_date, id: "reservation_date", placeholder: "Data da Reserva" %>
+  <%= f.date_field :reservation_date, id: "reservation_date", placeholder: "dd/mm/aaaa" %>
   <div class="checkbox-group">
     <label for="turno">Selecione o turno</label>
     <div>
@@ -28,7 +28,11 @@
   <% end %>
 
   <div class="buttons-new">
-    <button class="back-new"><%= link_to 'Voltar', reservations_path, class: "link-back" %></button>
+    <%= link_to 'Voltar', reservations_path, class: "back-new link-back" %>
+    <% if @action == 'edit' %> 
+      <%= link_to 'Excluir reserva', reservation_path(@reservation), data: { turbo_confirm: 'Tem certeza que deseja deletar?', turbo_method: :delete }, class: "back-delete link-back" %>
+    <% end %>
+
     <%= f.submit 'Confirmar', class: "button-submit-new" %>
   </div>
 <% end %>
