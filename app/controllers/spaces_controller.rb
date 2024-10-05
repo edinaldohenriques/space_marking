@@ -1,11 +1,17 @@
 class SpacesController < ApplicationController
-  before_action :set_space, only: %i[show edit update destroy]
+  before_action :set_space, only: %i{show edit update destroy}
+  before_action :start_date, only: %i{show}
 
   def index 
-    @spaces = Space.order(:name)
+    @q = Space.ransack(params[:q])
+    @spaces = @q.result(distinct: true)
   end
 
-  def show; end
+  def show
+    session[:last_space_id] = @space.id
+    
+    @reservations = @space.reservations.where(reservation_date: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week)
+  end
 
   def new
     @space = Space.new
@@ -18,7 +24,9 @@ class SpacesController < ApplicationController
       flash[:success] = 'Espaço cadastrado com sucesso!'
       redirect_to spaces_path
     else
-      render 'new'
+      respond_to do |format|
+        format.turbo_stream
+      end
     end
   end
 
@@ -29,14 +37,17 @@ class SpacesController < ApplicationController
       flash[:success] = 'Espaço atualizado com sucesso!'
       redirect_to spaces_path
     else
-      render 'edit'
+      respond_to do |format|
+        format.turbo_stream
+      end
     end
   end
 
   def destroy 
-    @space.destroy
-    flash[:success] = 'Espaço excluído com sucesso!'
+    # @space.destroy
+    # flash[:success] = 'Espaço excluído com sucesso!'
     redirect_to spaces_path
+    
   end
 
   private
@@ -46,5 +57,9 @@ class SpacesController < ApplicationController
 
     def set_space
       @space = Space.find(params[:id])
+    end
+
+    def start_date
+      params.fetch(:start_date, Date.today).to_date
     end
 end

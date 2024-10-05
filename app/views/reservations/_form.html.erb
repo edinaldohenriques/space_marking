@@ -1,9 +1,17 @@
+<%= stylesheet_link_tag('reservation') %>
 <%= form_with(model: @reservation, id: "reservation_form", data: { turbo_frame: "_top" }) do |f| %>
+  
+  <!-- Exibe mensagens de erro -->
   <%= render "devise/shared/error_messages", resource: @reservation %>
+
+  <!-- Campo de data da reserva -->
   <label for="reservation_date">Data da Reserva</label>
   <%= f.date_field :reservation_date, id: "reservation_date", placeholder: "dd/mm/aaaa" %>
+
+  <!-- Grupo de checkboxes para os turnos -->
   <div class="checkbox-group">
     <label for="turno">Selecione o turno</label>
+
     <div>
       <%= f.check_box :shifts, { multiple: true }, "morning", nil %>
       <label for="shift_morning">Manhã</label>
@@ -17,22 +25,25 @@
       <label for="shift_evening">Noite</label>
     </div>
   </div>
-  <% if @action != 'edit' %> 
-    <label for="space">Selecione o espaço</label>
-    <%= f.collection_select :space_id, Space.all, :id, :name, prompt: "Selecione o espaço", id: "space" %>
-  <% end %>
 
+  <!-- Campo oculto para o id do espaço -->
+  <%= f.hidden_field :space_id, value: session[:last_space_id] %>
+
+  <!-- Se a ação não for 'edit', mostrar a seleção de usuário -->
   <% if @action != 'edit' %> 
-    <label for="space">Selecione o espaço</label>
+    <label for="user">Selecione o usuário</label>
     <%= f.collection_select :user_id, User.all, :id, :name, prompt: "Selecione o usuário", id: "user" %>
   <% end %>
 
+  <!-- Botões de ação -->
   <div class="buttons-new">
-    <%= link_to 'Voltar', reservations_path, class: "back-new link-back" %>
+    <%= link_to 'Voltar', space_path(session[:last_space_id]), class: "back-new link-back" %>
+
     <% if @action == 'edit' %> 
       <%= link_to 'Excluir reserva', reservation_path(@reservation), data: { turbo_confirm: 'Tem certeza que deseja deletar?', turbo_method: :delete }, class: "back-delete link-back" %>
     <% end %>
 
+    <!-- Botão de confirmar -->
     <%= f.submit 'Confirmar', class: "button-submit-new" %>
   </div>
 <% end %>

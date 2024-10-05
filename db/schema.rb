@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_03_203212) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_04_183733) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -25,14 +25,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_03_203212) do
     t.string "shifts", default: [], array: true
     t.index ["space_id"], name: "index_reservations_on_space_id"
     t.index ["user_id"], name: "index_reservations_on_user_id"
-  end
-
-  create_table "shifts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "name"
-    t.uuid "reservation_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["reservation_id"], name: "index_shifts_on_reservation_id"
   end
 
   create_table "spaces", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -65,7 +57,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_03_203212) do
     t.integer "user_type", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "student_id_number", null: false
+    t.bigint "student_id_number", null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -74,5 +66,4 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_03_203212) do
 
   add_foreign_key "reservations", "spaces"
   add_foreign_key "reservations", "users"
-  add_foreign_key "shifts", "reservations"
 end

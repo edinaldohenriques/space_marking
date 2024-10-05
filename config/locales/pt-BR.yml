@@ -288,7 +288,7 @@ pt-BR:
       other_than: deve ser diferente de %{count}
       present: deve ficar em branco
       required: é obrigatório(a)
-      taken: já reservado para este turno
+      taken: já foi cadastrado
       too_long:
         one: "é muito longo (máximo: %{count} caracter)"
         other: "é muito longo (máximo: %{count} caracteres)"

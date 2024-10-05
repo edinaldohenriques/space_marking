@@ -1,0 +1,25 @@
+<header>
+  <div class="logo-container">
+      <%= image_tag "ufpa-logo.png", alt: "UFPA Logo", class: "logo" %>
+  </div>
+  <div class="profile-container">
+    <input type="checkbox" id="profileToggle">
+    <label for="profileToggle">
+      <%= image_tag "perfil.png", alt: "Foto de Perfil" %>
+    </label>
+    <div class="profile-card">
+      <div class="profile-header">
+        <% if user_signed_in? %>
+          <h3><%= current_user.name %></h3>
+          <p><%= current_user.email %></p>
+        <% end %>
+      </div>
+      <ul>
+        <li><%= link_to "Espaços", spaces_path %></li>
+        <li><%= link_to "Cadastrar Espaço", new_space_path, data: { turbo_frame: "modal" } %></li>
+        <li><%= link_to "Editar Perfil", edit_user_registration_path, data: { turbo_frame: "modal" } %></li>
+        <li><%= link_to "Sair", destroy_user_session_path, data: { turbo_method: :delete } %></li>
+      </ul>
+    </div>
+  </div>     
+</header>

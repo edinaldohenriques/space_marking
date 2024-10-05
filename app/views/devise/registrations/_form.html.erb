@@ -1,0 +1,28 @@
+<%= form_with(model: @user, url: registration_path(resource_name), id: "user_form", data: { turbo_frame: "_top" }) do |f| %>
+<%= render "devise/shared/error_messages", resource: @user %>
+
+  <div class="form-group">
+    <%= f.label :email, "Email:" %>
+    <%= f.email_field :email, id: "email" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :current_password, "Senha Atual" %>
+    <%= f.password_field :current_password, autocomplete: "Senha atual" %>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :password, "Nova senha:" %>
+    <%= f.password_field :password, id: "Password" %>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :password_confirmation, "Confirme sua senha:" %>
+    <%= f.password_field :password_confirmation, id: "Password Confirmation" %>
+  </div>
+  
+  <div class="button-container">
+    <button class="button-back"><%= link_to 'Voltar', root_path, class: "link-back" %></button>
+    <%= f.submit "Atualizar", id: "button-submit" %>
+  </div>
+<% end %>

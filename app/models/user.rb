@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  has_many :reservations
+  has_many :reservations, dependent: :destroy
 
   enum user_type: { 'user': 0, 'admin': 1 }
 

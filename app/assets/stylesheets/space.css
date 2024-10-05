@@ -1,0 +1,215 @@
+/* Estilos gerais */
+body {
+  background-color: #f4f4f4;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container geral */
+.container-space {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Barra de pesquisa */
+.search-bar {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  position: relative;
+}
+.search-form {
+  width: 100%;
+}
+
+.search-bar #search-input {
+  width: 100%;
+  padding: 10px 45px 10px 20px;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+
+
+.icons-container {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.icons-container label,
+.icons-container button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  margin: 0;
+}
+
+.icons-container img {
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+}
+
+.filter-checkbox {
+  display: none;
+}
+
+.filters {
+  display: none;
+  position: absolute;
+  top: 60px;
+  right: 10px;
+  width: 260px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  z-index: 100;
+}
+
+.filter-checkbox:checked + .icons-container + .filters {
+  display: block;
+}
+
+
+.filters h4 {
+  margin-top: 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.filters label {
+  display: block;
+  margin-bottom: 10px;
+  margin-top: 6px;
+}
+
+.filters input[type="checkbox"] {
+  margin-left: 2px;
+}
+
+/* Grade de Espaços */
+.spaces-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+  margin-top: 40px;
+  justify-content: center;
+}
+
+.spaces-grid .link-to-space {
+  display: block; /* Para o link se comportar como bloco */
+  background-color: #d9d9d9;
+  border: none; /* Sem borda */
+  padding: 20px; /* Espaçamento interno */
+  border-radius: 12px; /* Borda arredondada */
+  font-size: 16px; /* Tamanho do texto */
+  cursor: pointer; /* Muda o cursor para pointer */
+  width: 100%; /* Faz o link ocupar toda a largura disponível */
+  max-width: 242px; /* Define uma largura máxima para os links */
+  text-align: center; /* Centraliza o texto */
+  text-decoration: none; /* Remove sublinhado do link */
+  color: black; /* Cor do texto */
+  transition: background-color 0.3s ease; /* Transição suave */
+}
+
+.spaces-grid .link-to-space:hover {
+  background-color: #cccccc; /* Cor de fundo ao passar o mouse */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .spaces-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .filters {
+    right: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .spaces-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .filters {
+    top: 120px;
+    right: 10px;
+  }
+
+  .search-bar input {
+    width: 80%;
+  }
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  margin: 0;
+}
+
+input[type="text"], input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+/* Cadastrar Space */
+.checkbox-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.checkbox-group div {
+  text-align: center;
+  display: block;
+  unicode-bidi: isolate;
+}
+
+.checkbox-group label {
+  display: block;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+#reservation_form label{
+  margin-bottom: 10px;
+}
+
+.button-container-space {
+  display: flex;
+  justify-content: flex-end; /* Alinha o botão à direita */
+  margin-top: 10px; /* Ajuste a margem conforme necessário */
+}
+
+.submit-tag {
+  background-color: #28a745;; /* Cor de fundo verde */
+  color: rgb(0, 0, 0); /* Cor do texto */
+  border: none; /* Sem borda */
+  padding: 7px 13px; /* Espaçamento interno */
+  border-radius: 5px; /* Borda arredondada */
+  font-size: 16px; /* Tamanho da fonte */
+  cursor: pointer; /* Muda o cursor para pointer */
+  transition: background-color 0.3s; /* Transição suave */
+}
+
+.submit-tag:hover {
+  background-color: darkgreen; /* Cor ao passar o mouse */
+}

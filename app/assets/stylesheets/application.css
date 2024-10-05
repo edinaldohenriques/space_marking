@@ -13,6 +13,9 @@
  *= require_tree .
  *= require_self
  */
+*{
+  font-family: Arial, sans-serif;
+} 
 
 .flash-message {
   position: fixed;
@@ -53,3 +56,107 @@
   background-color: #f8d7da;
   color: #721c24;
 }
+
+
+/* Header */
+header {
+  width: 100%;
+  background-color: #002249;
+  color: white;
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header .logo-container {
+  display: flex;
+  align-items: center;
+}
+
+header img.logo {
+  height: 70px;
+  margin: 10px 20px 15px 60px;
+}
+
+/* Perfil */
+.profile-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.profile-container img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  margin: 15px 60px 10px 20px;
+}
+
+.profile-container input[type="checkbox"] {
+  display: none;
+}
+
+.profile-container label img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.profile-card {
+  display: none;
+  position: absolute;
+  top: 60px;
+  right: 60px;
+  width: 200px;
+  background-color: #e0e0e0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  z-index: 100;
+}
+
+.profile-container input[type="checkbox"]:checked + label + .profile-card {
+  display: block;
+}
+
+.profile-header {
+  padding: 1px;
+  border-bottom: 1px solid #000;
+  text-align: center;
+}
+
+.profile-header h3 {
+  margin: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.profile-header p {
+  margin: 0;
+  font-size: 12px;
+  color: #666;
+}
+
+.profile-card ul {
+  list-style: none;
+  padding: 10px;
+  margin: 0;
+}
+
+.profile-card ul li {
+  margin: 10px;
+}
+
+.profile-card ul li a {
+  text-decoration: none;
+  color: #002249;
+  font-size: 14px;
+}
+
+.profile-card ul li a:hover {
+  color: #0066cc;
+}
+

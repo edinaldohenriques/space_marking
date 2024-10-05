@@ -12,8 +12,11 @@
   </head>
 
   <body>
+    <% unless devise_controller? && (controller_name == 'registrations' || controller_name == 'sessions' || controller_name == 'passwords' || controller_name == 'users') %>
+      <%= render "layouts/topnavbar" %>
+    <% end %>
   
-    <%= render 'layouts/flash_message' %>
+    <%= render "layouts/flash_message" %>
     <%= render "layouts/flash" %>
 
     <%= yield %>

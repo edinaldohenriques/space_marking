@@ -1,0 +1,44 @@
+<%= stylesheet_link_tag ('space') %>
+<%= form_with(model: @space, id: "space_form", data: { turbo_frame: "_top" }) do |f| %>
+  <!-- Exibe mensagens de erro -->
+  <%= render "devise/shared/error_messages", resource: @space %>
+  
+  <label for="nome">Nome</label>
+  <%= f.text_field :name, id: "nome", placeholder: "Nome" %>
+
+  <label for="localizacao">Localização</label>
+  <%= f.text_field :location, id: "localizacao", placeholder: "Localização" %>
+
+  <label for="capacidade">Capacidade</label>
+  <%= f.number_field :capacity, id: "capacidade", placeholder: "Capacidade" %>
+
+  <div class="checkbox-group">
+    <div>
+      <label>Quadro ?</label><br>
+      <%= f.radio_button :board, true, id: 'quadro-sim' %> Sim
+      <%= f.radio_button :board, false, id: 'quadro-nao' %> Não
+    </div>
+    <div>
+      <label>Laboratório ?</label><br>
+      <%= f.radio_button :laboratory, true, id: 'laboratorio-sim' %> Sim
+      <%= f.radio_button :laboratory, false, id: 'laboratorio-nao' %> Não
+    </div>
+    <div>
+      <label>Projetor ?</label><br>
+      <%= f.radio_button :projector, true, id: 'projetor-sim' %> Sim
+      <%= f.radio_button :projector, false, id: 'projetor-nao' %> Não
+    </div>
+  </div>
+
+  <!-- Botões de ação -->
+  <div class="buttons-new">
+    <%= link_to 'Voltar', spaces_path, class: "back-new link-back" %>
+
+    <% if @action == 'edit' %> 
+      <%= link_to 'Excluir reserva', space_path(@space), data: { turbo_confirm: 'Tem certeza que deseja deletar?', turbo_method: :delete }, class: "back-delete link-back" %>
+    <% end %>
+
+    <!-- Botão de confirmar -->
+    <%= f.submit 'Confirmar', class: "button-submit-new" %>
+  </div>
+<% end %>

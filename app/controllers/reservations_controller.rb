@@ -2,9 +2,10 @@ class ReservationsController < ApplicationController
   before_action :set_reservation, only: %i{edit update destroy}
   before_action :start_date, only: %i{index}
   before_action :set_action, only: %i{edit update}
+  # before_action :authenticate_user!
 
   def index 
-    @reservations = Reservation.where(reservation_date: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week)
+    # @reservations = Reservation.where(reservation_date: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week)
   end
 
   def new 
@@ -21,34 +22,42 @@ class ReservationsController < ApplicationController
     if existing_reservation
       # Adicione os novos shifts à reserva existente
       new_shifts = reservation_params[:shifts] || []
+
+      conflicting_shifts = existing_reservation.shifts & new_shifts
+
+      if existing_reservation.reservation_date.to_s && conflicting_shifts.any? 
+        flash[:alert] = "O turno já foi reservado para esta data"
+        redirect_to space_path(existing_reservation.space)
+      else 
   
-      # Certifique-se de que não haverá duplicatas ao adicionar novos shifts
-      updated_shifts = (existing_reservation.shifts + new_shifts).uniq
-  
-      # Ordenar os shifts de acordo com a ordem correta (manhã, tarde, noite)
-      sorted_shifts = sort_shifts(updated_shifts)
-  
-      # Atualize os shifts na reserva existente
-      if existing_reservation.update(shifts: sorted_shifts)
-        flash[:notice] = "Reserva atualizada com sucesso!"
-        redirect_to reservations_path
-      else
-        # Renderizar turbo_stream no caso de erro
-        respond_to do |format|
-          format.turbo_stream
-          redirect_to reservations_path
+        # Certifique-se de que não haverá duplicatas ao adicionar novos shifts
+        updated_shifts = (existing_reservation.shifts + new_shifts).uniq
+
+        
+    
+        # Ordenar os shifts de acordo com a ordem correta (manhã, tarde, noite)
+        sorted_shifts = sort_shifts(updated_shifts)
+    
+        # Atualize os shifts na reserva existente
+        if existing_reservation.update(shifts: sorted_shifts)
+          flash[:notice] = "Reserva atualizada com sucesso!"
+          redirect_to space_path(existing_reservation.space)
+        else
+          redirect_to space_path(existing_reservation.space)
+          flash[:alert] = "O turno já foi reservado"
         end
       end
     else
       # Crie uma nova reserva se não houver uma existente
       @reservation = Reservation.new(reservation_params)
+      # @reservation.user = current_user # Associar a reserva ao usuário atual
   
       # Ordenar os shifts antes de salvar
       @reservation.shifts = sort_shifts(@reservation.shifts)
   
       if @reservation.save
         flash[:notice] = "Reserva realizada com sucesso!"
-        redirect_to reservations_path
+        redirect_to space_path(@reservation.space)
       else
         respond_to do |format|
           format.turbo_stream
@@ -59,20 +68,69 @@ class ReservationsController < ApplicationController
 
   def edit; end 
 
-  def update 
-    if @reservation.update(reservation_params)
-      flash[:notice] = "Reserva atualizada com sucesso!"
-      redirect_to reservations_path
-    else
-      respond_to do |format|
-        format.turbo_stream
+  def update
+    new_shifts = reservation_params[:shifts] || []
+    new_date = reservation_params[:reservation_date]
+  
+    # Encontrar a reserva existente na nova data
+    existing_reservation = Reservation.where(reservation_date: new_date).order(:created_at).first
+  
+    if existing_reservation
+      # Verificar se há algum turno já reservado
+      conflicting_shifts = existing_reservation.shifts & new_shifts
+      
+      conflicting_shifts_translated = conflicting_shifts.map { |shift| I18n.t("activerecord.attributes.reservation.shifts.#{shift}") }
+
+      # Se houver conflitos de turnos e a data for diferente da original
+      if new_date != @reservation.reservation_date.to_s && conflicting_shifts.any?  
+        flash[:alert] = "Os turnos #{conflicting_shifts_translated.join(', ')} já foram reservados para esta data"
+        redirect_to space_path(@reservation.space)
+      elsif new_date == @reservation.reservation_date.to_s
+        # Atualizar a reserva sem mudar a data
+        if @reservation.update(reservation_params)
+          flash[:notice] = "Reserva atualizada com sucesso!"
+          redirect_to space_path(@reservation.space)
+        else
+          flash[:alert] = "Erro ao atualizar a reserva."
+          respond_to do |format|
+            format.turbo_stream
+          end
+        end
+      else
+        # Atualizar para uma nova data
+        updated_shifts = (existing_reservation.shifts + new_shifts).uniq
+        sorted_shifts = sort_shifts(updated_shifts)
+  
+        if existing_reservation.update(reservation_date: new_date, shifts: sorted_shifts)
+          # Excluir a reserva antiga
+          @reservation.destroy
+  
+          flash[:notice] = "Reserva atualizada com sucesso!"
+          redirect_to space_path(existing_reservation.space)
+        else
+          flash[:alert] = "Erro ao atualizar a reserva."
+          respond_to do |format|
+            format.turbo_stream
+          end
+        end
+      end
+    else 
+      if @reservation.update(reservation_params)
+        flash[:notice] = "Reserva atualizada com sucesso!"
+        redirect_to space_path(@reservation.space)
+      else
+        flash[:alert] = "Erro ao atualizar a reserva."
+        respond_to do |format|
+          format.turbo_stream
+        end
       end
     end
   end
+  
 
-  def destroy 
+  def destroy
     @reservation.destroy!
-    redirect_to reservations_path
+    redirect_to space_path(@reservation.space)
     flash[:notice] = "Reserva excuída com sucesso!"
   end
 

@@ -52,6 +52,10 @@ input[type="text"], input[type="date"], select {
   /* margin-bottom: 15px; */ 
 }
 
+.checkbox-group label {
+  text-align: left;
+}
+
 .checkbox-group input[type="checkbox"] {
   margin-right: 15px;  
 }
@@ -67,7 +71,7 @@ select {
   margin-bottom: 30px;
   border: 1px solid #ccc; 
   border-radius: 4px; 
-      }
+}
 
 .buttons-new {
   display: flex;

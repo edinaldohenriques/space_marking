@@ -69,8 +69,10 @@ gem "devise", "~> 4.9"
 
 gem "devise-i18n", "~> 1.12"
 
-
-
 gem "simple_calendar", "~> 3.0"
 
 gem "view_component", "~> 3.14"
+
+gem "mailcatcher", "~> 0.2.4"
+
+gem "ransack", "~> 4.2"

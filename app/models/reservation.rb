@@ -6,7 +6,7 @@ class Reservation < ApplicationRecord
 
   validates :reservation_date, presence: true, reservation_date: { message: 'não pode ser anterior ao dia de hoje' }
 
-  validate :validate_unique_shifts
+  validate :validate_unique_shifts, on: :create
   # method to render the date in simple calendar
   def start_time
     self.reservation_date

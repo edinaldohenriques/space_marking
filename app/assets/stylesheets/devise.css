@@ -12,7 +12,7 @@
 
 .body-password-forgot {
   font-family: Arial, sans-serif;
-  background-color: white;
+  background-color: #f4f4f4; 
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -31,7 +31,7 @@
 }
 
 .card-login {
-  background-color: #ffffff;
+  background-color: #f4f4f4; 
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   padding: 25px;
@@ -64,7 +64,7 @@ input[type="email"], input[type="password"] {
   font-size: 16px;
   border: 1px solid #ccc; 
   border-radius: 8px;
-  background-color: #fafafa; 
+  background-color: #f4f4f4;  
   box-sizing: border-box;
 }
 
@@ -118,7 +118,7 @@ input[type="email"], input[type="password"] {
 
 /* CSS Session Registration */
 .body-registration {
-  background-color: white;
+  background-color: #f4f4f4; 
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
@@ -188,7 +188,7 @@ input[type="email"], input[type="password"] {
   max-width: 600px;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background-color: #f9f9f9;
+  background-color: #f4f4f4; 
   border-radius: 8px;
 }
 

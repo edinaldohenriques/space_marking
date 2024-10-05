@@ -1,0 +1,36 @@
+<%= stylesheet_link_tag('space')%>
+<body>
+  <div class="container-space">
+    <!-- Barra de pesquisa com filtros -->
+    <div class="search-bar" data-controller="filter">
+      <%= search_form_for @q, url: spaces_path, method: :get do |f| %>
+  <%= f.label :name_cont, "Pesquisar por Nome" %>
+  <%= f.text_field :name_cont, value: params.dig(:q, :name_cont), placeholder: "Pesquisar espaços..." %>
+
+  <div class="filters">
+    <h4>Filtros</h4>
+    <%= f.label :board, "Quadro?" %>
+    <%= f.check_box :board %> Sim
+
+    <%= f.label :projector, "Projetor?" %>
+    <%= f.check_box :projector %> Sim
+
+    <%= f.label :periodo_manha, "Período?" %>
+    <%= f.check_box :shifts, { value: 'manha' }, true, false %> Manhã
+    <%= f.check_box :shifts, { value: 'tarde' }, true, false %> Tarde
+    <%= f.check_box :shifts, { value: 'noite' }, true, false %> Noite
+
+    <%= f.submit "Aplicar Filtros", class: "link-to" %>
+  </div>
+<% end %>
+
+    </div>
+
+    
+    <div class="spaces-grid">
+      <% @spaces.each do |space| %>
+        <%= link_to "#{space.name}", space_path(space), class: "link-to-space" %>
+      <% end %>
+    </div>
+  </div>
+</body>   
