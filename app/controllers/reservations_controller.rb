@@ -19,7 +19,8 @@ class ReservationsController < ApplicationController
       reservation_date: reservation_params[:reservation_date]
     )
   
-    if existing_reservation
+    if existing_reservation && existing_reservation.user == current_user
+
       # Adicione os novos shifts à reserva existente
       new_shifts = reservation_params[:shifts] || []
 
@@ -74,6 +75,7 @@ class ReservationsController < ApplicationController
   
     # Encontrar a reserva existente na nova data
     existing_reservation = Reservation.where(reservation_date: new_date).order(:created_at).first
+    # shifts_user_reservation = Reservation.where(reservation_date: "2024-10-29", shifts: ["morning"]).order(:created_at).first
   
     if existing_reservation
       # Verificar se há algum turno já reservado
@@ -83,9 +85,9 @@ class ReservationsController < ApplicationController
 
       # Se houver conflitos de turnos e a data for diferente da original
       if new_date != @reservation.reservation_date.to_s && conflicting_shifts.any?  
-        flash[:alert] = "Os turnos #{conflicting_shifts_translated.join(', ')} já foram reservados para esta data"
+        flash[:alert] = "O turno #{conflicting_shifts_translated.join(', ')} já foi reservado para esta data"
         redirect_to space_path(@reservation.space)
-      elsif new_date == @reservation.reservation_date.to_s
+      elsif new_date == @reservation.reservation_date.to_s && @reservation.user == current_user
         # Atualizar a reserva sem mudar a data
         if @reservation.update(reservation_params)
           flash[:notice] = "Reserva atualizada com sucesso!"
@@ -96,7 +98,7 @@ class ReservationsController < ApplicationController
             format.turbo_stream
           end
         end
-      else
+      elsif new_date != @reservation.reservation_date.to_s && existing_reservation.user == current_user
         # Atualizar para uma nova data
         updated_shifts = (existing_reservation.shifts + new_shifts).uniq
         sorted_shifts = sort_shifts(updated_shifts)
@@ -113,8 +115,23 @@ class ReservationsController < ApplicationController
             format.turbo_stream
           end
         end
+      elsif new_date != @reservation.reservation_date.to_s && existing_reservation.user != current_user
+        sorted_shifts = sort_shifts(new_shifts)
+  
+        if @reservation.update(reservation_date: new_date, shifts: sorted_shifts)
+          flash[:notice] = "Reserva atualizada com sucesso!"
+          redirect_to space_path(existing_reservation.space)
+        else
+          flash[:alert] = "Erro ao atualizar a reserva."
+          respond_to do |format|
+            format.turbo_stream
+          end
+        end
+      else
+        flash[:alert] = "Essa reserva foi realizada por outra pessoa e você tem permissão para alterá-la!"
+        redirect_to space_path(existing_reservation.space)
       end
-    else 
+    elsif @reservation.user == current_user 
       if @reservation.update(reservation_params)
         flash[:notice] = "Reserva atualizada com sucesso!"
         redirect_to space_path(@reservation.space)
@@ -124,14 +141,22 @@ class ReservationsController < ApplicationController
           format.turbo_stream
         end
       end
+    else
+      flash[:alert] = "Essa reserva foi realizada por outra pessoa e você tem permissão para alterá-la!"
+      redirect_to space_path(@reservation.space)
     end
   end
   
 
   def destroy
-    @reservation.destroy!
-    redirect_to space_path(@reservation.space)
-    flash[:notice] = "Reserva excuída com sucesso!"
+    if @reservation.user == current_user
+      @reservation.destroy!
+      redirect_to space_path(@reservation.space)
+      flash[:notice] = "Reserva excuída com sucesso!"
+    else
+      flash[:alert] = "Essa reserva foi realizada por outra pessoa e você tem permissão para alterá-la!"
+      redirect_to space_path(@reservation.space)
+    end
   end
 
   private

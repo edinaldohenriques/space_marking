@@ -6,11 +6,11 @@
       <% reservations.each do |reservation| %>
         <% reservation.shifts.each do |item| %>
           <% if reservation.shifts.present? %>
-            <%= link_to edit_reservation_path(reservation), data: { turbo_frame: "modal" }, class: "link-to" do %>
-              <div class="reservation-shift-<%=item%>">
-                <%= I18n.t("activerecord.attributes.reservation.shifts.#{item}") %>  
-              </div>
-            <% end %>  
+              <%= link_to edit_reservation_path(reservation), data: { turbo_frame: "modal" }, class: "link-to" do %>
+                <div class="reservation-shift-<%=item%>">
+                  <%= I18n.t("activerecord.attributes.reservation.shifts.#{item}") %>  
+                </div>
+              <% end %>  
           <% end %>
         <% end %>
       <% end %>
