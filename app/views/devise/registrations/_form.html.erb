@@ -22,7 +22,7 @@
   </div>
   
   <div class="button-container">
-    <button class="button-back"><%= link_to 'Voltar', root_path, class: "link-back" %></button>
+    <button class="button-back"><%= link_to 'Voltar', request.referrer, class: "link-back" %></button>
     <%= f.submit "Atualizar", id: "button-submit" %>
   </div>
 <% end %>

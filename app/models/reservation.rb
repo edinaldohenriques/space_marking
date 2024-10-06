@@ -12,6 +12,10 @@ class Reservation < ApplicationRecord
     self.reservation_date
   end
 
+
+  # Filtro para encontrar reservas com base nos shifts (períodos)
+  scope :by_shifts, ->(shift) { where("'#{shift}' = ANY (shifts)") if shift.present? }
+
   private 
     def validate_unique_shifts
       overlapping_reservations = Reservation.where(

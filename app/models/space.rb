@@ -6,19 +6,26 @@ class Space < ApplicationRecord
   validates :location, presence: true 
   validates :capacity, presence: true, numericality: { only_integer: true }
 
-  scope :search, ->(query) {
-    where("name ILIKE ? OR projector ILIKE ?", "%#{query}%", "%#{query}%") if query.present?
-  }
+  # Filtro de shifts por associação com reservas
+  scope :by_shifts, ->(shift) { joins(:reservations).merge(Reservation.by_shifts(shift)) if shift.present? }
 
+  def self.available_spaces(selected_shifts)
+    return all if selected_shifts.blank?
 
-   # Atributos que podem ser pesquisados pelo Ransack
+    Space
+      .left_outer_joins(:reservations)
+      .group('spaces.id')
+      .having('COUNT(CASE WHEN reservations.shifts && ARRAY[?]::varchar[] THEN 1 END) = 0', selected_shifts)
+  end
+
+  # Atributos que podem ser pesquisados
   def self.ransackable_attributes(auth_object = nil)
     ["available", "board", "capacity", "created_at", "description", "id", "id_value", "laboratory", "location", "name", "projector", "updated_at"]
   end
 
-  # Atributos para pesquisa via associações (se necessário)
+  # Permitir busca através da associação 'reservations'
   def self.ransackable_associations(auth_object = nil)
-    ["reservations"] # Exemplo de associação se precisar buscar por shifts nas reservas
+    ["reservations"]
   end
 
 

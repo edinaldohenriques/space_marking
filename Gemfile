@@ -76,3 +76,5 @@ gem "view_component", "~> 3.14"
 gem "mailcatcher", "~> 0.2.4"
 
 gem "ransack", "~> 4.2"
+
+gem "pundit", "~> 2.4"

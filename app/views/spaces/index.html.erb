@@ -3,34 +3,57 @@
   <div class="container-space">
     <!-- Barra de pesquisa com filtros -->
     <div class="search-bar" data-controller="filter">
-      <%= search_form_for @q, url: spaces_path, method: :get do |f| %>
-  <%= f.label :name_cont, "Pesquisar por Nome" %>
-  <%= f.text_field :name_cont, value: params.dig(:q, :name_cont), placeholder: "Pesquisar espaços..." %>
+      <%= search_form_for @q, url: spaces_path, method: :get, remote: true, class: "search-form" do |f| %>
+        <%= f.text_field :name_cont, placeholder: "Pesquisar espaços...", id: "search-input", class: "search-input", autocomplete: "off" %>
 
-  <div class="filters">
-    <h4>Filtros</h4>
-    <%= f.label :board, "Quadro?" %>
-    <%= f.check_box :board %> Sim
+        <div class="icons-container">
+          <input type="checkbox" id="filterToggle" class="filter-checkbox" style="display:none;" data-filter-target="filterToggle">
+          <label for="filterToggle" class="filter-btn" data-action="click->filter#toggle">
+            <%= image_tag "filtro.png", alt: "Filtro" %>
+          </label>
 
-    <%= f.label :projector, "Projetor?" %>
-    <%= f.check_box :projector %> Sim
+          <!-- Botão submit que dispara a pesquisa ao clicar na lupa -->
+          <button type="submit" class="search-btn">
+            <%= image_tag "lupa.png", alt: "Pesquisar" %>
+          </button>
+        </div>
+      
+      
+      <!-- Filtros -->
+      <div class="filters" data-filter-target="filters">
+        <div class="profile-header">
+          <h4>Filtro de Pesquisa</h4>
+        </div>
+        
+          <label>Quadro?
+            <%= f.radio_button :board_eq, true, checked: false %> Sim
+            <%= f.radio_button :board_eq, false, checked: false %> Não
+          </label>
+          <label>Projetor?
+            <%= f.radio_button :projector_eq, true, checked: false %> Sim
+            <%= f.radio_button :projector_eq, false, checked: false %> Não
+          </label>
+          <label>Laboratório? 
+            <%= f.radio_button :laboratory_eq, true, checked: false %> Sim
+            <%= f.radio_button :laboratory_eq, false, checked: false%> Não
+          </label>
+          <label>Período:<br>
+            <%= check_box_tag 'shifts[]', 'manha' %> Manhã
+            <%= check_box_tag 'shifts[]', 'tarde' %> Tarde
+            <%= check_box_tag 'shifts[]', 'noite' %> Noite
+          </label>
 
-    <%= f.label :periodo_manha, "Período?" %>
-    <%= f.check_box :shifts, { value: 'manha' }, true, false %> Manhã
-    <%= f.check_box :shifts, { value: 'tarde' }, true, false %> Tarde
-    <%= f.check_box :shifts, { value: 'noite' }, true, false %> Noite
-
-    <%= f.submit "Aplicar Filtros", class: "link-to" %>
-  </div>
-<% end %>
-
+          <div class="button-container-space">
+            <%= f.submit 'Aplicar Filtros', class: "submit-tag" %>
+          </div>
+        <% end %>
+      </div>
     </div>
 
-    
     <div class="spaces-grid">
       <% @spaces.each do |space| %>
         <%= link_to "#{space.name}", space_path(space), class: "link-to-space" %>
       <% end %>
     </div>
   </div>
-</body>   
+</body>

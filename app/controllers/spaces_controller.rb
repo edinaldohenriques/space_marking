@@ -2,9 +2,17 @@ class SpacesController < ApplicationController
   before_action :set_space, only: %i{show edit update destroy}
   before_action :start_date, only: %i{show}
 
-  def index 
-    @q = Space.ransack(params[:q])
+  def index
+    @q = Space.ransack(params[:q]) # Busca pelo Ransack
     @spaces = @q.result(distinct: true)
+
+    # # Adicionar filtro de shifts manualmente (fora do Ransack)
+    # if params[:shifts].present?
+    #   @spaces = Space.available_spaces(params[:shifts])
+    #   puts "===================================#{@spaces}"
+    #   puts Space.available_spaces(params[:shifts]).to_sql
+
+    # end
   end
 
   def show
@@ -15,10 +23,12 @@ class SpacesController < ApplicationController
 
   def new
     @space = Space.new
+    authorize @space
   end 
 
   def create 
     @space = Space.new(space_params)
+    authorize @space
 
     if @space.save 
       flash[:success] = 'Espaço cadastrado com sucesso!'
@@ -33,6 +43,8 @@ class SpacesController < ApplicationController
   def edit; end 
 
   def update  
+    authorize @space
+
     if @space.update(space_params)
       flash[:success] = 'Espaço atualizado com sucesso!'
       redirect_to spaces_path
@@ -44,8 +56,9 @@ class SpacesController < ApplicationController
   end
 
   def destroy 
-    # @space.destroy
-    # flash[:success] = 'Espaço excluído com sucesso!'
+    authorize @space
+    @space.destroy
+    flash[:notice] = 'Espaço excluído com sucesso!'
     redirect_to spaces_path
     
   end

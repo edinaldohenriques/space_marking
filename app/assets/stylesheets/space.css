@@ -5,7 +5,6 @@ body {
   margin: 0;
   padding: 0;
 }
-
 /* Container geral */
 .container-space {
   max-width: 1200px;
@@ -200,9 +199,9 @@ input[type="text"], input[type="number"] {
 }
 
 .submit-tag {
-  background-color: #28a745;; /* Cor de fundo verde */
+  background-color: #28a745; /* Cor de fundo verde */
   color: rgb(0, 0, 0); /* Cor do texto */
-  border: none; /* Sem borda */
+  border: none;
   padding: 7px 13px; /* Espaçamento interno */
   border-radius: 5px; /* Borda arredondada */
   font-size: 16px; /* Tamanho da fonte */
