@@ -21,6 +21,16 @@
         <% elsif @space.present? && policy(@space).create? %>
           <li><%= link_to "Cadastrar Espaço", new_space_path, data: { turbo_frame: "modal" } %></li>
         <% end %>
+        <!-- Switch para Minhas Reservas -->
+        <li>
+          <div class="switch-container" data-controller="reservation">
+            <span id="span-name">Minhas Reservas</span>
+            <label class="switch">
+              <%= check_box_tag 'my_reservations', '1', params[:my_reservations].present?, id: 'myReservationsSwitch', data: { action: "change->reservation#toggleFilter" } %>
+              <span class="slider"></span>
+            </label>
+          </div>
+        </li>
         <li><%= link_to "Editar Perfil", edit_user_registration_path, data: { turbo_frame: "modal" } %></li>
         <li><%= link_to "Sair", destroy_user_session_path, data: { turbo_method: :delete } %></li>
       </ul>

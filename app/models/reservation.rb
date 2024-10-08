@@ -2,26 +2,14 @@ class Reservation < ApplicationRecord
   belongs_to :user
   belongs_to :space
 
-  VALID_SHIFTS_ORDER = ["morning", "afternoon", "evening"].freeze
-
-  before_save :sort_shifts
-
   validates :reservation_date, presence: true, reservation_date: { message: 'não pode ser anterior ao dia de hoje' }
+  validates :shifts, presence: { message: 'O turno não pode ficar em branco' }
 
-  validate :validate_unique_shifts, on: :create
+  validate :validate_unique_shifts, on: :create 
+
   # method to render the date in simple calendar
   def start_time
     self.reservation_date
-  end
-
-
-  # Filtro para encontrar reservas com base nos shifts (períodos)
-  scope :by_shifts, ->(shift) { where("'#{shift}' = ANY (shifts)") if shift.present? }
-
-
-  def sort_shifts
-    valid_shifts_order = ["morning", "afternoon", "evening"]
-    self.shifts = self.shifts.sort_by { |shift| valid_shifts_order.index(shift) }
   end
 
   private 

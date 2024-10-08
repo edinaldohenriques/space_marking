@@ -11,7 +11,10 @@
         <%= link_to (image_tag('ícone-de-seta-right.png')), calendar.url_for_next_view %>
       </div>
 
-      <h2 class="calendar-header">Calendário de Reservas</h2>
+      <div><h2 class="calendar-header">Calendário de Reservas - <%= @space.name %></h2>
+        <span>Capacidade: <%= @space.capacity %></span><br>
+        <span>Localização: <%= @space.location %></span>
+      </div>
 
       <div class="calendar-buttons">
         <%= link_to new_reservation_path, data: { turbo_frame: "modal" }, class: 'button-reserve' do %>

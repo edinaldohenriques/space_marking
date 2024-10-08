@@ -151,6 +151,8 @@ td {
   /* background-color: #ffffff; */
   border-radius: 4px;
   transition: background-color 0.3s;
+  position: relative; /* Adiciona posição relativa */
+  height: 100px; /* Defina uma altura fixa para o dia */
 }
 
 .day:hover {
@@ -168,6 +170,7 @@ td {
 .reservation-shift-morning,
 .reservation-shift-afternoon,
 .reservation-shift-evening {
+  position: absolute; /* Posiciona os turnos de forma absoluta */
   background-color: inherit; /* Mantém a cor específica de cada turno */
   font-family: Arial, sans-serif;
   font-weight: bold;
@@ -179,19 +182,23 @@ td {
   cursor: pointer;
   display: flex; /* Centraliza o texto verticalmente */
   align-items: center; /* Alinha verticalmente o texto */
-  height: 10px
+  height: 12px;
+  width: calc(100% - 20px); /* Largura total menos margem */
 }
 
 .reservation-shift-morning {
   background-color: #81D87F; /* Amarelo para Manhã */
+  top: 17px; /* Distância do topo */
 }
 
 .reservation-shift-afternoon {
   background-color: #6F83AD; /* Laranja para Tarde */
+  top: 47px;
 }
 
 .reservation-shift-evening {
   background-color: #D78C70; /* Azul para Noite */
+  top: 77px; /* Distância do topo */
 }
 
 td.day.prev-month {

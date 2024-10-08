@@ -29,15 +29,10 @@
   <!-- Campo oculto para o id do espaço -->
   <%= f.hidden_field :space_id, value: session[:last_space_id] %>
 
-  <!-- Se a ação não for 'edit', mostrar a seleção de usuário -->
-  <% if @action != 'edit' %> 
-    <label for="user">Selecione o usuário</label>
-    <%= f.collection_select :user_id, User.all, :id, :name, prompt: "Selecione o usuário", id: "user" %>
-  <% end %>
-
   <!-- Botões de ação -->
   <div class="buttons-new">
     <%= link_to 'Voltar', space_path(session[:last_space_id]), class: "back-new link-back" %>
+    <!-- <%= link_to 'Voltar', request.referrer, class: "back-new link-back" %> -->
 
     <% if @action == 'edit' %> 
       <%= link_to 'Excluir reserva', reservation_path(@reservation), data: { turbo_confirm: 'Tem certeza que deseja deletar?', turbo_method: :delete }, class: "back-delete link-back" %>

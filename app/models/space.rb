@@ -2,12 +2,11 @@ class Space < ApplicationRecord
   has_many :reservations, dependent: :destroy 
 
   validates :name, presence: true 
-  validates :description, presence: true 
   validates :location, presence: true 
-  validates :capacity, presence: true, numericality: { only_integer: true }
+  validates :capacity, presence: true
 
   # Filtro de shifts por associação com reservas
-  scope :by_shifts, ->(shift) { joins(:reservations).merge(Reservation.by_shifts(shift)) if shift.present? }
+  scope :shifts, ->(shift) { joins(:reservations).merge(Reservation.by_shifts(shift)) if shift.present? }
 
   def self.available_spaces(selected_shifts)
     return all if selected_shifts.blank?

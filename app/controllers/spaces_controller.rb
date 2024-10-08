@@ -17,8 +17,18 @@ class SpacesController < ApplicationController
 
   def show
     session[:last_space_id] = @space.id
+
+    if params[:my_reservations].present?
+      session[:my_reservations] = params[:my_reservations] == '1'
+    end
+
+    @my_reservations = session[:my_reservations]
     
-    @reservations = @space.reservations.where(reservation_date: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week)
+    if @my_reservations
+      @reservations = @space.reservations.where(user_id: current_user.id, reservation_date: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week)
+    else 
+      @reservations = @space.reservations.where(reservation_date: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week)
+    end
   end
 
   def new

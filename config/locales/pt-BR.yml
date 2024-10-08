@@ -35,7 +35,11 @@ pt-BR:
           morning: Manhã
           afternoon: Tarde
           evening: Noite
-          taken: "já reservado para este turno"  
+          taken: "já reservado para este turno" 
+      space: 
+        name: Nome   
+        location: Localização
+        capacity: Capacidade  
     models:
       user:
         one: Usuário
@@ -288,7 +292,7 @@ pt-BR:
       other_than: deve ser diferente de %{count}
       present: deve ficar em branco
       required: é obrigatório(a)
-      taken: já foi cadastrado
+      taken: O turno selecionado já foi cadastrado para esta data
       too_long:
         one: "é muito longo (máximo: %{count} caracter)"
         other: "é muito longo (máximo: %{count} caracteres)"
