@@ -32,11 +32,7 @@
 
   <!-- Botões de ação -->
   <div class="buttons-new">
-    <%= link_to 'Voltar', space_path(session[:last_space_id]), class: "back-new link-back" %>
-
-    <% if @action == 'edit' %> 
-      <%= link_to 'Excluir reserva', space_path(@space), data: { turbo_confirm: 'Tem certeza que deseja deletar?', turbo_method: :delete }, class: "back-delete link-back" %>
-    <% end %>
+    <%= link_to 'Voltar', spaces_path, class: "back-new link-back" %>
 
     <!-- Botão de confirmar -->
     <%= f.submit 'Confirmar', class: "button-submit-new" %>

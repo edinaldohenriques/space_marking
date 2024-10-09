@@ -5,8 +5,6 @@ class Space < ApplicationRecord
   validates :location, presence: true 
   validates :capacity, presence: true
 
-  # Filtro de shifts por associação com reservas
-  scope :shifts, ->(shift) { joins(:reservations).merge(Reservation.by_shifts(shift)) if shift.present? }
 
   def self.available_spaces(selected_shifts)
     return all if selected_shifts.blank?
@@ -19,7 +17,7 @@ class Space < ApplicationRecord
 
   # Atributos que podem ser pesquisados
   def self.ransackable_attributes(auth_object = nil)
-    ["available", "board", "capacity", "created_at", "description", "id", "id_value", "laboratory", "location", "name", "projector", "updated_at"]
+    ["available", "board", "capacity", "created_at", "id", "id_value", "laboratory", "location", "name", "projector", "updated_at"]
   end
 
   # Permitir busca através da associação 'reservations'

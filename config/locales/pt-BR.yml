@@ -27,6 +27,7 @@ pt-BR:
         unlock_token: Token de desbloqueio
         updated_at: Atualizado em
         name: Nome
+        student_id_number: Número de Matrícula
       reservation:
         reservation_date: Data da reserva
         shifts:

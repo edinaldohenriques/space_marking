@@ -108,24 +108,73 @@ body {
   justify-content: center;
 }
 
-.spaces-grid .link-to-space {
-  display: block; /* Para o link se comportar como bloco */
+.space-item {
+  display: block;
   background-color: #d9d9d9;
-  border: none; /* Sem borda */
-  padding: 20px; /* Espaçamento interno */
-  border-radius: 12px; /* Borda arredondada */
-  font-size: 16px; /* Tamanho do texto */
-  cursor: pointer; /* Muda o cursor para pointer */
-  width: 100%; /* Faz o link ocupar toda a largura disponível */
-  max-width: 242px; /* Define uma largura máxima para os links */
-  text-align: center; /* Centraliza o texto */
-  text-decoration: none; /* Remove sublinhado do link */
-  color: black; /* Cor do texto */
-  transition: background-color 0.3s ease; /* Transição suave */
+  border: none;
+  padding: 20px;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 180px;
+  text-align: center;
+  position: relative;
+  transition: background-color 0.3s ease;
 }
 
-.spaces-grid .link-to-space:hover {
-  background-color: #cccccc; /* Cor de fundo ao passar o mouse */
+.space-item:hover {
+  background-color: #cccccc;
+}
+
+.space-item .space-name {
+  text-decoration: none;
+  color: black;
+}
+
+.space-item .menu-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.dropdown-menu.active {
+  display: block;
+}
+
+.dropdown-item {
+  display: block;
+  padding: 5px 10px;
+  text-decoration: none;
+  color: black;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+.delete-item {
+  color: red;
 }
 
 /* Responsividade */

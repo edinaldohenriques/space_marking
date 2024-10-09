@@ -1,6 +1,7 @@
 class SpacesController < ApplicationController
   before_action :set_space, only: %i{show edit update destroy}
   before_action :start_date, only: %i{show}
+  before_action :set_action, only: %i{edit update}
 
   def index
     @q = Space.ransack(params[:q]) # Busca pelo Ransack
@@ -56,7 +57,7 @@ class SpacesController < ApplicationController
     authorize @space
 
     if @space.update(space_params)
-      flash[:success] = 'Espaço atualizado com sucesso!'
+      flash[:notice] = 'Espaço atualizado com sucesso!'
       redirect_to spaces_path
     else
       respond_to do |format|
@@ -70,7 +71,6 @@ class SpacesController < ApplicationController
     @space.destroy
     flash[:notice] = 'Espaço excluído com sucesso!'
     redirect_to spaces_path
-    
   end
 
   private
@@ -84,5 +84,9 @@ class SpacesController < ApplicationController
 
     def start_date
       params.fetch(:start_date, Date.today).to_date
+    end
+
+    def set_action
+      @action = 'edit'
     end
 end

@@ -163,7 +163,7 @@ class ReservationsController < ApplicationController
   
 
   def destroy
-    if @reservation.user == current_user
+    if @reservation.user == current_user || current_user.admin?
       @reservation.destroy!
       redirect_to space_path(@reservation.space)
       flash[:notice] = "Reserva excuída com sucesso!"

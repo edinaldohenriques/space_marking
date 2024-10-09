@@ -110,7 +110,7 @@ select {
 .calendar-container {
   max-width: 1500px; /* Aumentar a largura máxima do calendário */
  margin: 0 auto; /* Centraliza o container horizontalmente */
-  padding: 20px;
+  padding: 20px 20px 0px 20px;
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);

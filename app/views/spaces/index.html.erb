@@ -4,7 +4,7 @@
     <!-- Barra de pesquisa com filtros -->
     <div class="search-bar" data-controller="filter">
       <%= search_form_for @q, url: spaces_path, method: :get, remote: true, class: "search-form" do |f| %>
-        <%= f.text_field :name_cont, placeholder: "Pesquisar espaços...", id: "search-input", class: "search-input", autocomplete: "off" %>
+        <%= f.text_field :name_i_cont, placeholder: "Pesquisar espaços...", id: "search-input", class: "search-input", autocomplete: "off" %>
 
         <div class="icons-container">
           <input type="checkbox" id="filterToggle" class="filter-checkbox" style="display:none;" data-filter-target="filterToggle">
@@ -37,11 +37,6 @@
             <%= f.radio_button :laboratory_eq, true, checked: false %> Sim
             <%= f.radio_button :laboratory_eq, false, checked: false%> Não
           </label>
-          <label>Período:<br>
-            <%= check_box_tag 'shifts[]', 'morning' %> Manhã
-            <%= check_box_tag 'shifts[]', 'afternoon' %> Tarde
-            <%= check_box_tag 'shifts[]', 'evening' %> Noite
-          </label>
 
           <div class="button-container-space">
             <%= f.submit 'Aplicar Filtros', class: "submit-tag" %>
@@ -52,7 +47,21 @@
 
     <div class="spaces-grid">
       <% @spaces.each do |space| %>
-        <%= link_to "#{space.name}", space_path(space), class: "link-to-space" %>
+        <!-- Bloco do espaço com a classe space-item -->
+        <div class="space-item" data-controller="menu">
+          <!-- Nome do espaço como link -->
+          <%= link_to "#{space.name}", space_path(space), class: "space-name" %>
+          <% if policy(@spaces).update? && policy(@spaces).update? %>
+            <!-- Botão de menu no canto superior direito -->
+            <div class="menu-container">
+              <button class="menu-button" data-action="menu#toggle"><%= image_tag "icone-menu.png", alt: "Menu Space", size: "27x20" %></button> <!-- Ícone do menu -->
+              <div class="dropdown-menu" data-menu-target="menu">
+                <%= link_to "Editar", edit_space_path(space), data: { turbo_frame: "modal" }, class: "dropdown-item" %>
+                <%= link_to "Excluir", space_path(space), data: { turbo_confirm: 'Tem certeza que deseja deletar?', turbo_method: :delete }, class: "dropdown-item delete-item" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
       <% end %>
     </div>
   </div>

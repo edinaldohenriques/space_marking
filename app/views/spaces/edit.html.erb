@@ -1,0 +1,5 @@
+<%= render TurboModalComponent.new(title: "Editar Espaço") do |component| %>
+  <% component.with_body do %>
+    <%= render "form", resource: @space %>
+  <% end %>
+<% end %>
