@@ -5,6 +5,9 @@ body {
   margin: 0;
   padding: 0;
 }
+#h4-space {
+  margin-bottom: 5px;
+}
 /* Container geral */
 .container-space {
   max-width: 1200px;
@@ -109,6 +112,7 @@ body {
 }
 
 .space-item {
+  width: 100%;
   display: block;
   background-color: #d9d9d9;
   border: none;
@@ -116,8 +120,7 @@ body {
   border-radius: 12px;
   font-size: 16px;
   cursor: pointer;
-  width: 100%;
-  max-width: 180px;
+  max-width: 241px;
   text-align: center;
   position: relative;
   transition: background-color 0.3s ease;
@@ -205,8 +208,7 @@ body {
 
 label {
   display: block;
-  margin-bottom: 5px;
-  margin: 0;
+  margin: 0 0 5px;
 }
 
 input[type="text"], input[type="number"] {
@@ -215,6 +217,11 @@ input[type="text"], input[type="number"] {
   margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+#number-search {
+  margin: 0;
+  max-width: 70px;
 }
 
 

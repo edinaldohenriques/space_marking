@@ -3,32 +3,37 @@
   <!-- Exibe mensagens de erro -->
   <%= render "devise/shared/error_messages", resource: @space %>
   
-  <label for="nome">Nome</label>
+  <%= f.label :name, "Nome:", class: "required" %>
   <%= f.text_field :name, id: "nome", placeholder: "Nome" %>
 
-  <label for="localizacao">Localização</label>
+  <%= f.label :location, class: "required" %>
   <%= f.text_field :location, id: "localizacao", placeholder: "Localização" %>
 
-  <label for="capacidade">Capacidade</label>
+  <%= f.label :capacity, "Capacidade:", class: "required" %>
   <%= f.number_field :capacity, id: "capacidade", placeholder: "Capacidade" %>
 
   <div class="checkbox-group">
     <div>
-      <label>Quadro ?</label><br>
+      <%= f.label :board, "Quadro:", class: "required" %><br>
       <%= f.radio_button :board, true, id: 'quadro-sim' %> Sim
       <%= f.radio_button :board, false, id: 'quadro-nao' %> Não
     </div>
     <div>
-      <label>Laboratório ?</label><br>
+      <%= f.label :laboratory, "Laboratorio:", class: "required" %><br>
       <%= f.radio_button :laboratory, true, id: 'laboratorio-sim' %> Sim
       <%= f.radio_button :laboratory, false, id: 'laboratorio-nao' %> Não
     </div>
     <div>
-      <label>Projetor ?</label><br>
+      <%= f.label :projector, "Projetor:", class: "required" %><br>
       <%= f.radio_button :projector, true, id: 'projetor-sim' %> Sim
       <%= f.radio_button :projector, false, id: 'projetor-nao' %> Não
     </div>
-  </div>
+    <div>
+      <%= f.label :accessibility, "Acessibilidade:", class: "required" %><br>
+      <%= f.radio_button :accessibility, true, id: 'accebilidade-sim' %> Sim
+      <%= f.radio_button :accessibility, false, id: 'accebilidade-nao' %> Não
+    </div>
+  </div><br>
 
   <!-- Botões de ação -->
   <div class="buttons-new">

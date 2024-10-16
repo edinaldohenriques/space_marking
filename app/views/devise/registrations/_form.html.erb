@@ -2,23 +2,23 @@
 <%= render "devise/shared/error_messages", resource: @user %>
 
   <div class="form-group">
-    <%= f.label :email, "Email:" %>
-    <%= f.email_field :email, id: "email" %>
+    <%= f.label :email, "Email:", class: "required" %>
+    <%= f.email_field :email, id: "email", placeholder: "Email" %>
   </div>
 
   <div class="form-group">
-    <%= f.label :current_password, "Senha Atual" %>
-    <%= f.password_field :current_password, autocomplete: "Senha atual" %>
+    <%= f.label :current_password, "Senha Atual", class: "required" %>
+    <%= f.password_field :current_password, placeholder: "Senha atual" %>
   </div>
   
   <div class="form-group">
-    <%= f.label :password, "Nova senha: (mínimo de 6 caracteres)" %>
-    <%= f.password_field :password, id: "Password" %>
+    <%= f.label :password, "Nova senha: (mínimo de 6 caracteres)", class: "required" %>
+    <%= f.password_field :password, id: "Password", placeholder: "Nova senha" %>
   </div>
   
   <div class="form-group">
-    <%= f.label :password_confirmation, "Confirme sua senha:" %>
-    <%= f.password_field :password_confirmation, id: "Password Confirmation" %>
+    <%= f.label :password_confirmation, "Confirme sua senha:", class: "required" %>
+    <%= f.password_field :password_confirmation, id: "Password Confirmation", placeholder: "Confirme sua senha" %>
   </div>
   
   <div class="button-container">

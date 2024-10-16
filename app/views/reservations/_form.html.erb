@@ -5,26 +5,35 @@
   <%= render "devise/shared/error_messages", resource: @reservation %>
 
   <!-- Campo de data da reserva -->
-  <label for="reservation_date">Data da Reserva</label>
-  <%= f.date_field :reservation_date, id: "reservation_date", placeholder: "dd/mm/aaaa" %>
+  <%= f.label :start_date, "Data Inicial:", class: ("required" if @action != 'edit') %>
+  <%= f.date_field :start_date, id: "reservation_date", placeholder: "dd/mm/aaaa" %>
+  
+  <%= f.label :end_date, "Data Final:", class: ("required" if @action != 'edit') %>
+  <%= f.date_field :end_date, id: "reservation_date", placeholder: "dd/mm/aaaa" %>
 
   <!-- Grupo de checkboxes para os turnos -->
   <div class="checkbox-group">
-    <label for="turno">Selecione o turno</label>
+    <%= f.label :shifts, "Selecione o tuno:", class: ("required" if @action != 'edit') %>
 
     <div>
       <%= f.check_box :shifts, { multiple: true }, "morning", nil %>
-      <label for="shift_morning">Manhã</label>
+      <%= f.label :shift_morning, "Manhã" %>
     </div>
     <div>
       <%= f.check_box :shifts, { multiple: true }, "afternoon", nil %>
-      <label for="shift_afternoon">Tarde</label>
+      <%= f.label :shift_afternoon, "Tarde" %>
     </div>
     <div>
       <%= f.check_box :shifts, { multiple: true }, "evening", nil %>
-      <label for="shift_evening">Noite</label>
+      <%= f.label :shift_evening, "Noite" %>
     </div>
   </div>
+
+  <% if @action == 'edit' %> 
+    <%= f.label :capacity, "Nome do Reservante:", class: ("required" if @action != 'edit') %>
+    <h4><%= @reservation.user.name %></h4>
+    <p id="p-reservation"><%= @reservation.user.email %></p>
+  <% end %>
 
   <!-- Campo oculto para o id do espaço -->
   <%= f.hidden_field :space_id, value: session[:last_space_id] %>

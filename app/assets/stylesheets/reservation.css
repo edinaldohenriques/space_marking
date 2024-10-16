@@ -18,6 +18,16 @@
   text-align: center;
 }
 
+h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+#p-reservation {
+  margin: 0;
+  padding-bottom: 35px;
+}
+
 .container {
   background-color:#f4f4f4;
   padding: 30px; 

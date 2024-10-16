@@ -29,7 +29,8 @@ pt-BR:
         name: Nome
         student_id_number: Número de Matrícula
       reservation:
-        reservation_date: Data da reserva
+        start_date: Data inicial
+        end_date: Data final
         shifts:
           one: "" 
           other: ""
@@ -386,3 +387,7 @@ pt-BR:
       long: "%d de %B de %Y, %H:%M"
       short: "%d de %B, %H:%M"
     pm: pm
+  pundit: 
+    default: Você não tem permissão para acessar esta página.
+    reservation_policy:
+      update?: Essa reserva foi realizada por outra pessoa e você tem permissão para alterá-la!

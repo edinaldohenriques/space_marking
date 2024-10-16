@@ -1,11 +1,11 @@
-class ReservationDateValidator < ActiveModel::EachValidator
+class StartDateValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     return if value.blank?
 
-    unless reservation_date_valid?(value)
+    unless start_date_valid?(value)
       record.errors.add(
         attribute,
-        :invalid_reservation_date,
+        :invalid_start_date,
         message: options[:message] || 'Não é válido',
         value: value
       )
@@ -14,7 +14,7 @@ class ReservationDateValidator < ActiveModel::EachValidator
 
   private
 
-  def reservation_date_valid?(date)
+  def start_date_valid?(date)
     date_obj = Date.parse(date.to_s) rescue nil
 
     return false unless date_obj

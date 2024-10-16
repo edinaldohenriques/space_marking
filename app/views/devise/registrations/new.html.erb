@@ -6,28 +6,28 @@
       <%= render "devise/shared/error_messages", resource: resource %>
     
       <div class="form-group">
-        <%= f.label :name, "Nome:" %>
-        <%= f.text_field :name, id: "nome" %>
+        <%= f.label :name, "Nome:", class: "required" %>
+        <%= f.text_field :name, id: "nome", placeholder: "Nome" %>
       </div>
       
       <div class="form-group">
-        <%= f.label :student_id_number, "Número de matrícula:" %>
-        <%= f.text_field :student_id_number, id: "numero_matricula" %>
+        <%= f.label :student_id_number, "Número de matrícula:", class: "required" %>
+        <%= f.text_field :student_id_number, id: "numero_matricula", placeholder: "Número de matrícula" %>
       </div>
       
       <div class="form-group">
-        <%= f.label :email, "Email:" %>
-        <%= f.email_field :email, id: "email" %>
+        <%= f.label :email, "Email:", class: "required" %>
+        <%= f.email_field :email, type: "text", id: "email", placeholder: "E-mail" %>
       </div>
       
       <div class="form-group">
-        <%= f.label :password, "Senha: (mínimo de 6 caracteres)" %>
-        <%= f.password_field :password, id: "Password" %>
+        <%= f.label :password, "Senha: (mínimo de 6 caracteres)", class: "required" %>
+        <%= f.password_field :password, type: "text", id: "Password", placeholder: "Senha" %>
       </div>
       
       <div class="form-group">
-        <%= f.label :password_confirmation, "Confirme sua senha:" %>
-        <%= f.password_field :password_confirmation, id: "Password Confirmation" %>
+        <%= f.label :password_confirmation, "Confirme sua senha:", class: "required" %>
+        <%= f.password_field :password_confirmation, type: "text", id: "Password Confirmation", placeholder: "Confirme sua senha" %>
       </div>
       
       <div class="button-container">

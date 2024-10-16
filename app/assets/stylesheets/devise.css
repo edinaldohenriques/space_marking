@@ -10,6 +10,11 @@
   margin: 0;
 }
 
+.required:after {
+  content:" *"; 
+  color: red;
+}
+
 .body-password-forgot {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4; 
@@ -199,7 +204,7 @@ input[type="email"], input[type="password"] {
 .form-group label {
   display: block;
   margin-bottom: 5px;
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 
 .form-group input {

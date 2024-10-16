@@ -10,19 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_09_031440) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_13_215407) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
   create_table "reservations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.date "reservation_date", null: false
     t.integer "status", default: 0
     t.uuid "user_id", null: false
     t.uuid "space_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "shifts", default: [], array: true
+    t.date "start_date", null: false
+    t.date "end_date", null: false
     t.index ["space_id"], name: "index_reservations_on_space_id"
     t.index ["user_id"], name: "index_reservations_on_user_id"
   end
@@ -37,6 +38,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_09_031440) do
     t.boolean "board", default: false
     t.boolean "laboratory", default: false
     t.boolean "projector", default: false
+    t.boolean "accessibility", default: false
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

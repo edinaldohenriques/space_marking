@@ -1,19 +1,11 @@
 class SpacesController < ApplicationController
-  before_action :set_space, only: %i{show edit update destroy}
-  before_action :start_date, only: %i{show}
-  before_action :set_action, only: %i{edit update}
+  before_action :set_space, only: %i[show edit update destroy]
+  before_action :start_date, only: %i[show]
+  before_action :set_action, only: %i[edit update]
 
   def index
     @q = Space.ransack(params[:q]) # Busca pelo Ransack
-    @spaces = @q.result(distinct: true)
-
-    # # Adicionar filtro de shifts manualmente (fora do Ransack)
-    # if params[:shifts].present?
-    #   @spaces = Space.available_spaces(params[:shifts])
-    #   puts "===================================#{@spaces}"
-    #   puts Space.available_spaces(params[:shifts]).to_sql
-
-    # end
+    @spaces = @q.result.order(:name)
   end
 
   def show
@@ -26,9 +18,9 @@ class SpacesController < ApplicationController
     @my_reservations = session[:my_reservations]
     
     if @my_reservations
-      @reservations = @space.reservations.where(user_id: current_user.id, reservation_date: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week)
+      @reservations = @space.reservations.where(user_id: current_user.id, start_date: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week)
     else 
-      @reservations = @space.reservations.where(reservation_date: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week)
+      @reservations = @space.reservations.where(start_date: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week)
     end
   end
 
@@ -75,7 +67,7 @@ class SpacesController < ApplicationController
 
   private
     def space_params
-      params.require(:space).permit(:name, :description, :board, :laboratory, :projector, :location, :capacity)
+      params.require(:space).permit(:name, :description, :board, :laboratory, :projector, :accessibility, :location, :capacity)
     end
 
     def set_space
