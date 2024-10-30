@@ -63,13 +63,16 @@
           <%= link_to space_path(space), class: "space-name" do %>
             <h4 id="h4-space"><%=space.name %></h4>
             <span><%=space.location %></span><br>
-            <span>Capacidade: <%=space.capacity %></span>
+            <span>Capacidade: <%=space.capacity %></span><br>
+            <span>Andar: <%= Space.human_enum_name(:floor, :"#{space.floor}") %></span>
           <% end %>
-          <% if policy(@spaces).update? && policy(@spaces).update? %>
+          <% if policy(@spaces).update? %>
             <!-- Botão de menu no canto superior direito -->
             <div class="menu-container">
               <button class="menu-button" data-action="menu#toggle"><%= image_tag "icone-menu.png", alt: "Menu Space", size: "27x20" %></button>
               <div class="dropdown-menu" data-menu-target="menu">
+
+                <%= render "toggle_status_button", space:  %>
                 <%= link_to "Editar", edit_space_path(space), data: { turbo_frame: "modal" }, class: "dropdown-item" %>
                 <%= link_to "Excluir", space_path(space), data: { turbo_confirm: 'Tem certeza que deseja deletar?', turbo_method: :delete }, class: "dropdown-item delete-item" %>
               </div>

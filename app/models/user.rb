@@ -12,4 +12,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :timeoutable, :confirmable, :lockable
 
+  def to_combobox_display
+    name
+  end       
+
 end

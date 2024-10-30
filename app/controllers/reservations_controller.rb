@@ -1,11 +1,6 @@
 class ReservationsController < ApplicationController
   before_action :set_reservation, only: %i[edit update destroy]
-  before_action :start_date, only: %i[index]
   before_action :set_action, only: %i[edit update]
-
-  def index 
-    # @reservations = Reservation.where(reservation_date: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week)
-  end
 
   def new 
     @reservation = Reservation.new
@@ -15,40 +10,57 @@ class ReservationsController < ApplicationController
     new_shifts = reservation_params[:shifts] || []
     new_start_date = reservation_params[:start_date]
     new_end_date = reservation_params[:end_date]
-
-    # Verifique se já existe uma reserva que se sobrepõe ao novo intervalo de datas
+  
+    # Busque reservas existentes para o mesmo espaço dentro do intervalo de datas
     existing_reservations = Reservation.for_space(reservation_params[:space_id])
                                        .within_date_range(new_start_date, new_end_date)
-
-    if existing_reservations.by_user(current_user.id).exists? && new_start_date.present? && new_end_date.present? && new_shifts.present?
-      # Se a reserva já existe para o usuário atual, atualize os turnos
-      existing_reservation = existing_reservations.by_user(current_user.id).first
-      conflicting_shifts = Reservation.conflicting_shifts([existing_reservation], new_shifts)
-
-      if conflicting_shifts.any?
-        flash[:alert] = "Os turnos já foram reservados: #{Reservation.translate_shifts(conflicting_shifts).join(', ')}"
-        redirect_to space_path(existing_reservation.space)
-      else
-        updated_shifts = Reservation.add_shifts(existing_reservation, new_shifts)
-
-        if existing_reservation.update(shifts: updated_shifts)
-          flash[:notice] = "Reserva atualizada com sucesso!"
+                                       .by_user(current_user.id)
+  
+    if existing_reservations.exists? && new_start_date.present? && new_end_date.present? && new_shifts.present?
+      existing_reservation = existing_reservations.first
+  
+      # Verifique se as datas da nova reserva são exatamente iguais à reserva existente
+      if existing_reservation.start_date == new_start_date && existing_reservation.end_date == new_end_date
+        # Se as datas coincidirem, verifique o conflito de turnos
+        conflicting_shifts = Reservation.conflicting_shifts([existing_reservation], new_shifts)
+  
+        if conflicting_shifts.any?
+          flash[:alert] = "Os turnos já foram reservados: #{Reservation.translate_shifts(conflicting_shifts).join(', ')}"
           redirect_to space_path(existing_reservation.space)
         else
-          flash[:alert] = "Erro ao atualizar a reserva."
+          # Adicione novos turnos à reserva existente
+          updated_shifts = Reservation.add_shifts(existing_reservation, new_shifts)
+  
+          if existing_reservation.update(shifts: updated_shifts)
+            flash[:notice] = "Reserva atualizada com sucesso!"
+            redirect_to space_path(existing_reservation.space)
+          else
+            respond_to do |format|
+              format.turbo_stream
+            end
+          end
+        end
+      else
+        # Se as datas forem diferentes, crie uma nova reserva
+        @reservation = Reservation.new(reservation_params)
+        @reservation.user = current_user if reservation_params[:user_id].empty? 
+  
+        if @reservation.save
+          flash[:notice] = "Reserva realizada com sucesso!"
+          redirect_to space_path(@reservation.space)
+        else
           respond_to do |format|
             format.turbo_stream
           end
         end
       end
     else
-      # Crie uma nova reserva se não houver uma existente
+      # Caso não exista reserva no intervalo de datas, crie uma nova reserva
       @reservation = Reservation.new(reservation_params)
-      @reservation.user = current_user
-      @reservation.shifts = Reservation.sort_shifts(new_shifts)
+      @reservation.user = current_user if reservation_params[:user_id].empty? 
 
       if @reservation.save
-        flash[:notice] = "Reserva criada com sucesso!"
+        flash[:notice] = "Reserva realizada com sucesso!"
         redirect_to space_path(@reservation.space)
       else
         respond_to do |format|
@@ -57,6 +69,8 @@ class ReservationsController < ApplicationController
       end
     end
   end
+  
+  
 
   def edit; end 
 
@@ -96,14 +110,9 @@ class ReservationsController < ApplicationController
   end  
 
   def destroy
-    if @reservation.user == current_user || current_user.admin?
       @reservation.destroy!
       redirect_to space_path(@reservation.space)
       flash[:notice] = "Reserva excuída com sucesso!"
-    else
-      flash[:alert] = "Essa reserva foi realizada por outra pessoa e você tem permissão para alterá-la!"
-      redirect_to space_path(@reservation.space)
-    end
   end
 
   private
@@ -113,30 +122,19 @@ class ReservationsController < ApplicationController
         updated_shifts = Reservation.add_shifts(existing_reservation, new_shifts)
         return existing_reservation.update(start_date: new_start_date, end_date: new_end_date, shifts: updated_shifts)
       else
-        sorted_shifts = Reservation.sort_shifts(new_shifts)
-        return @reservation.update(start_date: new_start_date, end_date: new_end_date, shifts: sorted_shifts)
+        @reservation.update(start_date: new_start_date, end_date: new_end_date, shifts: new_shifts)
       end
     end
 
     def reservation_params 
-      params.require(:reservation).permit(:start_date, :end_date, :space_id, shifts: [])
+      params.require(:reservation).permit(:start_date, :end_date, :space_id, :user_id, :booking_information, shifts: [])
     end
 
     def set_reservation 
       @reservation = Reservation.find(params[:id])
     end
 
-    def start_date
-      params.fetch(:start_date, Date.today).to_date
-    end
-
     def set_action
       @action = 'edit'
-    end
-
-    def sort_shifts(shifts)
-      # Definir a ordem dos shifts (manhã, tarde, noite)
-      valid_shifts_order = ["morning", "afternoon", "evening"]
-      shifts.sort_by { |shift| valid_shifts_order.index(shift) }
     end
 end

@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  namespace :searches do
+    resources :users, only: [:index]
+  end
   root 'spaces#index'
 
   get 'static_pages/index'
@@ -18,6 +21,14 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-  resources :spaces, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+  resources :spaces, only: [:index, :show, :new, :create, :edit, :update, :destroy] do 
+    member do 
+      post :toggle_status
+    end
+    member do
+      get :reservation_history
+    end
+  end
+  
   resources :reservations, only: [:new, :create, :edit, :update, :destroy]
 end

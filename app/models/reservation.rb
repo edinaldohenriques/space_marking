@@ -15,13 +15,6 @@ class Reservation < ApplicationRecord
   scope :other_users, ->(user_id) { where.not(user_id: user_id) }
   scope :with_shifts, ->(shifts) { where("shifts && ARRAY[?]::varchar[]", shifts) } # Verifica a interseção dos turnos
 
-  # Método para organizar e padronizar os shifts (turnos) em uma ordem específica
-  def self.sort_shifts(shifts)
-    # Assumindo uma ordem fixa: manhã, tarde, noite
-    order = { "morning" => 1, "afternoon" => 2, "evening" => 3 }
-    shifts.sort_by { |shift| order[shift] }
-  end
-
   # Traduzir turnos (para exibir mensagens amigáveis ao usuário)
   def self.translate_shifts(shifts)
     shifts.map { |shift| I18n.t("activerecord.attributes.reservation.shifts.#{shift}") }
@@ -34,8 +27,7 @@ class Reservation < ApplicationRecord
 
   # Método para adicionar turnos a uma reserva existente, garantindo que não haja duplicatas
   def self.add_shifts(existing_reservation, new_shifts)
-    updated_shifts = (existing_reservation.shifts + new_shifts).uniq
-    sort_shifts(updated_shifts)
+    (existing_reservation.shifts + new_shifts).uniq
   end
 
   # Método para verificar se uma reserva colide com as datas e turnos de outra
@@ -58,6 +50,7 @@ class Reservation < ApplicationRecord
   def end_time
     self.end_date
   end
+  
 
   private 
     def validate_unique_shifts

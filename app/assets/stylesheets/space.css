@@ -94,7 +94,7 @@ body {
 
 .filters label {
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 10px; 
   margin-top: 6px;
 }
 
@@ -109,10 +109,10 @@ body {
   gap: 25px;
   margin-top: 40px;
   justify-content: center;
+  width: 100% !important;
 }
 
 .space-item {
-  width: 100%;
   display: block;
   background-color: #d9d9d9;
   border: none;
@@ -120,7 +120,7 @@ body {
   border-radius: 12px;
   font-size: 16px;
   cursor: pointer;
-  max-width: 241px;
+  /* max-width: 241px; */
   text-align: center;
   position: relative;
   transition: background-color 0.3s ease;
@@ -208,13 +208,14 @@ body {
 
 label {
   display: block;
-  margin: 0 0 5px;
+  margin: 0 0 9px;
+  font-weight: bold;
 }
 
 input[type="text"], input[type="number"] {
   width: 100%;
   padding: 10px;
-  margin-bottom: 15px;
+  margin: 0 0 25px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
@@ -267,4 +268,21 @@ input[type="text"], input[type="number"] {
 
 .submit-tag:hover {
   background-color: darkgreen; /* Cor ao passar o mouse */
+}
+
+#span-space {
+  margin-right: 10px;
+  color: #002249;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.button-toggle-status {
+  background-color: white;
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-size: 16px;
+  padding: 5px 10px;
+  cursor: pointer;
 }

@@ -3,6 +3,9 @@
   <head>
     <title>SpaceMarking</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <!-- <meta name="turbo-refresh-method" content="morph"> -->
+    <meta name="turbo-refresh-scroll" content="preserve">
+    
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -12,6 +15,7 @@
     <%= stylesheet_link_tag "simple_calendar", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "space", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "turbo_modal", "data-turbo-track": "reload" %>
+    <%= combobox_style_tag %>
     
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module", defer: true %>
   </head>
@@ -20,8 +24,7 @@
     <% unless devise_controller? && (controller_name == 'registrations' || controller_name == 'sessions' || controller_name == 'passwords' || controller_name == 'users') %>
       <%= render "layouts/topnavbar" %>
     <% end %>
-  
-    <%= render "layouts/flash_message" %>
+    
     <%= render "layouts/flash" %>
 
     <%= yield %>

@@ -4,16 +4,23 @@
 
 import { application } from "./application"
 
-import FlashController from "./flash_controller"
-import ModalController from "./modal_controller"
 import FilterController from "./filter_controller"
-import ReservationController from "./reservation_controller"
-import MenuController from "./menu_controller"
-
-application.register("flash", FlashController)
-application.register("modal", ModalController)
 application.register("filter", FilterController)
-application.register("reservation", ReservationController)
+
+import FlashController from "./flash_controller"
+application.register("flash", FlashController)
+
+import HelloController from "./hello_controller"
+application.register("hello", HelloController)
+
+import MenuController from "./menu_controller"
 application.register("menu", MenuController)
 
+import ModalController from "./modal_controller"
+application.register("modal", ModalController)
 
+import ReservationController from "./reservation_controller"
+application.register("reservation", ReservationController)
+
+import HistoryController from "./history_controller"
+application.register("history", HistoryController)

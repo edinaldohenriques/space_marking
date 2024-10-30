@@ -58,6 +58,8 @@
   text-decoration: none;
   font-weight: bold;
   font-size: large;
+  border: none;
+  cursor: pointer;
 }
 
 .icon-plus {
@@ -75,4 +77,25 @@
   margin-bottom: 0;
   width: 40px;
   height: 40px;
+}
+/* #hidden-filter {
+  display: none;
+} */
+
+/* app/assets/stylesheets/application.css */
+
+/* app/assets/stylesheets/application.css */
+
+/* Caixa de opções de filtro */
+.filter-options {
+  display: none; /* Oculta inicialmente */
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.filter-options.active {
+  display: block; /* Mostra o menu quando a classe active é adicionada */
 }

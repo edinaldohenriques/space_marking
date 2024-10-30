@@ -6,4 +6,8 @@ const application = Application.start()
 application.debug = false
 window.Stimulus   = application
 
+// Add the following two lines:
+import HwComboboxController from "@josefarias/hotwire_combobox"
+application.register("hw-combobox", HwComboboxController)
+
 export { application }

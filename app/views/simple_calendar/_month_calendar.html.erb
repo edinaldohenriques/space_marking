@@ -13,19 +13,34 @@
 
       <div><h2 class="calendar-header">Calendário de Reservas - <%= @space.name %></h2>
         <span>Capacidade: <%= @space.capacity %></span><br>
-        <span>Localização: <%= @space.location %></span>
+        <span>Localização: <%= @space.location %></span><br>
+        <span>Andar: <%= Space.human_enum_name(:floor, :"#{@space.floor}") %></span>
       </div>
 
       <div class="calendar-buttons">
         <%= link_to new_reservation_path, data: { turbo_frame: "modal" }, class: 'button-reserve' do %>
           Realizar reserva <%= image_tag('ícone-button-plus.png', class: 'icon-plus') %>
         <% end %>
+
         <%= link_to t('simple_calendar.today', default: 'Hoje'), calendar.url_for_today_view, class: 'button-today' %>
+
+        <div data-controller="history">
+          <!-- Botão para abrir o filtro de histórico -->
+          <button class="button-reserve" type="button" data-action="history#toggle" class="filter-button">
+            Gerar Histórico
+          </button>
+          
+          <!-- Opções de filtro de histórico (inicialmente ocultas) -->
+          <div data-history-target="historicalFilters" class="filter-options">
+            <%= link_to "Mês atual", reservation_history_space_path(period: 'current_month', format: :pdf), target: :blank %><br>
+            <%= link_to "Últimos 3 Meses", reservation_history_space_path(period: '3_months', format: :pdf), target: :blank %><br>
+            <%= link_to "Últimos 6 Meses", reservation_history_space_path(period: '6_months', format: :pdf), target: :blank %><br>
+            <%= link_to "Histórico Geral", reservation_history_space_path(period: 'all_time', format: :pdf), target: :blank %>
+          </div>
+        </div>
       </div>
     </nav>
   </div>
-
-
 
 
   <table class="table table-striped">

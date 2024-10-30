@@ -9,6 +9,13 @@
   <%= f.label :location, class: "required" %>
   <%= f.text_field :location, id: "localizacao", placeholder: "Localização" %>
 
+  <div>
+    <%= f.label :floor, "Andar do espaço:", class: "required" %>
+    <%= f.radio_button :floor, :ground, id: 'accebilidade-terreo', checked: true %> Térreo
+    <%= f.radio_button :floor, :first_floor, id: 'accebilidade-1-andar' %> 1º Andar
+    <%= f.radio_button :floor, :second_floor, id: 'accebilidade-2-andar' %> 2º Andar
+  </div><br>
+
   <%= f.label :capacity, "Capacidade:", class: "required" %>
   <%= f.number_field :capacity, id: "capacidade", placeholder: "Capacidade" %>
 

@@ -80,3 +80,11 @@ gem "mailcatcher", "~> 0.2.4"
 gem "ransack", "~> 4.2"
 
 gem "pundit", "~> 2.4"
+
+gem "hotwire_combobox", "~> 0.3.2"
+
+gem "wicked_pdf"
+
+gem "wkhtmltopdf-binary"
+
+

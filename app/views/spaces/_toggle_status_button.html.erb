@@ -1,0 +1,4 @@
+<%= content_tag(:div, id: "toggle_status_button_#{dom_id(space)}") do %>
+  <% space_status_label = space.active ? "Desabilitar" : "Habilitar" %>
+  <%= button_to space_status_label, toggle_status_space_path(space), class: "button-toggle-status" %>
+<% end %>

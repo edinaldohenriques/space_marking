@@ -1,11 +1,11 @@
 class SpacesController < ApplicationController
-  before_action :set_space, only: %i[show edit update destroy]
+  before_action :set_space, only: %i[show edit update destroy toggle_status reservation_history]
   before_action :start_date, only: %i[show]
   before_action :set_action, only: %i[edit update]
 
   def index
     @q = Space.ransack(params[:q]) # Busca pelo Ransack
-    @spaces = @q.result.order(:name)
+    current_user.admin? ? @spaces = @q.result.order(:name) : @spaces = @q.result.where(active: true).order(:name) 
   end
 
   def show
@@ -24,6 +24,41 @@ class SpacesController < ApplicationController
     end
   end
 
+  def reservation_history
+    case params[:period]
+    when "current_month"
+      start_date = Time.current.beginning_of_month
+      end_date = Time.current.end_of_month
+      @period_names = [[start_date, end_date]]
+    when "3_months"
+      start_date = 3.months.ago.beginning_of_month
+      end_date = Time.current.end_of_month
+      @period_names = (0..2).map { |i| [(start_date + i.months).beginning_of_month, (start_date + i.months).end_of_month] }
+    when "6_months"
+      start_date = 6.months.ago.beginning_of_month
+      end_date = Time.current.end_of_month
+      @period_names = (0..5).map { |i| [(start_date + i.months).beginning_of_month, (start_date + i.months).end_of_month] }
+    when "all_time"
+      start_date = @space.reservations.minimum(:created_at)&.beginning_of_month || Time.current
+      end_date = Time.current.end_of_month
+      months_diff = ((end_date.year * 12 + end_date.month) - (start_date.year * 12 + start_date.month)).to_i
+      @period_names = (0..months_diff).map { |i| [(start_date + i.months).beginning_of_month, (start_date + i.months).end_of_month] }
+    end
+  
+    @reservations = @space.reservations.where(created_at: start_date..end_date)
+    
+    respond_to do |format|
+      format.html { redirect_to space_path(@space.id) }
+
+      format.pdf do 
+        render  pdf: 'histórico-reservas',
+                # disposition: 'attachment',  # para baixar sem fazer o preview do pdf
+                show_as_html: params.key?('debug'),
+                page_size: 'A4'
+      end
+    end
+  end
+
   def new
     @space = Space.new
     authorize @space
@@ -34,7 +69,7 @@ class SpacesController < ApplicationController
     authorize @space
 
     if @space.save 
-      flash[:success] = 'Espaço cadastrado com sucesso!'
+      flash[:notice] = 'Espaço cadastrado com sucesso!'
       redirect_to spaces_path
     else
       respond_to do |format|
@@ -65,9 +100,14 @@ class SpacesController < ApplicationController
     redirect_to spaces_path
   end
 
+  def toggle_status   
+    # Alterna o status do espaço (ativo/desativado)
+    @space.update!(active: !@space.active)
+  end
+
   private
     def space_params
-      params.require(:space).permit(:name, :description, :board, :laboratory, :projector, :accessibility, :location, :capacity)
+      params.require(:space).permit(:name, :description, :board, :laboratory, :projector, :accessibility, :location, :capacity, :floor)
     end
 
     def set_space

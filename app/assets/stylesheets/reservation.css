@@ -23,8 +23,15 @@ h4 {
   margin-bottom: 5px;
 }
 
+#p-reservation-name {
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-size: 17px;
+}
+
 #p-reservation {
   margin: 0;
+  padding-top: 4px;
   padding-bottom: 35px;
 }
 

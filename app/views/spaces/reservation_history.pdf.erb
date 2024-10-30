@@ -1,0 +1,34 @@
+<body class="body-pdf">
+  <div class="chapter budget">
+    <div id="header-pdf"> 
+      <h1>Histórico de reservas <%= @space.name %></h1>
+    </div>
+    <% if @period_names %>
+      <% @period_names.each do |period_start, period_end| %>
+        <% month_reservations = @reservations.select { |reservation| reservation.created_at.between?(period_start, period_end) } %>
+
+        <table>
+          <thead>
+            <tr>
+              <th><%= I18n.l(period_start, format: "%B %Y") %></th>
+              <th>Informação da Reserva</th>
+              <th>Data de Início</th>
+              <th>Data de Fim</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% month_reservations.each do |reservation| %>
+              <tr>
+                <td><%= reservation.user.name %></td>
+                <td><%= reservation.booking_information %></td>
+                <td><%= reservation.start_date.strftime("%d/%m/%Y") %></td>
+                <td><%= reservation.end_date.strftime("%d/%m/%Y") %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    <% end %>
+  </div>
+</body>

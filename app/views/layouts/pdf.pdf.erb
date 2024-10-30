@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <%= wicked_pdf_stylesheet_link_tag "pdf" -%>
+    <%= wicked_pdf_javascript_include_tag "number_pages" %>
+  </head>
+  
+  <body onload='number_pages'>
+    <!-- <div id="header"> -->
+      <!-- <%= wicked_pdf_image_tag 'mysite.jpg' %> -->
+     <!--</div> -->
+    <div id="content">
+      <%= yield %>
+    </div>
+  </body>
+  <footer class="footer-pdf">
+    <hr />
+    <span>317.234.8765 | <a class="a-pdf" href="mailto:email@company.com">email@company.com</a> | <a class="a-pdf" href="https://companywebsite.com">companywebsite.com</a></span>
+  </footer> 
+</html>

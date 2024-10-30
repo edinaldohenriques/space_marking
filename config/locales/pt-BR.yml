@@ -42,6 +42,10 @@ pt-BR:
         name: Nome   
         location: Localização
         capacity: Capacidade  
+        floors:
+          ground: "Térreo"
+          first_floor: "1º Andar"
+          second_floor: "2º Andar"
     models:
       user:
         one: Usuário

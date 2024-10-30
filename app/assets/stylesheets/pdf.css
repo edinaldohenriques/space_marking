@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+@page{
+  /*
+  This CSS highlights how page sizes and margin boxes are set.
+  https://docraptor.com/documentation/article/1067959-size-dimensions-orientation
+
+  Within the page margin boxes content from running elements is used instead of a 
+  standard content string. The name which is passed in the element() function can
+  be found in the CSS code below in a position property and is defined there by 
+  the running() function.
+  */
+  size:A4;
+  
+  @top-left{
+  	content:element(header);
+  }
+  
+  @bottom-left{
+  	content:element(footer);
+  }
+}
+
+@page:first{
+  /*
+  This CSS highlights how the margin, background and page margin boxes are set 
+  only for the first page of the PDF.
+  
+  As the first or cover page should not get the header and footer like all other
+  pages, we set the content of these page margin boxes to empty.
+  */
+  margin:0;
+  background-image:url("https://images.unsplash.com/photo-1555791751-88f7ffce562d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1587&q=80");
+  background-size:cover;
+  
+  @top-left{
+    content:"";
+  }
+  
+  @bottom-left{
+    content:"";
+  }
+}
+
+/* 
+The body itself has no margin or padding.
+Additionally the default font family, size and color for the document is defined
+here.
+
+For the entries in the timeline we also reset the CSS counter called "entries".
+*/
+.body-pdf{
+  margin:0;
+  padding:0;
+  color: #303E48;
+  font-family: 'Montserrat', sans-serif;
+  font-size:10pt;
+  counter-reset:entries;
+}
+
+/*
+The links in the document should not be highlighted by an different color and underline
+instead we use the color value inherit to get the current texts color.
+*/
+.a-pdf{
+  color:inherit;
+  text-decoration:none;
+}
+
+/*
+The page header in our document uses the HTML HEADER element, we define a height 
+of 2cm and a border on the bottom of half a millimeter.
+
+As mentioned above in the comment for the @page the position property with the 
+value running(header) makes this HTML element float into the top left page margin
+box. This page margin box repeats on every page in case we would have a multi-page
+proposal.
+*/
+#header-pdf{
+  position:running(header);
+  height:2cm;
+  border-bottom:.5mm solid #CEC3BA;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/*
+Each chapter should start on a new page, for this we need to set the page-break-before property
+to always.
+*/
+.chapter{
+  page-break-before:always;
+}
+
+/*
+The chapter headings should have a margin top of 1cm and the text should always be displayed uppercase.
+*/
+.chapter h1{
+  margin-top:1cm;
+  text-transform:uppercase;
+}
+
+
+/*
+The table on the budget page should always be 100% wide and the borders should be 
+collapsed. To give some space between the tables we add a margin top of 1.5cm.
+*/
+.chapter.budget table {
+  width: 100%;
+  border-collapse: collapse; /* Garante que as bordas sejam colapsadas */
+  margin-top: 1.5cm;
+}
+/*
+The first table should have a little less margin between table and highlighted paragraph.
+*/
+.chapter.budget table:first-of-type{
+  margin-top:1cm;
+}
+
+/*
+The headers of the budget table get a blue background color and the text is transformed
+to uppercase.
+*/
+.chapter.budget table thead tr th {
+  background-color: #1FC2DE;
+  text-align: left;
+  padding: 4mm 6mm;
+  text-transform: uppercase;
+  border: 0.125mm solid #CEC3BA; /* Adiciona uma borda, se necessário */
+}
+
+/*
+The first cell in each content row should consum 90% of the tables width.
+*/
+.chapter.budget table tbody tr td:first-of-type{
+  width:50%;
+}
+
+/*
+All cells in the tables body have a padding of 6mm and a border on the bottom.
+*/
+.chapter.budget table tbody tr td{
+  padding:6mm;
+  border-bottom:0.125mm solid #CEC3BA;
+}
+
+/*
+The footer for all content pages is set as running element which gets added to
+the page margin boxes via the @page rule. 
+
+The text is smaller than standard and the items in the footer (HR element and text)
+are aligned.
+*/
+.footer-pdf{
+  position:running(footer);
+  font-size:8pt;
+  text-transform:uppercase;
+  color: #1FC2DE;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin: 10px 0;
+}
+
+/*
+The HR HTML element in the footer should have a width of 45% and a 0.5mm solid blue line.
+*/
+.footer hr{
+  width:45%;
+  height:0;
+  border:0;
+  border-top:.5mm solid #1FC2DE;;
+}
+
+/*
+The last link in the footer (the link to the website) needs to be bold.
+*/
+.footer a:last-of-type{
+  font-weight:bold;
+}
