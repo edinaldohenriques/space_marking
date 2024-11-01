@@ -2,6 +2,8 @@ class Reservation < ApplicationRecord
   belongs_to :user
   belongs_to :space
 
+  enum status: { pending: 0, confirmed: 1, cancelled: 2 }
+
   validates :start_date, presence: true, start_date: { message: 'não pode ser anterior ao dia de hoje' }, on: :create
   validates :end_date, presence: true, end_date: { message: 'não pode ser menor a Data Inicial' }
   validates :shifts, presence: { message: 'O turno não pode ficar em branco' }
@@ -14,6 +16,7 @@ class Reservation < ApplicationRecord
   scope :by_user, ->(user_id) { where(user_id: user_id) }
   scope :other_users, ->(user_id) { where.not(user_id: user_id) }
   scope :with_shifts, ->(shifts) { where("shifts && ARRAY[?]::varchar[]", shifts) } # Verifica a interseção dos turnos
+  scope :by_date_range, ->(start_date, end_date) { where("start_date <= ? AND end_date >= ?", end_date, start_date) if start_date.present? && end_date.present? } # para listar o histórico de reservas
 
   # Traduzir turnos (para exibir mensagens amigáveis ao usuário)
   def self.translate_shifts(shifts)

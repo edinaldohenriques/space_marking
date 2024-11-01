@@ -1,0 +1,11 @@
+<%= turbo_stream.remove dom_id(@reservation) do %>
+  <%= render "pending", reservation: @reservation %>
+<% end %>
+
+<%= turbo_stream.update "flash" do %>
+  <%= render "layouts/flash" %>
+<% end %>
+
+<%= turbo_stream.append dom_id(@reservation) do %>
+  <%= render "pending", reservation: @reservation %>
+<% end %>

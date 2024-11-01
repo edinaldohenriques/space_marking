@@ -3,32 +3,30 @@
     <div id="header-pdf"> 
       <h1>Histórico de reservas <%= @space.name %></h1>
     </div>
-    <% if @period_names %>
-      <% @period_names.each do |period_start, period_end| %>
-        <% month_reservations = @reservations.select { |reservation| reservation.created_at.between?(period_start, period_end) } %>
+    <% if @reservations_history.any? %>
+      <table>
+        <thead>
+          <tr>
+            <th>Reservante</th>
+            <th>Informação da Reserva</th>
+            <th>Data de Início</th>
+            <th>Data de Fim</th>
+          </tr>
+        </thead>
 
-        <table>
-          <thead>
+        <tbody>
+          <% @reservations_history.each do |reservation| %>
             <tr>
-              <th><%= I18n.l(period_start, format: "%B %Y") %></th>
-              <th>Informação da Reserva</th>
-              <th>Data de Início</th>
-              <th>Data de Fim</th>
+              <td><%= reservation.user.name %></td>
+              <td><%= reservation.booking_information %></td>
+              <td><%= reservation.start_date.strftime("%d/%m/%Y") %></td>
+              <td><%= reservation.end_date.strftime("%d/%m/%Y") %></td>
             </tr>
-          </thead>
-
-          <tbody>
-            <% month_reservations.each do |reservation| %>
-              <tr>
-                <td><%= reservation.user.name %></td>
-                <td><%= reservation.booking_information %></td>
-                <td><%= reservation.start_date.strftime("%d/%m/%Y") %></td>
-                <td><%= reservation.end_date.strftime("%d/%m/%Y") %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p>Nenhuma reserva encontrada no intervalo selecionado.</p>
     <% end %>
   </div>
 </body>

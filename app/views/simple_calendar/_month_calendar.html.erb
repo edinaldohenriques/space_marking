@@ -32,10 +32,7 @@
           
           <!-- Opções de filtro de histórico (inicialmente ocultas) -->
           <div data-history-target="historicalFilters" class="filter-options">
-            <%= link_to "Mês atual", reservation_history_space_path(period: 'current_month', format: :pdf), target: :blank %><br>
-            <%= link_to "Últimos 3 Meses", reservation_history_space_path(period: '3_months', format: :pdf), target: :blank %><br>
-            <%= link_to "Últimos 6 Meses", reservation_history_space_path(period: '6_months', format: :pdf), target: :blank %><br>
-            <%= link_to "Histórico Geral", reservation_history_space_path(period: 'all_time', format: :pdf), target: :blank %>
+            <%= render "history" %>
           </div>
         </div>
       </div>

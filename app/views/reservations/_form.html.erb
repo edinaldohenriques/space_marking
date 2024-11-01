@@ -31,11 +31,12 @@
       <%= f.label :shift_evening, "Noite" %>
     </div>
   </div>
+  <% if current_user.admin? %>
+    <%= f.combobox :user_id, searches_users_path, label: "Usuário", placeholder: "Selecione o usuário:" if @action != 'edit'%> 
+  <% end %>
 
-  <%= f.combobox :user_id, searches_users_path, label: "Usuário", placeholder: "Selecione o usuário:" if @action != 'edit'%> 
   <% if @action == 'edit' %>
-
-  <%= f.label :name, "Nome do Reservante:", class: ("required" if @action != 'edit') %>
+    <%= f.label :name, "Nome do Reservante:", class: ("required" if @action != 'edit') %>
     <p id="p-reservation-name"><%= @reservation.user.name %></p>
     <p id="p-reservation"><%= @reservation.user.email %></p>
   <% end %>
@@ -45,7 +46,7 @@
 
   <!-- Botões de ação -->
   <div class="buttons-new">
-    <%= link_to 'Voltar', space_path(session[:last_space_id]), class: "back-new link-back" %>
+    <%= link_to 'Voltar', request.referrer || space_path(session[:last_space_id]), class: "back-new link-back" %>
     <!-- <%= link_to 'Voltar', request.referrer, class: "back-new link-back" %> -->
 
     <% if @action == 'edit' %> 

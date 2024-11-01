@@ -31,6 +31,10 @@ pt-BR:
       reservation:
         start_date: Data inicial
         end_date: Data final
+        statuses:
+          pending: "Pendente"
+          confirmed: "Confirmada"
+          cancelled: "Cancelada"
         shifts:
           one: "" 
           other: ""

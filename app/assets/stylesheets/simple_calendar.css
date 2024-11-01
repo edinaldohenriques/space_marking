@@ -78,18 +78,21 @@
   width: 40px;
   height: 40px;
 }
-/* #hidden-filter {
-  display: none;
-} */
-
-/* app/assets/stylesheets/application.css */
-
-/* app/assets/stylesheets/application.css */
 
 /* Caixa de opções de filtro */
+/* Container do botão e do menu */
+[data-controller="history"] {
+  position: relative;
+}
+
+/* Estilo do menu de filtros */
 .filter-options {
-  display: none; /* Oculta inicialmente */
-  margin-top: 10px;
+  display: none;
+  position: absolute;
+  top: -50px; /* Alinha o topo do menu com o topo do botão */
+  left: 100%; /* Posiciona o menu à direita do botão */
+  margin-left: 10px; /* Espaçamento entre o botão e o menu */
+  z-index: 10;
   padding: 10px;
   background-color: #f8f9fa;
   border-radius: 4px;
@@ -99,3 +102,5 @@
 .filter-options.active {
   display: block; /* Mostra o menu quando a classe active é adicionada */
 }
+
+

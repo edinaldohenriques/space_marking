@@ -19,4 +19,12 @@ class ReservationPolicy < ApplicationPolicy
   def destroy? 
     user.admin? || record.user == user
   end
+  
+  def approve? 
+    user.admin?
+  end
+
+  def cancel? 
+    user.admin?
+  end
 end

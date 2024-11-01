@@ -286,3 +286,95 @@ input[type="text"], input[type="number"] {
   padding: 5px 10px;
   cursor: pointer;
 }
+
+/* Pending reservations */
+.pending-list {
+  width: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #f0eaea;
+}
+
+.pending-row {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px; /* Espaço entre os itens */
+  border-radius: 8px; /* Borda arredondada para os itens */
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona sombra */
+}
+
+.pending-row.header {
+  font-weight: bold;
+  color: #000000;
+  background-color: transparent; /* Sem sombra e background para o cabeçalho */
+  margin-bottom: 0; /* Remove o espaçamento do cabeçalho */
+  box-shadow: none;
+}
+
+.pending-column {
+  padding: 5px;
+}
+
+.pending-column.pending {
+  display: flex;
+  align-items: center;
+  width: 30%;
+}
+
+.pending-column.start-date,
+.pending-column.end-date,
+.pending-column.booking-information,
+.pending-column.status {
+  width: 15%;
+  text-align: center;
+}
+
+.pending-column.actions {
+  width: 10%;
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.pending-info .name {
+  font-weight: bold;
+  margin: 0;
+}
+
+.pending-info .booking-information {
+  font-size: 0.9em;
+  color: #777;
+  margin: 0;
+}
+
+.status-label {
+  padding: 3px 8px;
+  border-radius: 4px;
+  color: white;
+  font-size: 0.9em;
+}
+
+.status-label.inactive { background-color: #6c757d; }
+.status-label.active { background-color: #28a745; }
+.status-label.banned { background-color: #dc3545; }
+.status-label.pending { background-color: #ffc107; }
+
+.bt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background-color: #6c757d;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.bt.edit { background-color: #17a2b8; }
+.bt.delete { background-color: #dc3545; }
+
+.icone-cancel {
+  text-align: center;
+}

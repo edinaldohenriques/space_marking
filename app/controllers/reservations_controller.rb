@@ -1,6 +1,8 @@
 class ReservationsController < ApplicationController
-  before_action :set_reservation, only: %i[edit update destroy]
+  before_action :set_reservation, only: %i[edit update destroy approve cancel]
   before_action :set_action, only: %i[edit update]
+  after_action :verify_authorized, only: [:approve, :cancel]
+  
 
   def new 
     @reservation = Reservation.new
@@ -69,8 +71,6 @@ class ReservationsController < ApplicationController
       end
     end
   end
-  
-  
 
   def edit; end 
 
@@ -113,6 +113,33 @@ class ReservationsController < ApplicationController
       @reservation.destroy!
       redirect_to space_path(@reservation.space)
       flash[:notice] = "Reserva excuída com sucesso!"
+  end
+
+  def pending_reservation 
+    @pending_reservations = Reservation.where(status: 0).order(:start_date) 
+    if @pending_reservations.empty?
+      flash[:notice] = "Você não possui nenhuma reserva pendente!"
+      redirect_to spaces_path
+    end
+  end
+
+  def approve
+    authorize @reservation, :approve?
+    if @reservation.update(status: :confirmed)
+      flash[:notice] = "Reserva aprovada com sucesso."
+    else
+      flash[:alert] = "Não foi possível aprovar a reserva."
+    end
+  end
+
+  def cancel
+    authorize @reservation, :cancel? 
+    if @reservation.update(status: :cancelled)
+      @reservation.destroy
+      flash[:notice] = "Reserva cancelada e removida com sucesso."
+    else
+      flash[:alert] = "Não foi possível cancelar a reserva."
+    end
   end
 
   private

@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
+
+  mount MissionControl::Jobs::Engine, at: "/jobs"
+  
   namespace :searches do
     resources :users, only: [:index]
   end
   root 'spaces#index'
-
-  get 'static_pages/index'
-  get 'static_pages/show'
 
   # devise_for :users
 
@@ -30,5 +30,13 @@ Rails.application.routes.draw do
     end
   end
   
-  resources :reservations, only: [:new, :create, :edit, :update, :destroy]
+  resources :reservations, only: [:new, :create, :edit, :update, :destroy] do 
+    collection do
+      get :pending_reservation
+    end
+    member do 
+      patch :approve
+      patch :cancel
+    end
+  end
 end

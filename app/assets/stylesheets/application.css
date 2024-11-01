@@ -237,3 +237,21 @@ input:checked + .slider:before {
   color: #002249;
   font-size: 15px;
 }
+
+.button-space {
+  background-color: #f4f4f4;
+  color: black;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  height: 40px;
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: large;
+  border: none;
+  cursor: pointer;
+  margin-left: auto; 
+}
