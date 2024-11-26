@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
       flash[:alert] = t "#{policy_name}.#{exception.query}", scope: "pundit", default: :default
       redirect_to(request.referrer || root_path)
     end
-    
+
   protected
     def configure_permitted_parameters
       devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :student_id_number])

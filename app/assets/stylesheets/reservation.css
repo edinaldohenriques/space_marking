@@ -125,8 +125,8 @@ select {
 /* Centralizar o calendário */
 /* Container para o calendário */
 .calendar-container {
-  max-width: 1500px; /* Aumentar a largura máxima do calendário */
- margin: 0 auto; /* Centraliza o container horizontalmente */
+  max-width: 1600px; /* Aumentar a largura máxima do calendário */
+  margin: 0 auto; /* Centraliza o container horizontalmente */
   padding: 20px 20px 0px 20px;
   background-color: #ffffff;
   border-radius: 8px;
@@ -165,6 +165,9 @@ td {
 }
 
 .day {
+  user-select: none; /* Desativa a seleção de texto */
+  -webkit-user-select: none; /* Para navegadores WebKit */
+  -moz-user-select: none; /* Para navegadores Firefox */
   /* background-color: #ffffff; */
   border-radius: 4px;
   transition: background-color 0.3s;
@@ -183,10 +186,18 @@ td {
   font-size: 16px; /* Tamanho da fonte dos dias */
 }
 
+.day.highlight {
+  background-color: #c8ccce; /* ou qualquer cor que você preferir */
+  color: inherit;
+}
+
 /* Cores para cada turno */
 .reservation-shift-morning,
 .reservation-shift-afternoon,
-.reservation-shift-evening {
+.reservation-shift-evening,
+.reservation-shift-morning.pending
+.reservation-shift-afternoon.pending
+.reservation-shift-evening.pending {
   position: absolute; /* Posiciona os turnos de forma absoluta */
   background-color: inherit; /* Mantém a cor específica de cada turno */
   font-family: Arial, sans-serif;
@@ -203,9 +214,21 @@ td {
   width: calc(100% - 20px); /* Largura total menos margem */
 }
 
+.reservation-shift-morning.pending {
+  background-color: #a1a1a1; /* Cor de destaque para pendentes */
+}
+
+.reservation-shift-afternoon.pending {
+  background-color: #a1a1a1; /* Cor de destaque para pendentes */
+}
+
+.reservation-shift-evening.pending {
+  background-color: #a1a1a1; /* Cor de destaque para pendentes */
+}
+
 .reservation-shift-morning {
   background-color: #81D87F; /* Amarelo para Manhã */
-  top: 17px; /* Distância do topo */
+  top: 17px; 
 }
 
 .reservation-shift-afternoon {
@@ -215,7 +238,7 @@ td {
 
 .reservation-shift-evening {
   background-color: #D78C70; /* Azul para Noite */
-  top: 77px; /* Distância do topo */
+  top: 77px; 
 }
 
 td.day.prev-month {
@@ -245,4 +268,3 @@ td.day.future.next-month {
     font-size: 12px; /* Ajuste o tamanho da fonte para dispositivos menores */
   }
 }
-

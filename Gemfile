@@ -44,8 +44,6 @@ gem "bootsnap", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
-
-
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]
@@ -62,8 +60,9 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+  gem "mailcatcher", "~> 0.2.4"
+  # gem "bullet", "~> 7.2"
 end
-
 
 gem "rspec-rails", "~> 6.1"
 
@@ -75,8 +74,6 @@ gem "simple_calendar", "~> 3.0"
 
 gem "view_component", "~> 3.14"
 
-gem "mailcatcher", "~> 0.2.4"
-
 gem "ransack", "~> 4.2"
 
 gem "pundit", "~> 2.4"
@@ -87,6 +84,6 @@ gem "wicked_pdf"
 
 gem "wkhtmltopdf-binary"
 
-gem "solid_queue", "~> 1.0"
-
 gem "mission_control-jobs", "~> 0.3.3"
+
+gem "solid_queue", "~> 1.0"

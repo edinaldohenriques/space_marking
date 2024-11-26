@@ -2,16 +2,17 @@
   <div class="calendar-heading">
     <nav>
       <div class="calendar-navigation">
-        <%= link_to (image_tag('ícone-de-seta-left.png')), calendar.url_for_previous_view %>
+        <%= link_to (image_tag('icone-seta-esquerda.png', size: "50x36")), calendar.url_for_previous_view %>
 
         <time datetime="<%= start_date.strftime('%Y-%m') %>" class="calendar-title">
           <%= t('date.month_names')[start_date.month] %> <%= start_date.year %>
         </time>
 
-        <%= link_to (image_tag('ícone-de-seta-right.png')), calendar.url_for_next_view %>
+        <%= link_to (image_tag('icone-seta-direita.png', size: "50x36")), calendar.url_for_next_view %>
       </div>
 
-      <div><h2 class="calendar-header">Calendário de Reservas - <%= @space.name %></h2>
+      <div>
+        <h2 class="calendar-header">Calendário de Reservas - <%= @space.name %></h2>
         <span>Capacidade: <%= @space.capacity %></span><br>
         <span>Localização: <%= @space.location %></span><br>
         <span>Andar: <%= Space.human_enum_name(:floor, :"#{@space.floor}") %></span>
@@ -19,22 +20,24 @@
 
       <div class="calendar-buttons">
         <%= link_to new_reservation_path, data: { turbo_frame: "modal" }, class: 'button-reserve' do %>
-          Realizar reserva <%= image_tag('ícone-button-plus.png', class: 'icon-plus') %>
+        Realizar reserva <%= image_tag('icone-botao-mais.png', class: 'icon-plus') %>
         <% end %>
 
         <%= link_to t('simple_calendar.today', default: 'Hoje'), calendar.url_for_today_view, class: 'button-today' %>
 
+        <% if current_user.admin? %>
         <div data-controller="history">
           <!-- Botão para abrir o filtro de histórico -->
           <button class="button-reserve" type="button" data-action="history#toggle" class="filter-button">
             Gerar Histórico
           </button>
-          
+
           <!-- Opções de filtro de histórico (inicialmente ocultas) -->
           <div data-history-target="historicalFilters" class="filter-options">
             <%= render "history" %>
           </div>
         </div>
+        <% end %>
       </div>
     </nav>
   </div>
@@ -44,26 +47,24 @@
     <thead>
       <tr>
         <% date_range.slice(0, 7).each do |day| %>
-          <th><%= t('date.abbr_day_names')[day.wday] %></th>
+        <th><%= t('date.abbr_day_names')[day.wday] %></th>
         <% end %>
       </tr>
     </thead>
 
     <tbody>
       <% date_range.each_slice(7) do |week| %>
-        <tr>
-          <% week.each do |day| %>
-            <%= content_tag :td, class: calendar.td_classes_for(day) do %>
-              <% instance_exec(day, calendar.sorted_events_for(day), &passed_block) %>
-            <% end %>
-          <% end %>
-        </tr>
+      <tr>
+        <% week.each do |day| %>
+        <%= content_tag :td, class: calendar.td_classes_for(day) do %>
+        <% instance_exec(day, calendar.sorted_events_for(day), &passed_block) %>
+        <% end %>
+        <% end %>
+      </tr>
       <% end %>
     </tbody>
   </table>
   <%= link_to spaces_path do %>
-    <%= image_tag "icone-back", alt: "Icone de voltar", class: "icone-back-calendar" %>
-    <% end %>
+  <%= image_tag "icone-voltar", alt: "Icone de voltar", class: "icone-back-calendar" %>
+  <% end %>
 </div>
-
-

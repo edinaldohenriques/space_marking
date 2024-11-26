@@ -16,12 +16,12 @@
     <%= stylesheet_link_tag "space", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "turbo_modal", "data-turbo-track": "reload" %>
     <%= combobox_style_tag %>
-    
+
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module", defer: true %>
   </head>
 
   <body>
-    <% unless devise_controller? && (controller_name == 'registrations' || controller_name == 'sessions' || controller_name == 'passwords' || controller_name == 'users') %>
+    <% unless devise_controller? && (controller_name == 'registrations' || controller_name == 'confirmations' || controller_name == 'sessions' || controller_name == 'passwords' || controller_name == 'users') %>
       <%= render "layouts/topnavbar" %>
     <% end %>
     

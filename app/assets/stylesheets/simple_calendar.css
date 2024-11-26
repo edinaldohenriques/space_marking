@@ -34,7 +34,6 @@
   text-align: center;
   margin: 10px 0;
   font-size: 24px;
-  /* Ajustar o alinhamento vertical do título */
   align-self: center;
 }
 
@@ -79,7 +78,6 @@
   height: 40px;
 }
 
-/* Caixa de opções de filtro */
 /* Container do botão e do menu */
 [data-controller="history"] {
   position: relative;
@@ -89,8 +87,8 @@
 .filter-options {
   display: none;
   position: absolute;
-  top: -50px; /* Alinha o topo do menu com o topo do botão */
-  left: 100%; /* Posiciona o menu à direita do botão */
+  top: 50px; /* Alinha o topo do menu com o topo do botão */
+  left: 5px; /* Posiciona o menu à direita do botão */
   margin-left: 10px; /* Espaçamento entre o botão e o menu */
   z-index: 10;
   padding: 10px;

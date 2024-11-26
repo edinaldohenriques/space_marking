@@ -1,0 +1,36 @@
+<div data-controller="menu">
+  <%= link_to space_path(space), class: "space-name" do %>
+  <div class="details-space-group">
+    <h4 id="h4-space"><%= space.name %></h4>
+    <span><%= space.location %></span>
+    <span>Capacidade: <%= space.capacity %></span>
+    <span>Andar: <%= Space.human_enum_name(:floor, :"#{space.floor}") %></span>
+  </div>
+
+  <div class="icon-space-group">
+    <%= image_tag "icone-projetor", class: "icon-space" if space.projector? %>
+    <%= image_tag "icone-acessibilidade", class: "icon-space" if space.accessibility? %>
+    <%= image_tag "icone-quadro", class: "icon-space" if space.board? %>
+    <%= image_tag "icone-laboratorio", class: "icon-space" if space.laboratory? %>
+    <div id="space_icon_occupied_<%= dom_id(space) %>">
+      <% if space.occupied? %>
+      <%= image_tag "icone-ocupado.png", class: "icon-space" %>
+      <% end %>
+    </div>
+  </div>
+  <% end %>
+
+  <% if policy(space).update? %>
+  <div class="menu-container">
+    <button class="menu-button" data-action="menu#toggle">
+      <%= image_tag "icone-menu.png", alt: "Menu Space", size: "27x20" %>
+    </button>
+    <div class="dropdown-menu" data-menu-target="menu">
+      <%= render "toggle_status_button", space: space %>
+      <%= render "toggle_occupied_button", space: space %>
+      <%= link_to "Editar", edit_space_path(space), data: { turbo_frame: "modal" }, class: "dropdown-item" %>
+      <%= link_to "Excluir", space_path(space), data: { turbo_confirm: 'Tem certeza que deseja deletar?', turbo_method: :delete }, class: "dropdown-item delete-item" %>
+    </div>
+  </div>
+  <% end %>
+</div>

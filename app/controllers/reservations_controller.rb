@@ -2,37 +2,39 @@ class ReservationsController < ApplicationController
   before_action :set_reservation, only: %i[edit update destroy approve cancel]
   before_action :set_action, only: %i[edit update]
   after_action :verify_authorized, only: [:approve, :cancel]
-  
 
   def new 
-    @reservation = Reservation.new
+    start_date = params[:start_date]
+    end_date = params[:end_date]
+    @reservation = Reservation.new(start_date: start_date, end_date: end_date)  
   end
 
   def create
     new_shifts = reservation_params[:shifts] || []
     new_start_date = reservation_params[:start_date]
     new_end_date = reservation_params[:end_date]
-  
+
     # Busque reservas existentes para o mesmo espaço dentro do intervalo de datas
-    existing_reservations = Reservation.for_space(reservation_params[:space_id])
-                                       .within_date_range(new_start_date, new_end_date)
-                                       .by_user(current_user.id)
-  
+    existing_reservations = Reservation
+                                      .for_space(reservation_params[:space_id])
+                                      .within_date_range(new_start_date, new_end_date)
+                                      .by_user(current_user.id)
+
     if existing_reservations.exists? && new_start_date.present? && new_end_date.present? && new_shifts.present?
       existing_reservation = existing_reservations.first
-  
+      
       # Verifique se as datas da nova reserva são exatamente iguais à reserva existente
       if existing_reservation.start_date == new_start_date && existing_reservation.end_date == new_end_date
         # Se as datas coincidirem, verifique o conflito de turnos
         conflicting_shifts = Reservation.conflicting_shifts([existing_reservation], new_shifts)
-  
+
         if conflicting_shifts.any?
           flash[:alert] = "Os turnos já foram reservados: #{Reservation.translate_shifts(conflicting_shifts).join(', ')}"
           redirect_to space_path(existing_reservation.space)
         else
           # Adicione novos turnos à reserva existente
           updated_shifts = Reservation.add_shifts(existing_reservation, new_shifts)
-  
+
           if existing_reservation.update(shifts: updated_shifts)
             flash[:notice] = "Reserva atualizada com sucesso!"
             redirect_to space_path(existing_reservation.space)
@@ -45,11 +47,18 @@ class ReservationsController < ApplicationController
       else
         # Se as datas forem diferentes, crie uma nova reserva
         @reservation = Reservation.new(reservation_params)
-        @reservation.user = current_user if reservation_params[:user_id].empty? 
-  
+        @reservation.user = current_user unless reservation_params[:user_id].present? 
+
         if @reservation.save
-          flash[:notice] = "Reserva realizada com sucesso!"
-          redirect_to space_path(@reservation.space)
+          if current_user.admin? 
+            @reservation.update(status: "confirmed")
+            flash[:notice] = "Reserva realizada com sucesso!"
+            redirect_to space_path(@reservation)
+          else
+            NotifyAdminJob.perform_later(User.admins.first)
+            flash[:notice] = "Reserva solicitada com sucesso!"
+            redirect_to space_path(@reservation)
+          end
         else
           respond_to do |format|
             format.turbo_stream
@@ -59,11 +68,19 @@ class ReservationsController < ApplicationController
     else
       # Caso não exista reserva no intervalo de datas, crie uma nova reserva
       @reservation = Reservation.new(reservation_params)
-      @reservation.user = current_user if reservation_params[:user_id].empty? 
+      @reservation.user = current_user unless reservation_params[:user_id].present? 
 
       if @reservation.save
-        flash[:notice] = "Reserva realizada com sucesso!"
-        redirect_to space_path(@reservation.space)
+        if current_user.admin? 
+          @reservation.update(status: "confirmed")
+          NotifyApproveReservationUserJob.perform_later(@reservation.user)
+          flash[:notice] = "Reserva realizada com sucesso!"
+          redirect_to space_path(@reservation)
+        else
+          NotifyAdminJob.perform_later(User.admins.first)
+          flash[:notice] = "Reserva solicitada com sucesso!"
+          redirect_to space_path(@reservation)
+        end
       else
         respond_to do |format|
           format.turbo_stream
@@ -75,31 +92,39 @@ class ReservationsController < ApplicationController
   def edit; end 
 
   def update
-    authorize @reservation  # Verificação de autorização pelo Pundit
-  
+    authorize @reservation
+
     new_shifts = reservation_params[:shifts] || []
     new_start_date = reservation_params[:start_date]
     new_end_date = reservation_params[:end_date]
-  
-    # Buscar reservas no mesmo espaço e com as novas datas (excluindo a reserva atual)
-    existing_reservations = Reservation
+
+    # Buscar reservas conflitantes no mesmo espaço e no intervalo de datas (excluindo a reserva atual)
+    conflicting_reservations = Reservation
                               .within_date_range(new_start_date, new_end_date)
                               .for_space(@reservation.space_id)
-                              .other_users(current_user.id)
-  
-    # Verificar se há algum turno já reservado por outras pessoas
-    conflicting_shifts = Reservation.conflicting_shifts(existing_reservations, new_shifts)
+                              .where.not(id: @reservation.id)
+
+    # Verificar se há turnos conflitantes com outras reservas para o intervalo de datas
+    conflicting_shifts = Reservation.conflicting_shifts(conflicting_reservations, new_shifts)
     conflicting_shifts_translated = Reservation.translate_shifts(conflicting_shifts)
-  
-    # Se houver conflitos com outras reservas
+
+    # Impedir a atualização se houver conflito, seja usuário comum ou admin
     if conflicting_shifts.any?
       flash[:alert] = "O turno #{conflicting_shifts_translated.join(', ')} já foi reservado para essas datas por outro usuário."
-      redirect_to space_path(@reservation.space)
+      redirect_to space_path(@reservation)
     else
-      # Chamar o método update_reservation para lidar com a lógica de atualização
-      if update_reservation(new_start_date, new_end_date, new_shifts, existing_reservations)
-        flash[:notice] = "Reserva atualizada com sucesso!"
-        redirect_to space_path(@reservation.space)
+      # Caso não haja conflito, procedemos com a atualização
+      if update_reservation(new_start_date, new_end_date, new_shifts, conflicting_reservations)
+        if current_user.admin?
+          NotifyUpdateReservationUserJob.perform_later(@reservation.user)
+          flash[:notice] = "Reserva atualizada com sucesso!"
+          redirect_to space_path(@reservation)
+        else
+          @reservation.update(status: "pending")          
+          NotifyAdminJob.perform_later(User.admins.first)
+          flash[:notice] = "Reserva solicitada com sucesso!"
+          redirect_to space_path(@reservation)
+        end
       else
         flash[:alert] = "Erro ao atualizar a reserva."
         respond_to do |format|
@@ -107,12 +132,13 @@ class ReservationsController < ApplicationController
         end
       end
     end
-  end  
+  end
 
   def destroy
-      @reservation.destroy!
-      redirect_to space_path(@reservation.space)
-      flash[:notice] = "Reserva excuída com sucesso!"
+    authorize @reservation
+    @reservation.destroy!
+    redirect_to space_path(@reservation)
+    flash[:notice] = "Reserva excuída com sucesso!"
   end
 
   def pending_reservation 
@@ -126,19 +152,21 @@ class ReservationsController < ApplicationController
   def approve
     authorize @reservation, :approve?
     if @reservation.update(status: :confirmed)
-      flash[:notice] = "Reserva aprovada com sucesso."
+      NotifyApproveReservationUserJob.perform_later(@reservation.user)
+      flash.now[:notice] = "Reserva aprovada com sucesso."
     else
-      flash[:alert] = "Não foi possível aprovar a reserva."
+      flash.now[:alert] = "Não foi possível aprovar a reserva."
     end
   end
 
   def cancel
     authorize @reservation, :cancel? 
     if @reservation.update(status: :cancelled)
+      NotifyCancelReservationUserJob.perform_later(@reservation.user)
       @reservation.destroy
-      flash[:notice] = "Reserva cancelada e removida com sucesso."
+      flash.now[:notice] = "Reserva cancelada e removida com sucesso."
     else
-      flash[:alert] = "Não foi possível cancelar a reserva."
+      flash.now[:alert] = "Não foi possível cancelar a reserva."
     end
   end
 

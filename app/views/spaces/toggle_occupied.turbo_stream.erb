@@ -1,0 +1,7 @@
+<%= turbo_stream.replace "toggle_occupied_button_#{dom_id(@space)}" do %>
+  <%= render "toggle_occupied_button", space: @space %>
+<% end %>
+
+<%= turbo_stream.update "space_icon_occupied_#{dom_id(@space)}" do %>
+  <%= image_tag "icone-ocupado.png", class: "icon-space" if @space.occupied? %>
+<% end %>

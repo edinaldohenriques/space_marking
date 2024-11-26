@@ -1,59 +1,61 @@
 <%= stylesheet_link_tag('reservation') %>
 <%= form_with(model: @reservation, id: "reservation_form", data: { turbo_frame: "_top" }) do |f| %>
-  
-  <!-- Exibe mensagens de erro -->
-  <%= render "devise/shared/error_messages", resource: @reservation %>
 
-  <!-- Campo de data da reserva -->
-  <%= f.label :start_date, "Data Inicial:", class: ("required" if @action != 'edit') %>
-  <%= f.date_field :start_date, id: "reservation_date", placeholder: "dd/mm/aaaa" %>
-  
-  <%= f.label :end_date, "Data Final:", class: ("required" if @action != 'edit') %>
-  <%= f.date_field :end_date, id: "reservation_date", placeholder: "dd/mm/aaaa" %>
+<!-- Exibe mensagens de erro -->
+<%= render "devise/shared/error_messages", resource: @reservation %>
 
-  <%= f.label :booking_information, "Motivo da reserva:", class: ("required" if @action != 'edit') %>
-  <%= f.text_field :booking_information, id: "booking-information", placeholder: "Digite o motivo da reserva" %>
+<!-- Campo de data da reserva -->
+<%= f.label :start_date, "Data Inicial:", class: ("required" if @action != 'edit') %>
+<%= f.date_field :start_date, id: "reservation_date", placeholder: "dd/mm/aaaa" %>
 
-  <!-- Grupo de checkboxes para os turnos -->
-  <div class="checkbox-group">
-    <%= f.label :shifts, "Selecione o tuno:", class: ("required" if @action != 'edit') %>
+<%= f.label :end_date, "Data Final:", class: ("required" if @action != 'edit') %>
+<%= f.date_field :end_date, id: "reservation_date", placeholder: "dd/mm/aaaa" %>
 
-    <div>
-      <%= f.check_box :shifts, { multiple: true }, "morning", nil %>
-      <%= f.label :shift_morning, "Manhã" %>
-    </div>
-    <div>
-      <%= f.check_box :shifts, { multiple: true }, "afternoon", nil %>
-      <%= f.label :shift_afternoon, "Tarde" %>
-    </div>
-    <div>
-      <%= f.check_box :shifts, { multiple: true }, "evening", nil %>
-      <%= f.label :shift_evening, "Noite" %>
-    </div>
+<%= f.label :booking_information, "Motivo da reserva:", class: ("required" if @action != 'edit') %>
+<%= f.text_field :booking_information, id: "booking-information", placeholder: "Digite o motivo da reserva" %>
+
+<!-- Grupo de checkboxes para os turnos -->
+<div class="checkbox-group">
+  <%= f.label :shifts, "Selecione o tuno:", class: ("required" if @action != 'edit') %>
+
+  <div>
+    <%= f.check_box :shifts, { multiple: true }, "morning", nil %>
+    <%= f.label :shift_morning, "Manhã" %>
   </div>
-  <% if current_user.admin? %>
-    <%= f.combobox :user_id, searches_users_path, label: "Usuário", placeholder: "Selecione o usuário:" if @action != 'edit'%> 
-  <% end %>
+  <div>
+    <%= f.check_box :shifts, { multiple: true }, "afternoon", nil %>
+    <%= f.label :shift_afternoon, "Tarde" %>
+  </div>
+  <div>
+    <%= f.check_box :shifts, { multiple: true }, "evening", nil %>
+    <%= f.label :shift_evening, "Noite" %>
+  </div>
+</div>
+<% if current_user.admin? %>
+<div class="combobox-container">
+  <%= f.combobox :user_id, searches_users_path, label: "Usuário", placeholder: "Selecione o usuário:" if @action != 'edit'%>
+</div>
+<% end %>
+
+<% if @action == 'edit' %>
+<%= f.label :name, "Nome do Reservante:", class: ("required" if @action != 'edit') %>
+<p id="p-reservation-name"><%= @reservation.user.name %></p>
+<p id="p-reservation"><%= @reservation.user.email %></p>
+<% end %>
+
+<!-- Campo oculto para o id do espaço -->
+<%= f.hidden_field :space_id, value: session[:last_space_id] %>
+
+<!-- Botões de ação -->
+<div class="buttons-new">
+  <%= link_to 'Voltar', request.referrer || space_path(session[:last_space_id]), class: "back-new link-back" %>
+  <!-- <%= link_to 'Voltar', request.referrer, class: "back-new link-back" %> -->
 
   <% if @action == 'edit' %>
-    <%= f.label :name, "Nome do Reservante:", class: ("required" if @action != 'edit') %>
-    <p id="p-reservation-name"><%= @reservation.user.name %></p>
-    <p id="p-reservation"><%= @reservation.user.email %></p>
+  <%= link_to 'Excluir reserva', reservation_path(@reservation), data: { turbo_confirm: 'Tem certeza que deseja deletar?', turbo_method: :delete }, class: "back-delete link-back" %>
   <% end %>
 
-  <!-- Campo oculto para o id do espaço -->
-  <%= f.hidden_field :space_id, value: session[:last_space_id] %>
-
-  <!-- Botões de ação -->
-  <div class="buttons-new">
-    <%= link_to 'Voltar', request.referrer || space_path(session[:last_space_id]), class: "back-new link-back" %>
-    <!-- <%= link_to 'Voltar', request.referrer, class: "back-new link-back" %> -->
-
-    <% if @action == 'edit' %> 
-      <%= link_to 'Excluir reserva', reservation_path(@reservation), data: { turbo_confirm: 'Tem certeza que deseja deletar?', turbo_method: :delete }, class: "back-delete link-back" %>
-    <% end %>
-
-    <!-- Botão de confirmar -->
-    <%= f.submit 'Confirmar', class: "button-submit-new" %>
-  </div>
+  <!-- Botão de confirmar -->
+  <%= f.submit 'Confirmar', class: "button-submit-new" %>
+</div>
 <% end %>

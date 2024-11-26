@@ -5,15 +5,19 @@ class User < ApplicationRecord
 
   validates :name, presence: true 
   validates :student_id_number, presence: true, length: { minimum: 7, maximum: 12 }
-  #Ex:- :limit => 40
+
+  scope :admins, -> { where(user_type: user_types[:admin]) }
 
   # Include default devise modules. Others available are:
   # :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable, :timeoutable, :confirmable, :lockable
+        :recoverable, :rememberable, :validatable, :timeoutable, :confirmable, :lockable
 
   def to_combobox_display
     name
-  end       
+  end
 
+  def send_devise_notification(notification, *args)
+    UserMailerJob.perform_later(self, notification, *args)
+  end
 end

@@ -7,8 +7,8 @@ class Reservation < ApplicationRecord
   validates :start_date, presence: true, start_date: { message: 'não pode ser anterior ao dia de hoje' }, on: :create
   validates :end_date, presence: true, end_date: { message: 'não pode ser menor a Data Inicial' }
   validates :shifts, presence: { message: 'O turno não pode ficar em branco' }
+  validates :booking_information, presence: true
   validate :validate_unique_shifts, on: :create 
-
 
   # Escopos para consultas comuns
   scope :within_date_range, ->(start_date, end_date) { where("start_date <= ? AND end_date >= ?", end_date, start_date) if start_date.present? && end_date.present? }
@@ -16,14 +16,13 @@ class Reservation < ApplicationRecord
   scope :by_user, ->(user_id) { where(user_id: user_id) }
   scope :other_users, ->(user_id) { where.not(user_id: user_id) }
   scope :with_shifts, ->(shifts) { where("shifts && ARRAY[?]::varchar[]", shifts) } # Verifica a interseção dos turnos
-  scope :by_date_range, ->(start_date, end_date) { where("start_date <= ? AND end_date >= ?", end_date, start_date) if start_date.present? && end_date.present? } # para listar o histórico de reservas
+  scope :by_date_range, ->(start_date, end_date) {
+  where("start_date <= ? AND end_date >= ? AND status = ?", end_date, start_date, Reservation.statuses[:confirmed]) if start_date.present? && end_date.present? } # para listar o histórico de reservas
 
-  # Traduzir turnos (para exibir mensagens amigáveis ao usuário)
   def self.translate_shifts(shifts)
     shifts.map { |shift| I18n.t("activerecord.attributes.reservation.shifts.#{shift}") }
   end
 
-  # Método para verificar se há conflitos de turnos entre uma nova reserva e as existentes
   def self.conflicting_shifts(existing_reservations, new_shifts)
     existing_reservations.map(&:shifts).flatten & new_shifts
   end
@@ -33,19 +32,7 @@ class Reservation < ApplicationRecord
     (existing_reservation.shifts + new_shifts).uniq
   end
 
-  # Método para verificar se uma reserva colide com as datas e turnos de outra
-  def self.check_conflicts(new_start_date, new_end_date, new_shifts, space_id, user_id)
-    # Buscando reservas existentes dentro do intervalo de datas e para o mesmo espaço
-    existing_reservations = Reservation
-                            .within_date_range(new_start_date, new_end_date)
-                            .for_space(space_id)
-                            .other_users(user_id)
-
-    # Retorna os turnos que conflitam
-    conflicting_shifts(existing_reservations, new_shifts)
-  end
-
-  # method to render the date in simple calendar
+  # método para renderizar data no simple calendar
   def start_time
     self.start_date
   end
@@ -53,17 +40,16 @@ class Reservation < ApplicationRecord
   def end_time
     self.end_date
   end
-  
 
   private 
     def validate_unique_shifts
       overlapping_reservations = Reservation.where(
-      space_id: space_id
-    ).where("start_date <= ? AND end_date >= ?", end_date, start_date)
-     .where("shifts && ARRAY[?]::varchar[]", shifts)
+      space_id: space_id)
+      .where("start_date <= ? AND end_date >= ?", end_date, start_date)
+      .where("shifts && ARRAY[?]::varchar[]", shifts)
 
       if overlapping_reservations.exists?
-        errors.add(:shifts, :taken, count: shifts.size)
+        errors.add(:shifts, "O turno(s) selecionado(s) já foi reservado para essa data")
       end
     end
 end

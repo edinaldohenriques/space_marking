@@ -23,6 +23,11 @@
   animation: fadeIn 0.3s ease both;
 }
 
+.combobox-container {
+  max-height: 200px; 
+  overflow-y: auto;  
+}
+
 /* Header do Modal */
 .modal-header {
   display: flex;

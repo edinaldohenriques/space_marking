@@ -209,3 +209,7 @@ The last link in the footer (the link to the website) needs to be bold.
   cursor: pointer;
   margin-left: 4px;
 }
+
+.page-break {
+  page-break-before: always;
+}

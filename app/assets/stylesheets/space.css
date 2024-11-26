@@ -6,6 +6,7 @@ body {
   padding: 0;
 }
 #h4-space {
+  margin-top: 12px;
   margin-bottom: 5px;
 }
 /* Container geral */
@@ -35,8 +36,6 @@ body {
   margin: 0;
   box-sizing: border-box;
 }
-
-
 
 .icons-container {
   position: absolute;
@@ -84,7 +83,6 @@ body {
   display: block;
 }
 
-
 .filters h4 {
   margin-top: 0;
   font-size: 16px;
@@ -106,24 +104,30 @@ body {
 .spaces-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 25px;
+  gap: 47px 18px;
   margin-top: 40px;
   justify-content: center;
   width: 100% !important;
 }
 
 .space-item {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-color: #d9d9d9;
-  border: none;
   padding: 20px;
   border-radius: 12px;
-  font-size: 16px;
-  cursor: pointer;
-  /* max-width: 241px; */
   text-align: center;
-  position: relative;
-  transition: background-color 0.3s ease;
+  position: relative; /* Para o uso do position: absolute no grupo de ícones */
+  height: 94%;
+}
+.space-item.disabled {
+  background-color: #ce7e7e; 
+  color: #a0a0a0;
+}
+
+.space-item.disabled:hover {
+  background-color: #c57c7c;
 }
 
 .space-item:hover {
@@ -224,7 +228,6 @@ input[type="text"], input[type="number"] {
   margin: 0;
   max-width: 70px;
 }
-
 
 /* Cadastrar Space */
 .checkbox-group {
@@ -357,7 +360,6 @@ input[type="text"], input[type="number"] {
 
 .status-label.inactive { background-color: #6c757d; }
 .status-label.active { background-color: #28a745; }
-.status-label.banned { background-color: #dc3545; }
 .status-label.pending { background-color: #ffc107; }
 
 .bt {
@@ -377,4 +379,62 @@ input[type="text"], input[type="number"] {
 
 .icone-cancel {
   text-align: center;
+}
+
+.details-space-group {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+  gap: 8px;    
+}
+
+.icon-space-group {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  position: absolute;
+  bottom: 10px; 
+  left: 50%;
+  transform: translateX(-50%); 
+  /* min-height: 40px; */
+}
+
+.icon-space {
+  width: 30px;
+  height: 30px;
+}
+
+.toggle-checkbox {
+  display: none; 
+}
+
+.menu {
+  display: none; 
+}
+
+.toggle-checkbox:checked + .menu {
+  display: block; 
+}
+
+/* Container do botão e do menu */
+[data-controller="history-filter"] {
+  position: relative;
+}
+
+/* Estilo do menu de filtros */
+.history-filter-options {
+  display: none;
+  position: absolute;
+  top: 50px; /* Alinha o topo do menu com o topo do botão */
+  right: 5px; /* Posiciona o menu à direita do botão */
+  margin-left: 10px; /* Espaçamento entre o botão e o menu */
+  z-index: 10;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.history-filter-options.active {
+  display: block; /* Mostra o menu quando a classe active é adicionada */
 }

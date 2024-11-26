@@ -26,7 +26,7 @@
   justify-content: flex-start; 
   padding-top: 50px; 
 }
-  
+
 .right-login {
   display: flex;
   justify-content: center;
@@ -120,7 +120,6 @@ input[type="email"], input[type="password"] {
   opacity: 0.9; /* Efeito de hover mais sutil */
 }
 
-
 /* CSS Session Registration */
 .body-registration {
   background-color: #f4f4f4; 
@@ -186,6 +185,22 @@ input[type="email"], input[type="password"] {
 .link-back {
   text-decoration: none;
   color: #f4f4f4;
+}
+
+.link-back-registration {
+  display: inline-block; /* Permite que o link tenha padding e margin */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  color: #f4f4f4;
+  font-size: 16px;
+  background-color: #007bff; /* Azul */
+  text-decoration: none; /* Remove o sublinhado */
+  cursor: pointer;
+}
+
+.link-back-registration:hover {
+  background-color: #0056b3; /* Efeito hover */
 }
 .form-container {
   margin-top: 30px;
@@ -270,7 +285,8 @@ input[type="email"], input[type="password"] {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para destacar a mensagem */
   background-color: #f8d7da; /* Fundo vermelho claro para erros */
-  color: #721c24; /* Cor do texto para erros */
+  /* color: #721c24;  */
+  color: #342323; /* Cor do texto para erros */
 }
 
 .error-messages-container h2 {
@@ -328,6 +344,16 @@ input[type="email"] {
   font-size: 13.3px;
 }
 
+input[type="password-field"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 25px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 13.3px;
+  -webkit-text-security: disc;
+}
+
 .buttons {
   display: flex;
   flex-direction: column;
@@ -354,7 +380,6 @@ input[type="email"] {
   color: white;
   width: 40%;
 }
-
 
 /* Button back with link_to */
 .styled-button {

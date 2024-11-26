@@ -8,17 +8,17 @@
 
   <div class="form-group">
     <%= f.label :current_password, "Senha Atual", class: "required" %>
-    <%= f.password_field :current_password, placeholder: "Senha atual" %>
+    <%= f.password_field :current_password, type: "password-field", placeholder: "Senha atual", autocomplete: "off" %>
   </div>
   
   <div class="form-group">
     <%= f.label :password, "Nova senha: (mínimo de 6 caracteres)", class: "required" %>
-    <%= f.password_field :password, id: "Password", placeholder: "Nova senha" %>
+    <%= f.password_field :password, type: "password-field", id: "Password", placeholder: "Nova senha", autocomplete: "off" %>
   </div>
   
   <div class="form-group">
     <%= f.label :password_confirmation, "Confirme sua senha:", class: "required" %>
-    <%= f.password_field :password_confirmation, id: "Password Confirmation", placeholder: "Confirme sua senha" %>
+    <%= f.password_field :password_confirmation, type: "password-field", id: "Password Confirmation", placeholder: "Confirme sua senha", autocomplete: "off" %>
   </div>
   
   <div class="button-container">

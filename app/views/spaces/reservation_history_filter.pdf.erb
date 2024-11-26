@@ -1,0 +1,38 @@
+<body class="body-pdf">
+  <div class="chapter budget">
+    <% if @reservations_history_filter.any? %>
+      <% current_space = nil %>
+        <% @reservations_history_filter.each do |reservation| %>
+          <% if current_space != reservation.space.name %>
+            <% current_space = reservation.space.name %>
+            <div class="page-break"></div>
+            <div id="header-pdf"> 
+              <h1>Histórico de reservas <%= current_space %></h1>
+            </div> 
+            <table>
+              <thead>
+                <tr>
+                  <th>Reservante</th>
+                  <th>Informação da Reserva</th>
+                  <th>Data de Início</th>
+                  <th>Data de Fim</th>
+                </tr>
+              </thead>
+            <tbody>
+          <% end %>
+                <tr>
+                  <td><%= reservation.user.name %></td>
+                  <td><%= reservation.booking_information %></td>
+                  <td><%= reservation.start_date.strftime("%d/%m/%Y") %></td>
+                  <td><%= reservation.end_date.strftime("%d/%m/%Y") %></td>
+                </tr>
+                <% if @reservations_history_filter.last == reservation || @reservations_history_filter[@reservations_history_filter.index(reservation) + 1].space.name != current_space %>
+            </tbody>
+          </table>
+        <% end %>
+      <% end %>
+    <% else %>
+      <p>Nenhuma reserva encontrada no intervalo selecionado.</p>
+    <% end %>
+  </div>
+</body>

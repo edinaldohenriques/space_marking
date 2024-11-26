@@ -1,13 +1,11 @@
 Rails.application.routes.draw do
-
   mount MissionControl::Jobs::Engine, at: "/jobs"
-  
+
+  root 'spaces#index'
+
   namespace :searches do
     resources :users, only: [:index]
   end
-  root 'spaces#index'
-
-  # devise_for :users
 
   devise_for :users, controllers: {
     registrations: 'users/registrations'
@@ -18,15 +16,18 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Defines the root path route ("/")
-  # root "posts#index"
-
   resources :spaces, only: [:index, :show, :new, :create, :edit, :update, :destroy] do 
     member do 
       post :toggle_status
     end
+    member do 
+      post :toggle_occupied
+    end
     member do
       get :reservation_history
+    end
+    collection do
+      get :reservation_history_filter
     end
   end
   

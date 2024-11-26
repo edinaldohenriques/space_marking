@@ -1,84 +1,84 @@
 <%= stylesheet_link_tag('space')%>
+
 <body>
   <div class="container-space">
     <!-- Barra de pesquisa com filtros -->
     <div class="search-bar" data-controller="filter">
       <%= search_form_for @q, url: spaces_path, method: :get, remote: true, class: "search-form" do |f| %>
-        <%= f.text_field :name_i_cont, placeholder: "Pesquisar espaços...", id: "search-input", class: "search-input", autocomplete: "off" %>
+      <%= f.text_field :name_i_cont, placeholder: "Pesquisar espaços...", id: "search-input", class: "search-input", autocomplete: "off" %>
 
-        <div class="icons-container">
-          <input type="checkbox" id="filterToggle" class="filter-checkbox" style="display:none;" data-filter-target="filterToggle">
-          <label for="filterToggle" class="filter-btn" data-action="click->filter#toggle">
-            <%= image_tag "filtro.png", alt: "Filtro" %>
-          </label>
+      <div class="icons-container">
+        <input type="checkbox" id="filterToggle" class="filter-checkbox" style="display:none;" data-filter-target="filterToggle">
+        <label for="filterToggle" class="filter-btn" data-action="click->filter#toggle">
+          <%= image_tag "filtro.png", alt: "Filtro" %>
+        </label>
 
-          <!-- Botão submit que dispara a pesquisa ao clicar na lupa -->
-          <button type="submit" class="search-btn">
-            <%= image_tag "lupa.png", alt: "Pesquisar" %>
-          </button>
-        </div>
-      
-      
+        <!-- Botão submit que dispara a pesquisa ao clicar na lupa -->
+        <button type="submit" class="search-btn">
+          <%= image_tag "lupa.png", alt: "Pesquisar" %>
+        </button>
+
+        <% if current_user.admin? %>
+        <input type="checkbox" id="historyToggle" class="history-checkbox" style="display:none;" data-filter-target="historyToggle">
+        <label for="historyToggle" class="history-btn" data-action="click->filter#toggleHistoryFilter">
+          <%= image_tag "icone-impressora.png", alt: "Imprimir Histórico" %>
+        </label>
+        <% end %>
+      </div>
+
       <!-- Filtros -->
       <div class="filters" data-filter-target="filters">
         <div class="profile-header">
           <h4>Filtro de Pesquisa</h4>
         </div>
-        
-          <label>Capacidade mínima:
-            <%= f.number_field :capacity_gteq, id: "number-search", autocomplete: "off" %>
-          </label>
-          <label>Capacidade mínima:
-            <%= f.number_field :capacity_lteq, id: "number-search", autocomplete: "off" %>
-          </label>
-          <label>Quadro?
-            <%= f.radio_button :board_eq, true, checked: false %> Sim
-            <%= f.radio_button :board_eq, false, checked: false %> Não
-          </label>
-          <label>Projetor ?
-            <%= f.radio_button :projector_eq, true, checked: false %> Sim
-            <%= f.radio_button :projector_eq, false, checked: false %> Não
-          </label>
-          <label>Laboratório ? 
-            <%= f.radio_button :laboratory_eq, true, checked: false %> Sim
-            <%= f.radio_button :laboratory_eq, false, checked: false%> Não
-          </label>
-          <label>Para PCDs ? 
-            <%= f.radio_button :accessibility_eq, true, checked: false %> Sim
-            <%= f.radio_button :accessibility_eq, false, checked: false%> Não
-          </label>
 
-          <div class="button-container-space">
-            <%= f.submit 'Aplicar Filtros', class: "submit-tag" %>
-          </div>
+        <label>Capacidade mínima:
+          <%= f.number_field :capacity_gteq, id: "number-search", autocomplete: "off" %>
+        </label>
+        <label>Capacidade máxima:
+          <%= f.number_field :capacity_lteq, id: "number-search", autocomplete: "off" %>
+        </label>
+        <label>Quadro?
+          <%= f.radio_button :board_eq, true, checked: false %> Sim
+          <%= f.radio_button :board_eq, false, checked: false %> Não
+        </label>
+        <label>Projetor ?
+          <%= f.radio_button :projector_eq, true, checked: false %> Sim
+          <%= f.radio_button :projector_eq, false, checked: false %> Não
+        </label>
+        <label>Laboratório ?
+          <%= f.radio_button :laboratory_eq, true, checked: false %> Sim
+          <%= f.radio_button :laboratory_eq, false, checked: false%> Não
+        </label>
+        <label>Para PCDs ?
+          <%= f.radio_button :accessibility_eq, true, checked: false %> Sim
+          <%= f.radio_button :accessibility_eq, false, checked: false%> Não
+        </label>
+
+        <div class="button-container-space">
+          <%= f.submit 'Aplicar Filtros', class: "submit-tag" %>
+        </div>
         <% end %>
+      </div>
+      <div class="history-filter-options" data-filter-target="historyFilterOptions" style="display: none;">
+        <%= render "history_filter" %>
       </div>
     </div>
 
     <div class="spaces-grid">
+      <% if @spaces.any? %>
       <% @spaces.each do |space| %>
-        <!-- Bloco do espaço com a classe space-item -->
-        <div class="space-item" data-controller="menu">
-          <!-- Nome do espaço como link -->
-          <%= link_to space_path(space), class: "space-name" do %>
-            <h4 id="h4-space"><%=space.name %></h4>
-            <span><%=space.location %></span><br>
-            <span>Capacidade: <%=space.capacity %></span><br>
-            <span>Andar: <%= Space.human_enum_name(:floor, :"#{space.floor}") %></span>
-          <% end %>
-          <% if policy(@spaces).update? %>
-            <!-- Botão de menu no canto superior direito -->
-            <div class="menu-container">
-              <button class="menu-button" data-action="menu#toggle"><%= image_tag "icone-menu.png", alt: "Menu Space", size: "27x20" %></button>
-              <div class="dropdown-menu" data-menu-target="menu">
-
-                <%= render "toggle_status_button", space:  %>
-                <%= link_to "Editar", edit_space_path(space), data: { turbo_frame: "modal" }, class: "dropdown-item" %>
-                <%= link_to "Excluir", space_path(space), data: { turbo_confirm: 'Tem certeza que deseja deletar?', turbo_method: :delete }, class: "dropdown-item delete-item" %>
-              </div>
-            </div>
-          <% end %>
-        </div>
+      <!-- Bloco do espaço com a classe space-item -->
+      <div class="space-item <%= 'disabled' if !space.active? %>" id="space_item_<%= dom_id(space) %>">
+        <%= render partial: "space_details", locals: { space: space } %>
+      </div>
+      <% end %>
+      <% else %>
+      <p><%= @q.result.present? ? "Nenhum resultado encontrado para sua busca." : "Nenhum espaço cadastrado ainda" %></p><br>
+      <p></p><br>
+      <% if current_user.admin? && !@any_spaces_exist %>
+      <%= link_to "Cadastrar Espaço", new_space_path, data: { turbo_frame: "modal" } %>
+      <% end %>
       <% end %>
     </div>
   </div>

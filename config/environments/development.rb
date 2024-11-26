@@ -60,9 +60,8 @@ Rails.application.configure do
   config.active_job.verbose_enqueue_logs = true
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
-
-  # config.active_job.queue_adapter = :solid_queue
-  # config.solid_queue.connects_to = { database: { writing: :queue } }
+  config.active_job.queue_adapter = :solid_queue
+  config.solid_queue.connects_to = { database: { writing: :queue } }
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
@@ -83,8 +82,23 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
   # MailCatcher
-  config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.raise_delivery_errors = false
+  # config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = { address: '0.0.0.0', port: 1025, domain: '0.0.0.0' }
 
+  # Configuration to use gmail
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address:         "smtp.gmail.com",
+    port:            587,
+    # domain:          "example.com",
+    user_name:       Rails.application.credentials.dig(:google_smtp, :email),
+    password:        Rails.application.credentials.dig(:google_smtp, :password),
+    authentication:  "plain",
+    enable_starttls: true,
+    open_timeout:    5,
+    read_timeout:    5 }
+
+    # eqid robn lksv eckf
 end

@@ -9,13 +9,11 @@ class Space < ApplicationRecord
 
   # Atributos que podem ser pesquisados
   def self.ransackable_attributes(auth_object = nil)
-    ["available", "board", "capacity", "id", "id_value", "laboratory", "location", "name", "projector", "floor", "accessibility"]
+    ["board", "capacity", "id", "id_value", "laboratory", "location", "name", "projector", "floor", "accessibility"]
   end
 
   # Permitir busca através da associação 'reservations'
   def self.ransackable_associations(auth_object = nil)
     ["reservations"]
   end
-
-
 end

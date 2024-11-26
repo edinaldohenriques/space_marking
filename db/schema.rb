@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_24_135753) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_23_132300) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -33,7 +33,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_24_135753) do
     t.string "name", null: false
     t.string "location", null: false
     t.integer "capacity", null: false
-    t.boolean "avaliable"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "board", default: false
@@ -42,6 +41,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_24_135753) do
     t.boolean "accessibility", default: false
     t.boolean "active", default: true
     t.integer "floor", default: 0
+    t.boolean "occupied", default: false
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

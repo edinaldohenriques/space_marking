@@ -2,3 +2,8 @@
   <%= render "toggle_status_button", space: @space %>
 <% end %>
 
+<%= turbo_stream.replace "space_item_#{dom_id(@space)}" do %>
+  <div class="space-item <%= 'disabled' if !@space.active? %>" id="space_item_<%= dom_id(@space) %>">
+    <%= render partial: "space_details", locals: { space: @space } %>
+  </div>
+<% end %>

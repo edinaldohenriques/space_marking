@@ -25,7 +25,7 @@ development:
     database: space_marking_development
   queue:
     <<: *primary_development
-    database: app_development_queue
+    database: space_marking_development_queue
     migrations_paths: db/queue_migrate
 
   # The specified database role being used to connect to PostgreSQL.
@@ -90,5 +90,5 @@ production:
     password: <%= ENV["SPACE_MARKING_DATABASE_PASSWORD"] %>
   queue:
     <<: *primary_production
-    database: app_production_queue
+    database: space_marking_production_queue
     migrations_paths: db/queue_migrate

@@ -1,33 +1,37 @@
 <header>
   <div class="logo-container">
-      <%= image_tag "ufpa-logo.png", alt: "UFPA Logo", class: "logo" %>
+    <%= image_tag "ufpa-logo.png", alt: "UFPA Logo", class: "logo" %>
   </div>
-  
+
   <% if action_name == "index" && current_user.admin? %>
-    <%= link_to "Reservas pendentes", pending_reservation_reservations_path, data: { turbo_stream: true}, class: "button-space" %>
+  <%= link_to "Reservas pendentes", pending_reservation_reservations_path, data: { turbo_stream: true}, class: "button-space" %>
   <% end %>
 
   <% if action_name == "pending_reservation" || action_name == "show"%>
-    <%= link_to "Voltar aos espaços", spaces_path, class: "button-space" %>
+  <%= link_to "Voltar aos espaços", spaces_path, class: "button-space" %>
   <% end %>
 
-  <div class="profile-container">
-    <input type="checkbox" id="profileToggle">
-    <label for="profileToggle">
+  <div class="profile-container" data-controller="profile-menu">
+    <input type="checkbox" id="profileToggle" data-target="profile-menu.checkbox">
+    <label for="profileToggle" data-action="click->profile-menu#toggleMenu">
       <%= image_tag "icone-menu.png", alt: "Menu de Perfil" %>
     </label>
-    <div class="profile-card">
+    <div class="profile-card" data-profile-menu-target="menu">
       <div class="profile-header">
         <% if user_signed_in? %>
-          <h3><%= current_user.name %></h3>
-          <p><%= current_user.email %></p>
+        <h3><%= current_user.name %></h3>
+        <p><%= current_user.email %></p>
         <% end %>
       </div>
       <ul>
         <li><%= link_to "Espaços", spaces_path %></li>
-        <% if current_user.admin? %>
-          <li><%= link_to "Cadastrar Espaço", new_space_path, data: { turbo_frame: "modal" } %></li>
+        <% if current_user && current_user.admin? %>
+        <li><%= link_to "Cadastrar Espaço", new_space_path, data: { turbo_frame: "modal" } %></li>
         <% end %>
+        <% if current_user && current_user.admin? %>
+        <li><%= link_to "Cadastrar Usuário", new_user_registration_path %></li>
+        <% end %>
+        <% if action_name == "show"%>
         <!-- Switch para Minhas Reservas -->
         <li>
           <div class="switch-container" data-controller="reservation">
@@ -38,9 +42,10 @@
             </label>
           </div>
         </li>
+        <% end %>
         <li><%= link_to "Editar Perfil", edit_user_registration_path, data: { turbo_frame: "modal" } %></li>
         <li><%= link_to "Sair", destroy_user_session_path, data: { turbo_method: :delete } %></li>
       </ul>
     </div>
-  </div>     
+  </div>
 </header>

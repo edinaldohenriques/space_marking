@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import CalendarController from "./calendar_controller"
+application.register("calendar", CalendarController)
+
 import FilterController from "./filter_controller"
 application.register("filter", FilterController)
 
@@ -13,14 +16,17 @@ application.register("flash", FlashController)
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import HistoryController from "./history_controller"
+application.register("history", HistoryController)
+
 import MenuController from "./menu_controller"
 application.register("menu", MenuController)
 
 import ModalController from "./modal_controller"
 application.register("modal", ModalController)
 
+import ProfileMenuController from "./profile_menu_controller"
+application.register("profile-menu", ProfileMenuController)
+
 import ReservationController from "./reservation_controller"
 application.register("reservation", ReservationController)
-
-import HistoryController from "./history_controller"
-application.register("history", HistoryController)
