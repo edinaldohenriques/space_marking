@@ -87,3 +87,5 @@ gem "wkhtmltopdf-binary"
 gem "mission_control-jobs", "~> 0.3.3"
 
 gem "solid_queue", "~> 1.0"
+
+gem "phonelib", "~> 0.10.1"

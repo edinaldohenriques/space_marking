@@ -243,3 +243,34 @@ input:checked + .slider:before {
   cursor: pointer;
   margin-left: auto; 
 }
+
+/* Mensagens de erro em um campo */
+.field-errors {
+  margin-top: 0.25rem; /* Espaço entre o campo e as mensagens */
+  color: #e63946; /* Cor vermelha para o texto do erro */
+  font-size: 0.875rem; /* Tamanho menor para mensagens */
+  font-weight: 500; /* Peso um pouco maior */
+}
+
+/* Texto individual de erro */
+.error-message {
+  display: block; /* Cada mensagem em uma nova linha */
+  margin: 0.15rem 0; /* Espaço entre mensagens de erro */
+}
+
+/* Campos com erro: borda vermelha */
+.field_with_errors input,
+.field_with_errors textarea,
+.field_with_errors select {
+  border: 1px solid #e63946 !important; /* Borda vermelha */
+  border-radius: 5px; /* Bordas arredondadas */
+  outline: none; /* Remove o foco padrão do navegador */
+}
+
+/* Campo com erro no foco */
+.field_with_errors input:focus,
+.field_with_errors textarea:focus,
+.field_with_errors select:focus {
+  box-shadow: 0 0 5px rgba(230, 57, 70, 0.5); /* Destaque com sombra */
+  border-color: #d62839; /* Borda mais intensa ao focar */
+}

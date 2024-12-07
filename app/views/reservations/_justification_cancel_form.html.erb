@@ -1,0 +1,7 @@
+<%= form_with url: cancel_reservation_path(@reservation), method: :patch, id: "justification_cancel_form" do |f| %>
+  <%= f.label :justification, "Informe o motivo da rejeição:" %>
+  <%= error_messages_for_field(@reservation, :justification) %>
+  <%= f.text_area :justification, rows: 4, id: "rejection-reason", placeholder: "Digite o motivo da rejeição da reserva" %>
+
+  <%= f.submit 'Confirmar', id: "button-submit-new-justification-cancel" %>
+<% end %>

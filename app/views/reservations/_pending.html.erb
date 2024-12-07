@@ -3,6 +3,7 @@
     <div class="pending-row header">
       <div class="pending-column pending">Reservante</div>
       <div class="pending-column pending">Espaço</div>
+      <div class="pending-column pending">Descrição</div>
       <div class="pending-column start-date">Data Inicial</div>
       <div class="pending-column end-date">Data Final</div>
       <div class="pending-column booking-information">Motivo da reserva</div>
@@ -18,15 +19,16 @@
         </div>
       </div>
       <div class="pending-column pending"><%= reservation.space.name %></div>
+      <div class="pending-column pending"><%= reservation.description %></div>
       <div class="pending-column start-date"><%= reservation.start_date.strftime("%d/%m/%Y") %></div>
       <div class="pending-column end-date"><%= reservation.end_date.strftime("%d/%m/%Y") %></div>
       <div class="pending-column booking-information"><%= reservation.booking_information %></div>
       <div class="pending-column status"><span class="status-label inactive"><%= Reservation.human_enum_name(:status, :"#{reservation.status}") %></span></div>
       <div class="pending-column actions">
-        <%= button_to approve_reservation_path(reservation), method: :patch, class: "bt edit" do %>
+        <%= button_to justification_approve_reservation_path(reservation), method: :get, data: { turbo_frame: "modal" }, class: "bt edit" do %>
           <%= image_tag "icone-confirma", size: "25x25" %>
         <% end %>
-        <%= button_to cancel_reservation_path(reservation), method: :patch, class: "bt delete" do %>
+        <%= button_to justification_cancel_reservation_path(reservation), method: :get, data: { turbo_frame: "modal" }, class: "bt delete" do %>
           <%= image_tag "icone-cancelar", size: "25x25", class: "icone-cancel" %>
         <% end %>
       </div>

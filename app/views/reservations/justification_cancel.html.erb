@@ -1,0 +1,5 @@
+<%= render TurboModalComponent.new(title: "Justificar rejeição da Reserva") do |component| %>
+  <% component.with_body do %>
+    <%= render "justification_cancel_form", resource: @reservation %>
+  <% end %>
+<% end %>

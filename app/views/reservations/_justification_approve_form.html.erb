@@ -1,0 +1,7 @@
+<%= form_with url: approve_reservation_path(@reservation), method: :patch, id: "justification_approve_form" do |f| %>
+  <%= f.label :justification, "Informações adicionais ao reservante:" %>
+  <%= error_messages_for_field(@reservation, :justification) %>
+  <%= f.text_area :justification, rows: 4, id: "rejection-reason", placeholder: "Ex: Onde buscar a chave" %>
+
+  <%= f.submit 'Confirmar', id: "button-submit-new-justification-approve" %>
+<% end %>

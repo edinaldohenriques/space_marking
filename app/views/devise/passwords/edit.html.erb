@@ -2,18 +2,20 @@
   <h1 class="h1-registration">Altere sua senha</h1>
 
   <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-    <%= render "devise/shared/error_messages", resource: resource %>
+    <!-- <%= render "devise/shared/error_messages", resource: resource %> -->
     <%= f.hidden_field :reset_password_token %>
 
     <div class="container-password">
 
       <div class="form-group">
         <%= f.label :password, "Nova senha (mínimo de 6 caracteres)", class: "required" %>
+        <%= error_messages_for_field(resource, :password) %>
         <%= f.password_field :password, autofocus: true, placeholder: "Nova senha", autocomplete: "off" %>
       </div>
 
       <div class="form-group">
         <%= f.label :password_confirmation, t('.confirm_new_password'), class: "required" %>
+        <%= error_messages_for_field(resource, :password_confirmation) %>
         <%= f.password_field :password_confirmation, placeholder: "Confirme sua senha", autocomplete: "off" %>
       </div>
 

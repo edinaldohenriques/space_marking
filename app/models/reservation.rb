@@ -4,6 +4,8 @@ class Reservation < ApplicationRecord
 
   enum status: { pending: 0, confirmed: 1, cancelled: 2 }
 
+  SHIFTS = ["morning", "afternoon", "evening"].freeze
+
   validates :start_date, presence: true, start_date: { message: 'não pode ser anterior ao dia de hoje' }, on: :create
   validates :end_date, presence: true, end_date: { message: 'não pode ser menor a Data Inicial' }
   validates :shifts, presence: { message: 'O turno não pode ficar em branco' }
@@ -39,6 +41,10 @@ class Reservation < ApplicationRecord
 
   def end_time
     self.end_date
+  end
+
+  def self.ordered_shifts
+    SHIFTS
   end
 
   private 

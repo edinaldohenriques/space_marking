@@ -16,6 +16,7 @@
                   <th>Informação da Reserva</th>
                   <th>Data de Início</th>
                   <th>Data de Fim</th>
+                  <th>Turno</th>
                 </tr>
               </thead>
             <tbody>
@@ -25,6 +26,11 @@
                   <td><%= reservation.booking_information %></td>
                   <td><%= reservation.start_date.strftime("%d/%m/%Y") %></td>
                   <td><%= reservation.end_date.strftime("%d/%m/%Y") %></td>
+                  <td>
+                    <%= Reservation.ordered_shifts.map do |shift|
+                      "<div>#{Reservation.translate_shifts([shift]).first}</div>" if reservation.shifts.include?(shift)  
+                    end.compact.join.html_safe %>
+                  </td>
                 </tr>
                 <% if @reservations_history_filter.last == reservation || @reservations_history_filter[@reservations_history_filter.index(reservation) + 1].space.name != current_space %>
             </tbody>

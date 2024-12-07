@@ -4,9 +4,10 @@
 
   <div class="container-password">
     <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-      <%= render "devise/shared/error_messages", resource: resource %>
+      <!-- <%= render "devise/shared/error_messages", resource: resource %> -->
 
       <%= f.label :email, "E-mail", class: "required" %>
+      <%= error_messages_for_field(resource, :email) %>
       <%= f.email_field :email, id: "email", placeholder: "E-mail" %>
       
       <div class="buttons">

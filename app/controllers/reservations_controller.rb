@@ -1,5 +1,5 @@
 class ReservationsController < ApplicationController
-  before_action :set_reservation, only: %i[edit update destroy approve cancel]
+  before_action :set_reservation, only: %i[edit update destroy justification_approve justification_cancel approve cancel]
   before_action :set_action, only: %i[edit update]
   after_action :verify_authorized, only: [:approve, :cancel]
 
@@ -55,9 +55,9 @@ class ReservationsController < ApplicationController
             flash[:notice] = "Reserva realizada com sucesso!"
             redirect_to space_path(@reservation)
           else
-            NotifyAdminJob.perform_later(User.admins.first)
             flash[:notice] = "Reserva solicitada com sucesso!"
             redirect_to space_path(@reservation)
+            NotifyAdminJob.perform_later(User.admins.first)
           end
         else
           respond_to do |format|
@@ -73,13 +73,13 @@ class ReservationsController < ApplicationController
       if @reservation.save
         if current_user.admin? 
           @reservation.update(status: "confirmed")
-          NotifyApproveReservationUserJob.perform_later(@reservation.user)
           flash[:notice] = "Reserva realizada com sucesso!"
           redirect_to space_path(@reservation)
+          NotifyUserReservationJob.perform_later(@reservation.user)
         else
-          NotifyAdminJob.perform_later(User.admins.first)
           flash[:notice] = "Reserva solicitada com sucesso!"
           redirect_to space_path(@reservation)
+          NotifyAdminJob.perform_later(User.admins.first)
         end
       else
         respond_to do |format|
@@ -116,14 +116,14 @@ class ReservationsController < ApplicationController
       # Caso não haja conflito, procedemos com a atualização
       if update_reservation(new_start_date, new_end_date, new_shifts, conflicting_reservations)
         if current_user.admin?
-          NotifyUpdateReservationUserJob.perform_later(@reservation.user)
           flash[:notice] = "Reserva atualizada com sucesso!"
           redirect_to space_path(@reservation)
+          NotifyUpdateReservationUserJob.perform_later(@reservation.user)
         else
           @reservation.update(status: "pending")          
-          NotifyAdminJob.perform_later(User.admins.first)
           flash[:notice] = "Reserva solicitada com sucesso!"
           redirect_to space_path(@reservation)
+          NotifyAdminJob.perform_later(User.admins.first)
         end
       else
         flash[:alert] = "Erro ao atualizar a reserva."
@@ -137,8 +137,13 @@ class ReservationsController < ApplicationController
   def destroy
     authorize @reservation
     @reservation.destroy!
-    redirect_to space_path(@reservation)
     flash[:notice] = "Reserva excuída com sucesso!"
+    redirect_to space_path(@reservation)
+    unless current_user.admin?
+      NotifyAdminDestroyReservationJob.perform_later(User.admins.first)
+    else
+      NotifyUserDestroyReservationJob.perform_later(@reservation.user)
+    end
   end
 
   def pending_reservation 
@@ -149,22 +154,34 @@ class ReservationsController < ApplicationController
     end
   end
 
+  def justication_approve; end
+
   def approve
     authorize @reservation, :approve?
+
+    justification = params[:justification]
+
     if @reservation.update(status: :confirmed)
-      NotifyApproveReservationUserJob.perform_later(@reservation.user)
-      flash.now[:notice] = "Reserva aprovada com sucesso."
+      flash[:notice] = "Reserva aprovada com sucesso."
+      redirect_to pending_reservation_reservations_path
+      NotifyApproveReservationUserJob.perform_later(@reservation.user, justification)
     else
       flash.now[:alert] = "Não foi possível aprovar a reserva."
     end
   end
 
+  def justication_cancel; end
+
   def cancel
     authorize @reservation, :cancel? 
-    if @reservation.update(status: :cancelled)
-      NotifyCancelReservationUserJob.perform_later(@reservation.user)
+
+    justification = params[:justification]
+
+    if @reservation.destroy
+      NotifyCancelReservationUserJob.perform_later(@reservation.user, justification)
       @reservation.destroy
-      flash.now[:notice] = "Reserva cancelada e removida com sucesso."
+      redirect_to pending_reservation_reservations_path
+      flash[:notice] = "Reserva cancelada e removida com sucesso."
     else
       flash.now[:alert] = "Não foi possível cancelar a reserva."
     end
@@ -182,7 +199,7 @@ class ReservationsController < ApplicationController
     end
 
     def reservation_params 
-      params.require(:reservation).permit(:start_date, :end_date, :space_id, :user_id, :booking_information, shifts: [])
+      params.require(:reservation).permit(:start_date, :end_date, :space_id, :user_id, :description, :booking_information, :justification, shifts: [])
     end
 
     def set_reservation 

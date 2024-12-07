@@ -83,7 +83,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   def configure_account_update_params
-    params.require(:user).permit(:email, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :phone_number, :password, :password_confirmation)
   end
   
   # The path used after sign up for inactive accounts.

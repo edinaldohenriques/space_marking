@@ -317,7 +317,6 @@ input[type="email"], input[type="password"] {
   color: #491217;
 }
 
-
 .container-password {
   background-color: #f4f4f4;
   padding: 30px;
@@ -352,6 +351,15 @@ input[type="password-field"] {
   border-radius: 4px;
   font-size: 13.3px;
   -webkit-text-security: disc;
+}
+
+input[type="tel"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 25px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 13.3px;
 }
 
 .buttons {

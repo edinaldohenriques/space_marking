@@ -290,6 +290,17 @@ input[type="text"], input[type="number"] {
   cursor: pointer;
 }
 
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.flex-item-reservation {
+  margin-right: 20px;
+}
+
 /* Pending reservations */
 .pending-list {
   width: 100%;

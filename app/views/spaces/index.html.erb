@@ -74,7 +74,7 @@
       </div>
       <% end %>
       <% else %>
-      <p><%= @q.result.present? ? "Nenhum resultado encontrado para sua busca." : "Nenhum espaço cadastrado ainda" %></p><br>
+      <p><%= !@q.result.present? ? "Nenhum resultado encontrado para sua busca." : "Nenhum espaço cadastrado ainda" %></p><br>
       <p></p><br>
       <% if current_user.admin? && !@any_spaces_exist %>
       <%= link_to "Cadastrar Espaço", new_space_path, data: { turbo_frame: "modal" } %>

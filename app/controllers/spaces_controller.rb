@@ -8,7 +8,8 @@ class SpacesController < ApplicationController
     @q = Space.ransack(params[:q]) # Busca pelo Ransack
     @any_spaces_exist = Space.exists?
     
-    current_user.admin? ? @spaces = @q.result.order(:name) : @spaces = @q.result.where(active: true).order(:name) 
+    @spaces = @q.result.order(:name)
+    # current_user.admin? ? @spaces = @q.result.order(:name) : @spaces = @q.result.where(active: true).order(:name) 
   end
 
   def show
@@ -122,7 +123,7 @@ class SpacesController < ApplicationController
 
   private
     def space_params
-      params.require(:space).permit(:name, :description, :board, :laboratory, :projector, :accessibility, :location, :capacity, :floor)
+      params.require(:space).permit(:name, :description, :board, :laboratory, :projector, :accessibility, :location, :capacity, :floor, :disabled_reason)
     end
 
     def set_space

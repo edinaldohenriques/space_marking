@@ -57,6 +57,35 @@ input[type="text"], input[type="date"], select {
   border-radius: 4px;
 }
 
+#reservation-start-date {
+  min-width: 200px;
+}
+
+#reservation-end-date {
+  min-width: 200px;
+}
+
+#justification_approve_form,
+#justification_cancel_form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+#button-submit-new-justification-approve,
+#button-submit-new-justification-cancel {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 4px; 
+  cursor: pointer;
+  font-size: 16px;
+  text-decoration: none;
+  width: 150px; 
+  align-self: center;
+  background-color: #28a745;
+  color: #f4f4f4;
+}
+
 .checkbox-group {
   display: block;
   margin-bottom: 20px; 

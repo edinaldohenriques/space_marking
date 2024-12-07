@@ -1,28 +1,38 @@
 <%= form_with(model: @user, url: registration_path(resource_name), id: "user_form", data: { turbo_frame: "_top" }) do |f| %>
-<%= render "devise/shared/error_messages", resource: @user %>
+<!-- <%= render "devise/shared/error_messages", resource: @user %> -->
 
   <div class="form-group">
-    <%= f.label :email, "Email:", class: "required" %>
+    <%= f.label :name, "Nome:" %>
+    <%= error_messages_for_field(resource, :email) %>
+    <%= f.text_field :name, id: "name", placeholder: "Email" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :email, "Email:" %>
+    <%= error_messages_for_field(resource, :email) %>
     <%= f.email_field :email, id: "email", placeholder: "Email" %>
   </div>
 
   <div class="form-group">
-    <%= f.label :current_password, "Senha Atual", class: "required" %>
-    <%= f.password_field :current_password, type: "password-field", placeholder: "Senha atual", autocomplete: "off" %>
+    <%= f.label :phone_number, "Número de Celular (whatsapp):" %>
+    <%= error_messages_for_field(resource, :phone_number) %>
+    <%= f.phone_field :phone_number, id: "numero_matricula", placeholder: "(XX) XXXXX-XXXX" %>
   </div>
   
   <div class="form-group">
-    <%= f.label :password, "Nova senha: (mínimo de 6 caracteres)", class: "required" %>
+    <%= f.label :password, "Nova senha: (mínimo de 6 caracteres)" %>
+    <%= error_messages_for_field(resource, :password) %>
     <%= f.password_field :password, type: "password-field", id: "Password", placeholder: "Nova senha", autocomplete: "off" %>
   </div>
   
   <div class="form-group">
-    <%= f.label :password_confirmation, "Confirme sua senha:", class: "required" %>
+    <%= f.label :password_confirmation, "Confirme sua senha:" %>
+    <%= error_messages_for_field(resource, :password_confirmation) %>
     <%= f.password_field :password_confirmation, type: "password-field", id: "Password Confirmation", placeholder: "Confirme sua senha", autocomplete: "off" %>
   </div>
   
   <div class="button-container">
-    <button class="button-back"><%= link_to 'Voltar', request.referrer, class: "link-back" %></button>
+    <%= link_to 'Voltar', request.referrer, class: "link-back-registration" %>
     <%= f.submit "Atualizar", id: "button-submit" %>
   </div>
 <% end %>

@@ -3,10 +3,13 @@
   <%= stylesheet_link_tag('reservation')%>
 
   <body class="body-reservation">
-    <div id="modal" class="modal-overlay" data-modal-target="modal">
+    <div id="modal" class="modal-overlay" data-controller="modal" data-modal-target="modal">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="h1-reservation"><%= title %></h1>
+          <button class="modal-close" data-action="click->modal#close" aria-label="Fechar">
+            &times;
+          </button>
         </div>
         <div class="container">
           <%= body %>

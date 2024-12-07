@@ -1,42 +1,49 @@
 <%= stylesheet_link_tag ('space') %>
 <%= form_with(model: @space, id: "space_form", data: { turbo_frame: "_top" }) do |f| %>
   <!-- Exibe mensagens de erro -->
-  <%= render "devise/shared/error_messages", resource: @space %>
+  <!-- <%= render "devise/shared/error_messages", resource: @space %> -->
   
-  <%= f.label :name, "Nome:", class: "required" %>
+  <%= f.label :name, "Nome:", class: ("required" if @action != 'edit') %>
+  <%= error_messages_for_field(@space, :name) %>
   <%= f.text_field :name, id: "nome", placeholder: "Nome" %>
 
-  <%= f.label :location, class: "required" %>
+  <%= f.label :location, class: ("required" if @action != 'edit') %>
+  <%= error_messages_for_field(@space, :location) %>
   <%= f.text_field :location, id: "localizacao", placeholder: "Localização" %>
 
-  <div>
-    <%= f.label :floor, "Andar do espaço:", class: "required" %>
-    <%= f.radio_button :floor, :ground, id: 'accebilidade-terreo', checked: true %> Térreo
-    <%= f.radio_button :floor, :first_floor, id: 'accebilidade-1-andar' %> 1º Andar
-    <%= f.radio_button :floor, :second_floor, id: 'accebilidade-2-andar' %> 2º Andar
-  </div><br>
-
-  <%= f.label :capacity, "Capacidade:", class: "required" %>
-  <%= f.number_field :capacity, id: "capacidade", placeholder: "Capacidade" %>
+  <div class="flex-container">
+    <div class="flex-item">
+      <%= f.label :capacity, "Capacidade:", class: ("required" if @action != 'edit') %>
+      <%= error_messages_for_field(@space, :capacity) %>
+      <%= f.number_field :capacity, id: "capacidade", placeholder: "Capacidade" %>
+    </div>
+    <div class="flex-item">
+      <%= f.label :floor, "Andar do espaço:", class: ("required" if @action != 'edit') %>
+      <%= error_messages_for_field(@space, :floor) %><br>
+      <%= f.radio_button :floor, :ground, id: 'accebilidade-terreo' %> Térreo
+      <%= f.radio_button :floor, :first_floor, id: 'accebilidade-1-andar' %> 1º Andar
+      <%= f.radio_button :floor, :second_floor, id: 'accebilidade-2-andar' %> 2º Andar
+    </div>
+  </div>
 
   <div class="checkbox-group">
     <div>
-      <%= f.label :board, "Quadro:", class: "required" %><br>
+      <%= f.label :board, "Quadro:", class: ("required" if @action != 'edit') %><br>
       <%= f.radio_button :board, true, id: 'quadro-sim' %> Sim
       <%= f.radio_button :board, false, id: 'quadro-nao' %> Não
     </div>
     <div>
-      <%= f.label :laboratory, "Laboratorio:", class: "required" %><br>
+      <%= f.label :laboratory, "Laboratorio:", class: ("required" if @action != 'edit') %><br>
       <%= f.radio_button :laboratory, true, id: 'laboratorio-sim' %> Sim
       <%= f.radio_button :laboratory, false, id: 'laboratorio-nao' %> Não
     </div>
     <div>
-      <%= f.label :projector, "Projetor:", class: "required" %><br>
+      <%= f.label :projector, "Projetor:", class: ("required" if @action != 'edit') %><br>
       <%= f.radio_button :projector, true, id: 'projetor-sim' %> Sim
       <%= f.radio_button :projector, false, id: 'projetor-nao' %> Não
     </div>
     <div>
-      <%= f.label :accessibility, "Acessibilidade:", class: "required" %><br>
+      <%= f.label :accessibility, "Acessibilidade:", class: ("required" if @action != 'edit') %><br>
       <%= f.radio_button :accessibility, true, id: 'accebilidade-sim' %> Sim
       <%= f.radio_button :accessibility, false, id: 'accebilidade-nao' %> Não
     </div>

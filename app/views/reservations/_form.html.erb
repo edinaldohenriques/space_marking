@@ -2,21 +2,33 @@
 <%= form_with(model: @reservation, id: "reservation_form", data: { turbo_frame: "_top" }) do |f| %>
 
 <!-- Exibe mensagens de erro -->
-<%= render "devise/shared/error_messages", resource: @reservation %>
-
-<!-- Campo de data da reserva -->
-<%= f.label :start_date, "Data Inicial:", class: ("required" if @action != 'edit') %>
-<%= f.date_field :start_date, id: "reservation_date", placeholder: "dd/mm/aaaa" %>
-
-<%= f.label :end_date, "Data Final:", class: ("required" if @action != 'edit') %>
-<%= f.date_field :end_date, id: "reservation_date", placeholder: "dd/mm/aaaa" %>
+<!-- <%= render "devise/shared/error_messages", resource: @reservation %> -->
+<div class="flex-container">
+  <!-- Campo de data da reserva -->
+  <div class="flex-item-reservation">
+    <%= f.label :start_date, "Data Inicial:", class: ("required" if @action != 'edit') %>
+    <%= error_messages_for_field(@reservation, :start_date) %>
+    <%= f.date_field :start_date, id: "reservation-start-date", placeholder: "dd/mm/aaaa" %>
+  </div>
+  <div class="flex-item-reservation">
+    <%= f.label :end_date, "Data Final:", class: ("required" if @action != 'edit') %>
+    <%= error_messages_for_field(@reservation, :end_date) %>
+    <%= f.date_field :end_date, id: "reservation-end-date", placeholder: "dd/mm/aaaa" %>
+  </div>
+</div>
 
 <%= f.label :booking_information, "Motivo da reserva:", class: ("required" if @action != 'edit') %>
+<%= error_messages_for_field(@reservation, :booking_information) %>
 <%= f.text_field :booking_information, id: "booking-information", placeholder: "Digite o motivo da reserva" %>
+
+<%= f.label :description, "Descrição:" %>
+<%= error_messages_for_field(@reservation, :description) %>
+<%= f.text_field :description, id: "booking-information", placeholder: "Digite uma descrição se necessário" %>
 
 <!-- Grupo de checkboxes para os turnos -->
 <div class="checkbox-group">
   <%= f.label :shifts, "Selecione o tuno:", class: ("required" if @action != 'edit') %>
+  <%= error_messages_for_field(@reservation, :shifts) %>
 
   <div>
     <%= f.check_box :shifts, { multiple: true }, "morning", nil %>
@@ -31,16 +43,18 @@
     <%= f.label :shift_evening, "Noite" %>
   </div>
 </div>
+
 <% if current_user.admin? %>
-<div class="combobox-container">
-  <%= f.combobox :user_id, searches_users_path, label: "Usuário", placeholder: "Selecione o usuário:" if @action != 'edit'%>
-</div>
+  <div class="combobox-container">
+    <%= f.combobox :user_id, searches_users_path, label: "Usuário", placeholder: "Selecione o usuário:" if @action != 'edit'%>
+  </div>
 <% end %>
 
 <% if @action == 'edit' %>
 <%= f.label :name, "Nome do Reservante:", class: ("required" if @action != 'edit') %>
 <p id="p-reservation-name"><%= @reservation.user.name %></p>
-<p id="p-reservation"><%= @reservation.user.email %></p>
+<p id="p-reservation-name"><%= @reservation.user.email %></p>
+<p id="p-reservation"><%= @reservation.user.formatted_phone_number %></p>
 <% end %>
 
 <!-- Campo oculto para o id do espaço -->

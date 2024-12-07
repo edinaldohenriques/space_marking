@@ -36,7 +36,10 @@ Rails.application.routes.draw do
       get :pending_reservation
     end
     member do 
+      get :justification_approve
       patch :approve
+
+      get :justification_cancel
       patch :cancel
     end
   end
