@@ -1,0 +1,7 @@
+<%= form_with url: toggle_status_disable_space_path(space), id: "disable_reason_form" do |f| %>
+  <%= f.label :disable_reason, "Justificativa para desabilitar" %>
+  <%= error_messages_for_field(space, :disable_reason) %>
+  <%= f.text_area :disable_reason, rows: 4, id: "rejection-reason", placeholder: "Digite sua justificativa" %>
+
+  <%= f.submit 'Confirmar', id: "button-submit-new-justification-approve" %>
+<% end %>

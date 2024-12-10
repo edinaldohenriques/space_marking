@@ -18,14 +18,12 @@ Rails.application.routes.draw do
 
   resources :spaces, only: [:index, :show, :new, :create, :edit, :update, :destroy] do 
     member do 
-      post :toggle_status
-    end
-    member do 
       post :toggle_occupied
-    end
-    member do
+      post :toggle_status_active
+      post :toggle_status_disable
       get :reservation_history
     end
+
     collection do
       get :reservation_history_filter
     end

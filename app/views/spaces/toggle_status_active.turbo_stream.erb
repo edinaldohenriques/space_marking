@@ -1,5 +1,5 @@
-<%= turbo_stream.replace "toggle_status_button_#{dom_id(@space)}" do %>
-  <%= render "toggle_status_button", space: @space %>
+<%= turbo_stream.replace "toggle_status_button_active#{dom_id(@space)}" do %>
+  <%= render "toggle_status_button_active", space: @space %>
 <% end %>
 
 <%= turbo_stream.replace "space_item_#{dom_id(@space)}" do %>

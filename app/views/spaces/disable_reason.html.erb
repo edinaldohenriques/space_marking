@@ -1,0 +1,5 @@
+<%= render TurboModalComponent.new(title: "Justificativa para desabilitar") do |component| %>
+  <% component.with_body do %>
+    <%= render "disable_reason_form", resource: @space %>
+  <% end %>
+<% end %>

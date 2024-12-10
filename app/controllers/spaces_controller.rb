@@ -1,5 +1,5 @@
 class SpacesController < ApplicationController
-  before_action :set_space, only: %i[show edit update destroy toggle_status toggle_occupied reservation_history]
+  before_action :set_space, only: %i[show edit update destroy toggle_occupied toggle_status_active toggle_status_disable reservation_history]
   before_action :start_date, only: %i[show]
   before_action :set_action, only: %i[edit update]
   before_action :authorize_space, only: %i[show]
@@ -113,12 +113,25 @@ class SpacesController < ApplicationController
     redirect_to spaces_path
   end
 
-  def toggle_status   
-    @space.update!(active: !@space.active)
-  end
-
   def toggle_occupied
     @space.update!(occupied: !@space.occupied)
+  end
+
+  def toggle_status_active
+    @space.update!(active: true, disabled_reason: nil)
+  end
+
+  # def disabled_reason; end
+  
+  def toggle_status_disable   
+    disable_reason = params[:disable_reason]
+
+    if @space.update!(active: false, disabled_reason: disable_reason)
+      flash[:notice] = "Espaço desabilitado com sucesso."
+      redirect_to spaces_path
+    else
+      flash.now[:alert] = "Não foi possível disabilitar o espaço."
+    end
   end
 
   private
@@ -139,8 +152,8 @@ class SpacesController < ApplicationController
     end
 
     def authorize_space 
-      if @space.occupied? && !current_user.admin?
-        flash[:alert] = "O espaço está ocupado e você não tem permissão para acessá-lo!"
+      if (@space.occupied? || !@space.active?) && !current_user.admin?
+        flash[:alert] = "O espaço está ocupado ou desabilitado e você não tem permissão para acessá-lo!"
         redirect_to spaces_path
       end
     end

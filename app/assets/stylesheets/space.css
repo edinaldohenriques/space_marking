@@ -449,3 +449,7 @@ input[type="text"], input[type="number"] {
 .history-filter-options.active {
   display: block; /* Mostra o menu quando a classe active é adicionada */
 }
+
+.hidden {
+  display: block;
+}

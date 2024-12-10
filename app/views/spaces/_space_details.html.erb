@@ -5,6 +5,9 @@
     <span><%= space.location %></span>
     <span>Capacidade: <%= space.capacity %></span>
     <span>Andar: <%= Space.human_enum_name(:floor, :"#{space.floor}") %></span>
+    <% if !space.active? %>
+      <span>Motivo: <%= space.disabled_reason %></span> 
+    <% end %>
   </div>
 
   <div class="icon-space-group">
@@ -26,7 +29,17 @@
       <%= image_tag "icone-menu.png", alt: "Menu Space", size: "27x20" %>
     </button>
     <div class="dropdown-menu" data-menu-target="menu">
-      <%= render "toggle_status_button", space: space %>
+      <!-- Botão para alternar o histórico -->
+      <% if space.active? %>
+        <button class="button-toggle-status" data-action="click->menu#toggleStatus">
+          Desabilitar
+        </button>
+        <div class="filter-options" data-menu-target="toggleStatus" class"hidden">
+          <%= render "disable_reason_form", space: space %> <!-- Formulário de motivo para desabilitação -->
+        </div>
+      <% else %>
+      <%= render "toggle_status_button_active", space: space %>
+      <% end %>
       <%= render "toggle_occupied_button", space: space %>
       <%= link_to "Editar", edit_space_path(space), data: { turbo_frame: "modal" }, class: "dropdown-item" %>
       <%= link_to "Excluir", space_path(space), data: { turbo_confirm: 'Tem certeza que deseja deletar?', turbo_method: :delete }, class: "dropdown-item delete-item" %>
